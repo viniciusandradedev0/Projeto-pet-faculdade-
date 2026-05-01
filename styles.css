@@ -1,143 +1,369 @@
-body {
+/* ============================================
+   RESET E VARIÁVEIS
+   ============================================ */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #ddd79f;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  background-color: #ffa600;
-  padding: 10px;
-  text-align: center;
+:root {
+  --cor-primaria: #ffa600;
+  --cor-secundaria: #b36914;
+  --cor-fundo: #fdf6e3;
+  --cor-texto: #333;
+  --cor-branca: #ffffff;
+  --cor-preta: #1a1a1a;
+  --cor-sucesso: #2d8f2d;
+  --cor-sucesso-hover: #1f6b1f;
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --sombra-forte: 0 8px 24px rgba(179, 105, 20, 0.3);
+  --transicao: all 0.3s ease;
 }
 
-nav a {
-  color: #ffffff;
-  margin: 0 15px;
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+}
+
+/* ============================================
+   MENU DE NAVEGAÇÃO
+   ============================================ */
+.menu {
+  background: linear-gradient(90deg, var(--cor-primaria), #ff8c00);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  box-shadow: var(--sombra-suave);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.menu .logo {
+  color: var(--cor-branca);
+  font-size: 1.3em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.menu-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.menu-links a {
+  color: var(--cor-branca);
   text-decoration: none;
   font-weight: bold;
+  position: relative;
+  padding: 5px 0;
+  transition: var(--transicao);
 }
 
-.menu {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 50px;
-  padding: 15px 50px;
+.menu-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--cor-branca);
+  transition: var(--transicao);
 }
 
-.menu a {
-  text-decoration: none;
+.menu-links a:hover::after {
+  width: 100%;
 }
 
+/* ============================================
+   HEADER COM GALERIA
+   ============================================ */
 header {
   position: relative;
-  height: 330px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  height: 380px;
   overflow: hidden;
 }
 
-header img {
+.header-images {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 100%;
+}
+
+.header-images img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.header-images img:hover {
+  transform: scale(1.1);
 }
 
 .header-overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(65, 61, 61, 0.5);
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(179, 105, 20, 0.5));
 }
 
 .header-content {
   position: absolute;
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  color: #ffffff;
+  color: var(--cor-branca);
   padding: 0 20px;
+  pointer-events: none;
 }
 
-.banner-gatos,
-.banner-Dogs {
-  width: 100%;
-  background-color: #b369149c;
+.header-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  margin-bottom: 10px;
+}
+
+.header-content p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  letter-spacing: 3px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================
+   INTRO
+   ============================================ */
+.intro {
+  padding: 50px 20px 30px;
   text-align: center;
-  margin-bottom: 40px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.banner-gatos {
-  padding: 20px 0;
+.page-title {
+  color: var(--cor-secundaria);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  margin-bottom: 20px;
 }
 
-.banner-Dogs {
-  padding: 1px 0;
+.intro p {
+  font-size: 1.1rem;
+  color: var(--cor-texto);
 }
 
-.banner-gatos h2,
-.banner-Dogs h2 {
-  margin: 0;
-  color: white;
-  font-size: 28px;
-  letter-spacing: 2px;
+/* ============================================
+   BANNERS DE SEÇÃO
+   ============================================ */
+.banner {
+  background: linear-gradient(135deg, var(--cor-secundaria), #8b4f0f);
+  text-align: center;
+  margin: 40px 0 30px;
+  padding: 25px 0;
+  box-shadow: var(--sombra-suave);
 }
 
+.banner h2 {
+  color: var(--cor-branca);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: 4px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   GRID DE ANIMAIS
+   ============================================ */
 .animals {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 0 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 0 30px;
+  max-width: 1300px;
+  margin: 0 auto 40px;
 }
 
+/* ============================================
+   CARD DO ANIMAL
+   ============================================ */
 .card {
-  background-color: #ffa600;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #b369149c;
+  background: linear-gradient(145deg, var(--cor-primaria), #ff9500);
+  border-radius: 15px;
+  box-shadow: var(--sombra-suave);
   text-align: center;
-  padding: 15px;
-  color: white;
+  padding: 18px;
+  color: var(--cor-branca);
+  transition: var(--transicao);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card::before {
+  content: '🐾';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.4rem;
+  opacity: 0.4;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-forte);
 }
 
 .card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
   border-radius: 10px;
+  transition: var(--transicao);
+}
+
+.card:hover img {
+  filter: brightness(1.05);
+}
+
+.card h3 {
+  font-size: 1.4rem;
+  margin-top: 5px;
+}
+
+.card p {
+  font-size: 1rem;
+  opacity: 0.95;
 }
 
 .card button {
-  background-color: rgba(21, 255, 0, 0.48);
+  background-color: var(--cor-sucesso);
   border: none;
-  padding: 10px;
-  color: #ffffff;
-  border-radius: 5px;
+  padding: 12px 25px;
+  color: var(--cor-branca);
+  border-radius: 25px;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  transition: var(--transicao);
+  align-self: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card a {
-  color: #ffffff;
-  text-decoration: underline;
+.card button:hover {
+  background-color: var(--cor-sucesso-hover);
+  transform: scale(1.05);
 }
 
-.text-white {
-  color: #ffffff;
+.card-link a {
+  color: var(--cor-branca);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  transition: var(--transicao);
 }
 
-.text-center {
-  text-align: center;
+.card-link a:hover {
+  border-bottom-color: var(--cor-branca);
 }
 
-.intro {
-  padding: 20px;
-}
+/* ============================================
+   UTILITÁRIOS
+   ============================================ */
+.text-center { text-align: center; }
 
+/* ============================================
+   FOOTER
+   ============================================ */
 footer {
-  background-color: #000000;
-  color: white;
+  background: linear-gradient(135deg, var(--cor-preta), #2d2d2d);
+  color: var(--cor-branca);
   text-align: center;
-  padding: 15px;
+  padding: 40px 20px;
+  margin-top: 60px;
+}
+
+.footer-content h3 {
+  color: var(--cor-primaria);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.footer-content p {
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.copyright {
   margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+@media (max-width: 768px) {
+  .menu {
+    padding: 12px 20px;
+    justify-content: center;
+  }
+
+  .menu-links {
+    gap: 18px;
+    justify-content: center;
+  }
+
+  .header-images {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .header-images img:nth-child(n+4) {
+    display: none;
+  }
+
+  header {
+    height: 300px;
+  }
+
+  .animals {
+    padding: 0 20px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .header-images img:nth-child(n+3) {
+    display: none;
+  }
+
+  header {
+    height: 250px;
+  }
+
+  .menu-links {
+    gap: 12px;
+    font-size: 0.9rem;
+  }
+
+  .card img {
+    height: 180px;
+  }
 }
