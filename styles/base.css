@@ -1,0 +1,57 @@
+/* ============================================
+   RESET E BASE
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+}
+
+/* ============================================
+   ACESSIBILIDADE — FOCO VISÍVEL GLOBAL
+   Padrão para todos os elementos interativos
+   ============================================ */
+
+*:focus {
+  outline: none; /* Remove o padrão feio */
+}
+
+*:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   UTILITÁRIOS
+   ============================================ */
+
+.text-center {
+  text-align: center;
+}
+
+.mensagem-vazia {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--espaco-2xl);
+  color: var(--cor-texto-suave);
+  font-size: 1.1rem;
+}
+
+/* Respeita usuários que pedem menos animação (a11y) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

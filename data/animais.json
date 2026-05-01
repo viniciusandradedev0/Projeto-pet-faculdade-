@@ -1,0 +1,137 @@
+[
+  {
+    "id": "nespresso",
+    "nome": "Nespresso",
+    "especie": "gato",
+    "idade": "5 Meses",
+    "idadeMeses": 5,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/cf18cf45b86e195fec98c438f1a90e36.JPG",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20553/nespresso"
+  },
+  {
+    "id": "pilao",
+    "nome": "Pilão",
+    "especie": "gato",
+    "idade": "5 Meses",
+    "idadeMeses": 5,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/00a6f69c309b2387294a28b6ff252da1.jpeg",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20552/pil%C3%A3%C2%A3o"
+  },
+  {
+    "id": "santo-grao",
+    "nome": "Santo Grão",
+    "especie": "gato",
+    "idade": "5 Meses",
+    "idadeMeses": 5,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/fa8c070c5d79f6b9b466ab47c875c25a.jpg",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20551/santo-gr%C3%A3%C2%A3o"
+  },
+  {
+    "id": "starbucks",
+    "nome": "Starbucks",
+    "especie": "gato",
+    "idade": "5 Meses",
+    "idadeMeses": 5,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/c94e8359c9dbb8ae34961388c25b8865.JPG",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20550/starbucks"
+  },
+  {
+    "id": "the-coffee",
+    "nome": "The Coffee",
+    "especie": "gato",
+    "idade": "5 Meses",
+    "idadeMeses": 5,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/1a6771fb0d7a2ccaaab2bc99041e5e14.JPG",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20549/the-coffee"
+  },
+  {
+    "id": "lady-gaga",
+    "nome": "Lady Gaga",
+    "especie": "gato",
+    "idade": "1 Ano",
+    "idadeMeses": 12,
+    "imagem": "https://adoteumgatinho.org.br/media/uploads/cats/d5c9727bf0b01a0f2b66d14ce3cb5338.jpg",
+    "linkDetalhes": "https://adoteumgatinho.org.br/detalhes-gato/20530/lady-gaga"
+  },
+  {
+    "id": "topazio",
+    "nome": "Topázio",
+    "especie": "cachorro",
+    "idade": "7 Anos",
+    "idadeMeses": 84,
+    "imagem": "https://acaochego.org/img/cachorros/946/topazio11.jpg",
+    "linkDetalhes": "https://acaochego.org/Cachorro/Adotar/946"
+  },
+  {
+    "id": "ametista",
+    "nome": "Ametista",
+    "especie": "cachorro",
+    "idade": "6 Anos",
+    "idadeMeses": 72,
+    "imagem": "https://acaochego.org/img/cachorros/980/ametista1.jpg",
+    "linkDetalhes": "https://acaochego.org/Cachorro/Adotar/980"
+  },
+  {
+    "id": "tony",
+    "nome": "Tony",
+    "especie": "cachorro",
+    "idade": "7 Anos",
+    "idadeMeses": 84,
+    "imagem": "https://acaochego.org/img/cachorros/968/filhote7_bela_1.jpg",
+    "linkDetalhes": "https://acaochego.org/Cachorro/Adotar/968"
+  },
+  {
+    "id": "romeu",
+    "nome": "Romeu",
+    "especie": "cachorro",
+    "idade": "1 Ano",
+    "idadeMeses": 12,
+    "imagem": "https://adotar.com.br/upload/2026-03/animais_imagem1339710.jpg?w=700&format=webp",
+    "linkDetalhes": "https://adotar.com.br/pr-curitiba/cao/adocao/romeu/333257"
+  },
+  {
+    "id": "stallone",
+    "nome": "Stallone",
+    "especie": "cachorro",
+    "idade": "2 Anos",
+    "idadeMeses": 24,
+    "imagem": "https://adotar.com.br/upload/2026-03/animais_imagem1338827.jpg?w=700&format=webp",
+    "linkDetalhes": "https://adotar.com.br/pr-curitiba/cao/adocao/stallone/333028"
+  },
+  {
+    "id": "espoleta",
+    "nome": "Espoleta",
+    "especie": "cachorro",
+    "idade": "1 Ano",
+    "idadeMeses": 12,
+    "imagem": "https://adotar.com.br/upload/2026-02/animais_imagem1324836.jpg?w=700&format=webp",
+    "linkDetalhes": "https://adotar.com.br/pr-curitiba/cao/adocao/espoleta/329403"
+  },
+  {
+    "id": "frederico",
+    "nome": "Frederico",
+    "especie": "cachorro",
+    "idade": "3 Anos",
+    "idadeMeses": 36,
+    "imagem": "https://adotar.com.br/upload/2025-08/animais_imagem1257155.jpg?w=700&format=webp",
+    "linkDetalhes": "https://adotar.com.br/pr-curitiba/cao/adocao/frederico/312406"
+  },
+  {
+    "id": "batman",
+    "nome": "Batman",
+    "especie": "cachorro",
+    "idade": "3 Meses",
+    "idadeMeses": 3,
+    "imagem": "https://adotar.com.br/upload/2025-10/animais_imagem1273245.jpg?w=700&format=webp",
+    "linkDetalhes": "https://adotar.com.br/pr-curitiba/cao/adocao/nao-tem/316393"
+  },
+  {
+    "id": "banny",
+    "nome": "Banny",
+    "especie": "cachorro",
+    "idade": "5 Anos",
+    "idadeMeses": 60,
+    "imagem": "https://img.pikbest.com/illustration/20250808/elegant-silhouette-of-a-dog-head-in-profile-perfect-for-logos-and-minimalist-designs_11821931.jpg!sw800",
+    "linkDetalhes": null
+  }
+]

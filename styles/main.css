@@ -1,0 +1,11 @@
+/* ============================================
+   MAIN STYLESHEET
+   Importa todos os arquivos na ordem correta:
+   1. Tokens (variáveis)
+   2. Base (reset, body, utilitários)
+   3. Components (menu, card, footer, etc)
+   ============================================ */
+
+@import url('./tokens.css');
+@import url('./base.css');
+@import url('./components.css');

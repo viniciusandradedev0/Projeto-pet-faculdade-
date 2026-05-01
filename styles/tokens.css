@@ -1,0 +1,50 @@
+/* ============================================
+   DESIGN TOKENS
+   Variáveis globais — fonte única da verdade
+   ============================================ */
+
+:root {
+  /* Cores — Marca */
+  --cor-primaria: #ffa600;
+  --cor-primaria-escura: #e69500;
+  --cor-secundaria: #b36914;
+  --cor-secundaria-escura: #8b4f0f;
+
+  /* Cores — Neutras */
+  --cor-fundo: #fdf6e3;
+  --cor-superficie: #ffffff;
+  --cor-texto: #333333;
+  --cor-texto-suave: #666666;
+  --cor-branca: #ffffff;
+  --cor-preta: #1a1a1a;
+
+  /* Cores — Semânticas */
+  --cor-sucesso: #2d8f2d;
+  --cor-sucesso-hover: #1f6b1f;
+  --cor-erro: #c0392b;
+
+  /* Cores — Foco (acessibilidade) */
+  --cor-foco: #005fcc;
+  --cor-foco-claro: #4d9eff;
+
+  /* Sombras */
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --sombra-forte: 0 8px 24px rgba(179, 105, 20, 0.3);
+
+  /* Espaçamento (escala 4px) */
+  --espaco-xs: 4px;
+  --espaco-sm: 8px;
+  --espaco-md: 16px;
+  --espaco-lg: 24px;
+  --espaco-xl: 32px;
+  --espaco-2xl: 48px;
+
+  /* Border Radius */
+  --raio-sm: 8px;
+  --raio-md: 15px;
+  --raio-pill: 25px;
+
+  /* Transições */
+  --transicao: all 0.3s ease;
+  --transicao-rapida: all 0.15s ease;
+}
