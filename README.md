@@ -19,6 +19,3 @@ O **PAWS PLACE** é um projeto em HTML, CSS e JavaScript que conecta pessoas a a
 - **CSS3** com design tokens e variáveis customizadas
 - **JavaScript (ES6+)** com módulos nativos
 - **JSON** como base de dados local
-
-## 📂 Estrutura
-
