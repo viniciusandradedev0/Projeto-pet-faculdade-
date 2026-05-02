@@ -57,13 +57,18 @@ const validadores = {
   telefone: (v) =>
     v.replace(/\D/g, '').length >= 10 ||
     'Telefone deve ter DDD + número (mín. 10 dígitos).',
+  // ✅ NOVO: validador LGPD
+  consentimento: (_, campo) =>
+    campo.checked || 'Você precisa concordar com a Política de Privacidade para continuar.',
 };
 
 function validarCampo(campo) {
   const validador = validadores[campo.name];
   if (!validador) return true;
 
-  const resultado = validador(campo.value);
+  // Checkbox passa o próprio elemento (não usa .value)
+  const valor = campo.type === 'checkbox' ? campo.checked : campo.value;
+  const resultado = validador(valor, campo);
   const erroEl = form.querySelector(`[data-erro="${campo.name}"]`);
 
   if (resultado === true) {
@@ -78,13 +83,16 @@ function validarCampo(campo) {
 }
 
 form.querySelectorAll('input, textarea').forEach((campo) => {
-  campo.addEventListener('blur', () => validarCampo(campo));
+  // Checkbox valida no 'change'; resto no 'blur'
+  const evento = campo.type === 'checkbox' ? 'change' : 'blur';
+  campo.addEventListener(evento, () => validarCampo(campo));
 });
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const camposObrigatorios = ['nome', 'email', 'telefone'];
+  // ✅ Adicionado 'consentimento'
+  const camposObrigatorios = ['nome', 'email', 'telefone', 'consentimento'];
   let tudoOk = true;
   let primeiroInvalido = null;
 
@@ -103,6 +111,12 @@ form.addEventListener('submit', (e) => {
   }
 
   const dados = Object.fromEntries(new FormData(form));
+
+  // 🔒 Registro de evidência LGPD (timestamp do consentimento)
+  dados.consentimentoTimestamp = new Date().toISOString();
+  dados.consentimentoVersao = '1.0';
+
+  console.log('Dados com evidência de consentimento:', dados);
 
   mostrarToast(
     `Pedido enviado! Em breve entraremos em contato sobre ${tituloAnimal.textContent}. 🐾`,

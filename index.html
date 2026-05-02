@@ -185,6 +185,41 @@
                   placeholder="Conte um pouco sobre você e seu lar..." aria-describedby="erro-mensagem"></textarea>
         <small id="erro-mensagem" class="campo__erro" data-erro="mensagem"></small>
       </div>
+
+      <!-- ===== CONSENTIMENTO LGPD ===== -->
+      <div class="campo campo--consentimento">
+        <p class="lgpd-finalidade">
+          🔒 <strong>Como usaremos seus dados:</strong> seu nome, e-mail e telefone
+          serão utilizados <strong>exclusivamente</strong> para entrarmos em contato
+          sobre o processo de adoção. Não compartilhamos com terceiros.
+        </p>
+
+        <label class="checkbox-lgpd" for="form-consentimento">
+          <input
+            type="checkbox"
+            id="form-consentimento"
+            name="consentimento"
+            class="checkbox-lgpd__input"
+            required
+            aria-describedby="erro-consentimento"
+          />
+          <span class="checkbox-lgpd__visual" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+              <path d="M2 8.5l4 4 8-9" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="checkbox-lgpd__texto">
+            Li e concordo com a
+            <a href="#politica-privacidade" class="link-politica" target="_blank" rel="noopener">
+              Política de Privacidade
+            </a>
+            e autorizo o uso dos meus dados para esta finalidade. *
+          </span>
+        </label>
+
+        <small id="erro-consentimento" class="campo__erro" data-erro="consentimento"></small>
+      </div>
     </div>
 
     <footer class="modal__footer">
