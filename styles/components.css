@@ -168,11 +168,19 @@ header {
 
 .animals {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
   gap: var(--espaco-lg);
   padding: 0 var(--espaco-xl);
   max-width: 1300px;
   margin: 0 auto var(--espaco-2xl);
+  justify-content: center;
+}
+
+/* Quando só há 1 card visível na seção, dá um leve destaque */
+.animals:has(> .card:only-child) .card {
+  max-width: 320px;
+  margin: 0 auto;
+  box-shadow: var(--sombra-forte);
 }
 
 /* ============================================
