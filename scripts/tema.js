@@ -47,9 +47,16 @@ export function inicializarTema() {
   });
 
   // Acompanha mudanças do SO (apenas se usuário NUNCA escolheu manualmente)
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  const preferenciaCor = window.matchMedia('(prefers-color-scheme: dark)');
+  const atualizarTemaDoSO = (e) => {
     if (!localStorage.getItem(STORAGE_KEY)) {
       aplicarTema(e.matches ? 'dark' : 'light');
     }
-  });
+  };
+
+  if (typeof preferenciaCor.addEventListener === 'function') {
+    preferenciaCor.addEventListener('change', atualizarTemaDoSO);
+  } else if (typeof preferenciaCor.addListener === 'function') {
+    preferenciaCor.addListener(atualizarTemaDoSO);
+  }
 }

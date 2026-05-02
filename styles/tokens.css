@@ -6,19 +6,20 @@
 :root,
 [data-tema="light"] {
   /* Cores — Marca */
-  --cor-primaria: #ffa600;
-  --cor-primaria-escura: #e69500;
-  --cor-secundaria: #b36914;
-  --cor-secundaria-escura: #8b4f0f;
+  --cor-primaria: #f28f00;
+  --cor-primaria-escura: #c96f00;
+  --cor-secundaria: #a35a11;
+  --cor-secundaria-escura: #773f0c;
 
   /* Cores — Neutras */
   --cor-fundo: #fdf6e3;
   --cor-superficie: #ffffff;
+  --cor-superficie-secundaria: #fafafa;
   --cor-texto: #333333;
-  --cor-texto-suave: #666666;
+  --cor-texto-suave: #5e5e5e;
   --cor-branca: #ffffff;
   --cor-preta: #1a1a1a;
-  --cor-borda: #e5e7eb;
+  --cor-borda: #d1d5db;
 
   /* Cores — Semânticas */
   --cor-sucesso: #2d8f2d;
@@ -70,8 +71,9 @@
   /* Cores — Neutras */
   --cor-fundo: #121212;
   --cor-superficie: #1e1e1e;
+  --cor-superficie-secundaria: #232323;
   --cor-texto: #e8e8e8;
-  --cor-texto-suave: #a0a0a0;
+  --cor-texto-suave: #b0b0b0;
   --cor-branca: #ffffff;
   --cor-preta: #000000;
   --cor-borda: #2e2e2e;

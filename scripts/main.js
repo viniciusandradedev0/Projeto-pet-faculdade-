@@ -28,8 +28,6 @@ async function init() {
 
   // Botões "ADOTAR"
   conectarBotoesAdotar();
-
-  console.log(`✅ ${animais.length} animais carregados`);
 }
 
 if (document.readyState === 'loading') {

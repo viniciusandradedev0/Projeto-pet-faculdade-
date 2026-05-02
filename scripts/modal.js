@@ -7,6 +7,15 @@ const modal = document.getElementById('modal-adocao');
 const form = document.getElementById('form-adocao');
 const tituloAnimal = document.getElementById('modal-nome-animal');
 const toastContainer = document.getElementById('toast-container');
+const supportsDialog = typeof HTMLDialogElement === 'function';
+
+function fecharModal() {
+  if (supportsDialog && typeof modal.close === 'function') {
+    modal.close();
+  } else {
+    modal.removeAttribute('open');
+  }
+}
 
 /**
  * Abre o modal pré-preenchendo o nome do animal.
@@ -14,20 +23,25 @@ const toastContainer = document.getElementById('toast-container');
  */
 export function abrirModalAdocao(nomeAnimal) {
   tituloAnimal.textContent = nomeAnimal;
-  modal.showModal();
-  // Pequeno delay para garantir que o modal terminou de abrir
+
+  if (supportsDialog && typeof modal.showModal === 'function') {
+    modal.showModal();
+  } else {
+    modal.setAttribute('open', '');
+  }
+
   setTimeout(() => document.getElementById('form-nome').focus(), 50);
 }
 
 // === Fechar modal: backdrop, botões com data-fechar-modal e ESC (nativo) ===
 modal.addEventListener('click', (e) => {
-  if (e.target === modal) modal.close();           // clicou no backdrop
-  if (e.target.closest('[data-fechar-modal]')) modal.close();
+  if (e.target === modal || e.target.closest('[data-fechar-modal]')) {
+    fecharModal();
+  }
 });
 
 modal.addEventListener('close', () => {
   form.reset();
-  // Limpa estados de erro
   form.querySelectorAll('[aria-invalid="true"]').forEach((el) =>
     el.removeAttribute('aria-invalid')
   );
@@ -57,17 +71,16 @@ function validarCampo(campo) {
     if (erroEl) erroEl.textContent = '';
     return true;
   }
+
   campo.setAttribute('aria-invalid', 'true');
   if (erroEl) erroEl.textContent = resultado;
   return false;
 }
 
-// Valida ao sair do campo (não pune enquanto digita)
 form.querySelectorAll('input, textarea').forEach((campo) => {
   campo.addEventListener('blur', () => validarCampo(campo));
 });
 
-// === Submit do formulário (Tarefa 11) ===
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -89,23 +102,16 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
-  // Simula envio (substituir por fetch real se houver backend)
   const dados = Object.fromEntries(new FormData(form));
-  console.log('📨 Pedido de adoção enviado:', {
-    animal: tituloAnimal.textContent,
-    ...dados,
-  });
 
   mostrarToast(
     `Pedido enviado! Em breve entraremos em contato sobre ${tituloAnimal.textContent}. 🐾`,
     'sucesso'
   );
-  modal.close();
+
+  fecharModal();
 });
 
-// =================================================
-// TOAST — Notificação não bloqueante
-// =================================================
 const ICONES_TOAST = {
   sucesso: '✅',
   erro: '⚠️',
@@ -128,9 +134,6 @@ export function mostrarToast(mensagem, tipo = 'info', duracao = 4000) {
   }, duracao);
 }
 
-// =================================================
-// Conecta os botões "ADOTAR" dos cards (delegação)
-// =================================================
 export function conectarBotoesAdotar() {
   document.querySelectorAll('[data-lista]').forEach((container) => {
     container.addEventListener('click', (e) => {

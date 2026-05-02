@@ -33,11 +33,16 @@ export async function carregarAnimais() {
 
     document.querySelectorAll('[data-lista]').forEach(container => {
       container.innerHTML = `
-        <p class="mensagem-vazia" style="color: #c0392b;">
+        <p class="mensagem-vazia mensagem-vazia--erro" role="alert">
           ⚠️ Erro ao carregar animais. Verifique o console (F12) para mais detalhes.
         </p>
       `;
     });
+
+    const contador = document.getElementById('contador-resultados');
+    if (contador) {
+      contador.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.';
+    }
 
     return [];
   }

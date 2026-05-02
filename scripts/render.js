@@ -1,82 +1,97 @@
 /**
  * render.js
  * Responsável por renderizar os cards de animais no DOM.
- * Esta função é o "componente Card" em forma vanilla — quando migrar
- * para React/Angular, vira um <AnimalCard /> ou <app-animal-card>.
  */
 
-/**
- * Cria o HTML de um único card de animal.
- * @param {Object} animal - Dados do animal
- * @returns {string} HTML do card
- */
-function criarCardHTML(animal) {
-  const linkDetalhes = animal.linkDetalhes
-    ? `<p class="card-link">
-         <a href="${animal.linkDetalhes}" target="_blank" rel="noopener noreferrer"
-            aria-label="Conhecer ${animal.nome} no site oficial de adoção">
-           Conhecer melhor →
-         </a>
-       </p>`
-    : '';
+function criarCardElemento(animal) {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.dataset.especie = animal.especie;
+  card.dataset.id = animal.id;
 
-  return `
-    <article class="card" data-especie="${animal.especie}" data-id="${animal.id}">
-      <div class="card-img-wrapper is-loading">
-        <img src="${animal.imagem}"
-             alt="Foto de ${animal.nome}, ${animal.especie} para adoção"
-             loading="lazy"
-             decoding="async"
-             onload="this.parentElement.classList.remove('is-loading')"
-             onerror="this.parentElement.classList.remove('is-loading'); this.parentElement.classList.add('is-error');">
-      </div>
-      <h3>${animal.nome}</h3>
-      <p>${animal.idade}</p>
-      <button type="button" class="btn-adotar"
-              data-animal-id="${animal.id}"
-              data-animal-nome="${animal.nome}">
-        ADOTAR
-      </button>
-      ${linkDetalhes}
-    </article>
-  `;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'card-img-wrapper is-loading';
+
+  const img = document.createElement('img');
+  img.src = animal.imagem;
+  img.alt = `Foto de ${animal.nome}, ${animal.especie} para adoção`;
+  img.loading = 'lazy';
+  img.decoding = 'async';
+
+  img.addEventListener('load', () => wrapper.classList.remove('is-loading'));
+  img.addEventListener('error', () => {
+    wrapper.classList.remove('is-loading');
+    wrapper.classList.add('is-error');
+  });
+
+  wrapper.appendChild(img);
+  card.appendChild(wrapper);
+
+  const title = document.createElement('h3');
+  title.textContent = animal.nome;
+  card.appendChild(title);
+
+  const age = document.createElement('p');
+  age.textContent = animal.idade;
+  card.appendChild(age);
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'btn-adotar';
+  button.dataset.animalId = animal.id;
+  button.dataset.animalNome = animal.nome;
+  button.textContent = 'ADOTAR';
+  card.appendChild(button);
+
+  if (animal.linkDetalhes) {
+    const linkWrapper = document.createElement('p');
+    linkWrapper.className = 'card-link';
+
+    const link = document.createElement('a');
+    link.href = animal.linkDetalhes;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', `Conhecer ${animal.nome} no site oficial de adoção`);
+    link.textContent = 'Conhecer melhor →';
+
+    linkWrapper.appendChild(link);
+    card.appendChild(linkWrapper);
+  }
+
+  return card;
 }
 
-/**
- * Renderiza a lista de animais em um container.
- * @param {Array} animais - Lista de animais a renderizar
- * @param {HTMLElement} container - Elemento onde os cards serão inseridos
- */
+function criarMensagemVazia() {
+  const mensagem = document.createElement('p');
+  mensagem.className = 'mensagem-vazia';
+  mensagem.textContent = 'Nenhum animal encontrado no momento. 🐾';
+  return mensagem;
+}
+
 export function renderizarAnimais(animais, container) {
   if (!container) {
     console.error('Container não encontrado');
     return;
   }
 
+  container.innerHTML = '';
+
   if (animais.length === 0) {
-    container.innerHTML = `
-      <p class="mensagem-vazia">
-        Nenhum animal encontrado no momento. 🐾
-      </p>
-    `;
+    container.appendChild(criarMensagemVazia());
     return;
   }
 
-  // Junta todos os HTMLs e injeta de uma vez (mais performático que appendChild em loop)
-  const html = animais.map(criarCardHTML).join('');
-  container.innerHTML = html;
+  const fragment = document.createDocumentFragment();
+  animais.forEach((animal) => fragment.appendChild(criarCardElemento(animal)));
+  container.appendChild(fragment);
 }
 
-/**
- * Filtra animais por espécie e renderiza no container correspondente.
- * @param {Array} todosAnimais - Lista completa de animais
- */
 export function renderizarPorEspecie(todosAnimais) {
   const containerGatos = document.querySelector('[data-lista="gatos"]');
   const containerCachorros = document.querySelector('[data-lista="cachorros"]');
 
-  const gatos = todosAnimais.filter(a => a.especie === 'gato');
-  const cachorros = todosAnimais.filter(a => a.especie === 'cachorro');
+  const gatos = todosAnimais.filter((a) => a.especie === 'gato');
+  const cachorros = todosAnimais.filter((a) => a.especie === 'cachorro');
 
   renderizarAnimais(gatos, containerGatos);
   renderizarAnimais(cachorros, containerCachorros);

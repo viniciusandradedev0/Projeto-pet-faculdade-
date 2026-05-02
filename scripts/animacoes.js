@@ -29,8 +29,8 @@ function obterObserver() {
       });
     },
     {
-      threshold: 0.15,           // 15% do card visível já dispara
-      rootMargin: '0px 0px -50px 0px', // antecipa um pouco
+      threshold: 0.01,                    // dispara assim que 1% aparece
+      rootMargin: '300px 0px 300px 0px',  // pré-carrega 300px antes (topo e base)
     }
   );
 

@@ -39,13 +39,21 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
   const mensagemVazio = document.getElementById('mensagem-vazio');
   const btnLimpar = document.getElementById('limpar-filtros');
 
+  const totaisPorEspecie = todosAnimais.reduce(
+    (acc, animal) => {
+      if (!acc[animal.especie]) acc[animal.especie] = 0;
+      acc[animal.especie] += 1;
+      return acc;
+    },
+    { gato: 0, cachorro: 0 }
+  );
+
   let filtroAtivo = 'todos';
   let termoBusca = '';
 
   function aplicarFiltros() {
     const termo = normalizar(termoBusca.trim());
 
-    // 1. Filtra a lista
     const filtrados = todosAnimais.filter((animal) => {
       const passaEspecie =
         filtroAtivo === 'todos' || animal.especie === filtroAtivo;
@@ -54,10 +62,8 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
       return passaEspecie && passaBusca;
     });
 
-    // 2. Notifica o renderizador
     onFiltrar(filtrados);
 
-    // 3. Mostra/oculta seções inteiras (banner + grid)
     const temGato = filtrados.some((a) => a.especie === 'gato');
     const temCachorro = filtrados.some((a) => a.especie === 'cachorro');
 
@@ -68,25 +74,30 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
       el.classList.toggle('is-hidden', !temCachorro);
     });
 
-    // 4. Mensagem de vazio (Tarefa 9)
     if (filtrados.length === 0) {
       mensagemVazio.hidden = false;
       contador.textContent = 'Nenhum resultado encontrado';
-    } else {
-      mensagemVazio.hidden = true;
-      const qtdGatos = filtrados.filter((a) => a.especie === 'gato').length;
-      const qtdCaes = filtrados.filter((a) => a.especie === 'cachorro').length;
-
-      let texto = `${filtrados.length} `;
-      texto += filtrados.length === 1 ? 'animal encontrado' : 'animais encontrados';
-      if (filtroAtivo === 'todos' && (termo || qtdGatos !== todosAnimais.filter(a=>a.especie==='gato').length)) {
-        texto += ` (${qtdGatos} ${qtdGatos === 1 ? 'gato' : 'gatos'} e ${qtdCaes} ${qtdCaes === 1 ? 'cachorro' : 'cachorros'})`;
-      }
-      contador.textContent = texto;
+      return;
     }
+
+    mensagemVazio.hidden = true;
+
+    const qtdGatos = filtrados.filter((a) => a.especie === 'gato').length;
+    const qtdCaes = filtrados.filter((a) => a.especie === 'cachorro').length;
+
+    let texto = `${filtrados.length} `;
+    texto += filtrados.length === 1 ? 'animal encontrado' : 'animais encontrados';
+
+    if (
+      filtroAtivo === 'todos' &&
+      (termo || qtdGatos !== totaisPorEspecie.gato || qtdCaes !== totaisPorEspecie.cachorro)
+    ) {
+      texto += ` (${qtdGatos} ${qtdGatos === 1 ? 'gato' : 'gatos'} e ${qtdCaes} ${qtdCaes === 1 ? 'cachorro' : 'cachorros'})`;
+    }
+
+    contador.textContent = texto;
   }
 
-  // === Eventos dos botões de filtro ===
   botoes.forEach((btn) => {
     btn.addEventListener('click', () => {
       botoes.forEach((b) => {
@@ -100,7 +111,6 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
     });
   });
 
-  // === Busca com debounce de 300ms (Tarefa 8) ===
   const buscarComDebounce = debounce((valor) => {
     termoBusca = valor;
     aplicarFiltros();
@@ -108,7 +118,6 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
 
   inputBusca.addEventListener('input', (e) => buscarComDebounce(e.target.value));
 
-  // === Botão "Limpar filtros" da mensagem de vazio ===
   btnLimpar?.addEventListener('click', () => {
     inputBusca.value = '';
     termoBusca = '';
@@ -122,6 +131,5 @@ export function inicializarFiltros(todosAnimais, onFiltrar) {
     inputBusca.focus();
   });
 
-  // Render inicial
   aplicarFiltros();
 }
