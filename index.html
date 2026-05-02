@@ -3,21 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PAWS PLACE — Plataforma de adoção de animais em Curitiba. Conheça gatos e cachorros à espera de um novo lar.">
+  <meta name="description" content="PAWS PLACE — Plataforma de adoção de animais em Curitiba.">
   <title>PAWS PLACE - Adoção de Animais</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar 
+      Sem isso, o site carrega no tema claro e "pisca" pro escuro = horrível. Esse trecho síncrono evita o flash.-->
+  <script>
+    (function() {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
   <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
 
   <!-- ===== MENU DE NAVEGAÇÃO ===== -->
   <nav class="menu" aria-label="Navegação principal">
     <a href="#inicio" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
     <ul class="menu-links">
-      <li><a href="#inicio">Início</a></li>
-      <li><a href="#animais">Animais</a></li>
-      <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#contato">Contato</a></li>
-    </ul>
+  <li><a href="#inicio">Início</a></li>
+  <li><a href="#animais">Animais</a></li>
+  <li><a href="#sobre">Sobre</a></li>
+  <li><a href="#contato">Contato</a></li>
+  <li>
+    <button
+      type="button"
+      id="toggle-tema"
+      class="toggle-tema"
+      aria-label="Alternar tema escuro"
+      aria-pressed="false"
+      title="Alternar tema"
+    >
+      <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+      <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+    </button>
+  </li>
+</ul>
+
   </nav>
 
   <!-- ===== HEADER COM GALERIA ===== -->

@@ -22,10 +22,14 @@ function criarCardHTML(animal) {
 
   return `
     <article class="card" data-especie="${animal.especie}" data-id="${animal.id}">
-      <img src="${animal.imagem}"
-           alt="Foto de ${animal.nome}, ${animal.especie} para adoção"
-           loading="lazy"
-           decoding="async">
+      <div class="card-img-wrapper is-loading">
+        <img src="${animal.imagem}"
+             alt="Foto de ${animal.nome}, ${animal.especie} para adoção"
+             loading="lazy"
+             decoding="async"
+             onload="this.parentElement.classList.remove('is-loading')"
+             onerror="this.parentElement.classList.remove('is-loading'); this.parentElement.classList.add('is-error');">
+      </div>
       <h3>${animal.nome}</h3>
       <p>${animal.idade}</p>
       <button type="button" class="btn-adotar"

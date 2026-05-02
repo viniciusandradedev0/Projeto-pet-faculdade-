@@ -7,19 +7,26 @@ import { carregarAnimais } from './data.js';
 import { renderizarPorEspecie } from './render.js';
 import { inicializarFiltros } from './filtros.js';
 import { conectarBotoesAdotar } from './modal.js';
+import { inicializarTema } from './tema.js';
+import { observarCards } from './animacoes.js';
 
 async function init() {
+  // Tema (sincroniza ARIA do botão com o tema já aplicado)
+  inicializarTema();
+
   const animais = await carregarAnimais();
 
-  // Render inicial
+  // Render inicial + fade-in
   renderizarPorEspecie(animais);
+  observarCards();
 
-  // Sistema de filtros + busca (re-renderiza ao filtrar)
+  // Filtros: re-renderiza E re-observa cards novos
   inicializarFiltros(animais, (filtrados) => {
     renderizarPorEspecie(filtrados);
+    observarCards();
   });
 
-  // Conecta botões "ADOTAR" → abre modal
+  // Botões "ADOTAR"
   conectarBotoesAdotar();
 
   console.log(`✅ ${animais.length} animais carregados`);

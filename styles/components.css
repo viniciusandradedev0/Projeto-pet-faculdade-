@@ -28,6 +28,7 @@
   display: flex;
   gap: var(--espaco-xl);
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .menu-links a {
@@ -176,6 +177,7 @@ header {
 
 /* ============================================
    CARD DO ANIMAL
+   (transições unificadas: fade-in + hover + tema)
    ============================================ */
 
 .card {
@@ -185,12 +187,22 @@ header {
   text-align: center;
   padding: var(--espaco-md);
   color: var(--cor-branca);
-  transition: var(--transicao);
   display: flex;
   flex-direction: column;
   gap: var(--espaco-sm);
   overflow: hidden;
   position: relative;
+
+  /* Estado inicial do fade-in (Intersection Observer adiciona .is-visivel) */
+  opacity: 0;
+  transform: translateY(24px);
+
+  /* Transições unificadas: fade-in + hover + troca de tema */
+  transition:
+    opacity 0.5s ease-out var(--delay-fade, 0ms),
+    transform 0.5s ease-out var(--delay-fade, 0ms),
+    box-shadow 0.3s ease,
+    background-color 0.4s ease;
 }
 
 .card::before {
@@ -202,21 +214,19 @@ header {
   opacity: 0.4;
 }
 
-.card:hover {
+/* Estado visível (após Intersection Observer) */
+.card.is-visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover só funciona depois que o card já apareceu */
+.card.is-visivel:hover {
   transform: translateY(-8px);
   box-shadow: var(--sombra-forte);
 }
 
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: var(--raio-sm);
-  transition: var(--transicao);
-  background-color: rgba(255, 255, 255, 0.2); /* Fallback enquanto carrega */
-}
-
-.card:hover img {
+.card:hover .card-img-wrapper img {
   filter: brightness(1.05);
 }
 
@@ -275,7 +285,7 @@ header {
   font-size: 0.95rem;
   padding: 6px 14px;
   border-radius: var(--raio-pill);
-  background-color: rgba(0, 0, 0, 0.35); /* Garante contraste */
+  background-color: rgba(0, 0, 0, 0.35);
   border: 2px solid rgba(255, 255, 255, 0.6);
   transition: var(--transicao);
 }
@@ -289,6 +299,68 @@ header {
 .card-link a:focus-visible {
   outline: 3px solid var(--cor-branca);
   outline-offset: 3px;
+}
+
+/* ============================================
+   SKELETON LOADING (IMAGENS)
+   ============================================ */
+
+.card-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: var(--raio-sm);
+  overflow: hidden;
+  background-color: var(--skeleton-base);
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--raio-sm);
+  display: block;
+  opacity: 0;
+  transition: opacity 0.4s ease, filter 0.3s ease;
+}
+
+/* Imagem aparece quando carregar (wrapper perde .is-loading) */
+.card-img-wrapper:not(.is-loading) img {
+  opacity: 1;
+}
+
+/* Animação shimmer (efeito brilho) */
+.card-img-wrapper.is-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-brilho) 50%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Estado de erro (imagem não carregou) */
+.card-img-wrapper.is-error::after {
+  content: '🐾 Imagem indisponível';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--skeleton-base);
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
 }
 
 /* ============================================
@@ -320,62 +392,6 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.9rem;
   opacity: 0.8;
-}
-
-/* ============================================
-   RESPONSIVIDADE
-   ============================================ */
-
-@media (max-width: 768px) {
-  .menu {
-    padding: 12px var(--espaco-md);
-    justify-content: center;
-  }
-
-  .menu-links {
-    gap: 18px;
-    justify-content: center;
-  }
-
-  .header-images {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .header-images img:nth-child(n + 4) {
-    display: none;
-  }
-
-  header {
-    height: 300px;
-  }
-
-  .animals {
-    padding: 0 var(--espaco-md);
-    gap: var(--espaco-md);
-  }
-}
-
-@media (max-width: 480px) {
-  .header-images {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .header-images img:nth-child(n + 3) {
-    display: none;
-  }
-
-  header {
-    height: 250px;
-  }
-
-  .menu-links {
-    gap: 12px;
-    font-size: 0.9rem;
-  }
-
-  .card img {
-    height: 180px;
-  }
 }
 
 /* ============================================
@@ -445,7 +461,7 @@ footer {
   color: var(--cor-texto);
   cursor: pointer;
   transition: var(--transicao);
-  min-height: 44px; /* alvo de toque WCAG */
+  min-height: 44px;
   font-family: inherit;
 }
 
@@ -471,14 +487,13 @@ footer {
 }
 
 /* ============================================
-   UTILITÁRIO: Ocultar seções (filtro)
+   UTILITÁRIOS
    ============================================ */
 
 .is-hidden {
   display: none !important;
 }
 
-/* Screen reader only */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -703,7 +718,7 @@ footer {
 
 .toast-container {
   position: fixed;
-  top: 80px;          /* abaixo do menu sticky */
+  top: 80px;
   right: var(--espaco-lg);
   display: flex;
   flex-direction: column;
@@ -746,10 +761,213 @@ footer {
 }
 
 /* ============================================
-   RESPONSIVO — FILTROS, MODAL E TOAST
+   TOGGLE DARK MODE
+   ============================================ */
+
+.toggle-tema {
+  position: relative;
+  width: 56px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--raio-pill);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  transition: var(--transicao);
+  overflow: hidden;
+}
+
+.toggle-tema:hover {
+  border-color: var(--cor-branca);
+  transform: scale(1.05);
+}
+
+.toggle-tema__icone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+
+/* "Bolinha" deslizante */
+.toggle-tema::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background: var(--cor-branca);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+[data-tema="dark"] .toggle-tema::before {
+  transform: translateX(26px);
+}
+
+[data-tema="light"] .toggle-tema__icone--lua {
+  opacity: 0.4;
+}
+[data-tema="dark"] .toggle-tema__icone--sol {
+  opacity: 0.4;
+}
+
+.toggle-tema:focus-visible {
+  outline: 3px solid var(--cor-branca);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   AJUSTES DE COMPONENTES NO DARK MODE
+   ============================================ */
+
+[data-tema="dark"] body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .filtros {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+}
+
+[data-tema="dark"] .filtros__input {
+  background: #2a2a2a;
+  border-color: var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .filtros__input::placeholder {
+  color: var(--cor-texto-suave);
+}
+
+[data-tema="dark"] .filtro-btn {
+  background: transparent;
+  border-color: var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .filtro-btn:hover {
+  background: rgba(255, 183, 51, 0.1);
+}
+
+[data-tema="dark"] .modal {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .modal__footer {
+  background: #181818;
+  border-top-color: var(--cor-borda);
+}
+
+[data-tema="dark"] .campo input,
+[data-tema="dark"] .campo textarea {
+  background: #2a2a2a;
+  border-color: var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .btn-modal--secundario {
+  border-color: var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .btn-modal--secundario:hover {
+  background: #2a2a2a;
+}
+
+[data-tema="dark"] .toast {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] .header-overlay {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6));
+}
+
+[data-tema="dark"] .intro p {
+  color: var(--cor-texto);
+}
+
+[data-tema="dark"] footer {
+  background: linear-gradient(135deg, #000000, #1a1a1a);
+}
+
+/* ============================================
+   ACESSIBILIDADE — PREFERS-REDUCED-MOTION
+   Reforço local nos componentes animados
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Cards: sem fade, sem hover-lift */
+  .card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .card.is-visivel:hover,
+  .card:hover {
+    transform: none;
+  }
+
+  /* Skeleton: sem shimmer */
+  .card-img-wrapper.is-loading::before {
+    animation: none;
+    background: var(--skeleton-base);
+  }
+  .card-img-wrapper img {
+    transition: none;
+  }
+
+  /* Modal e toast: sem entrada animada */
+  .modal[open],
+  .toast {
+    animation: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVIDADE
    ============================================ */
 
 @media (max-width: 768px) {
+  .menu {
+    padding: 12px var(--espaco-md);
+    justify-content: center;
+  }
+
+  .menu-links {
+    gap: 18px;
+    justify-content: center;
+  }
+
+  .header-images {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .header-images img:nth-child(n + 4) {
+    display: none;
+  }
+
+  header {
+    height: 300px;
+  }
+
+  .animals {
+    padding: 0 var(--espaco-md);
+    gap: var(--espaco-md);
+  }
+
   .filtros {
     margin: 0 var(--espaco-md) var(--espaco-md);
     padding: var(--espaco-md);
@@ -774,6 +992,27 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .header-images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .header-images img:nth-child(n + 3) {
+    display: none;
+  }
+
+  header {
+    height: 250px;
+  }
+
+  .menu-links {
+    gap: 12px;
+    font-size: 0.9rem;
+  }
+
+  .card-img-wrapper {
+    height: 180px;
+  }
+
   .modal {
     width: 100vw;
     height: 100vh;

@@ -1,9 +1,10 @@
 /* ============================================
    DESIGN TOKENS
-   Variáveis globais — fonte única da verdade
+   Tema claro (padrão) + tema escuro
    ============================================ */
 
-:root {
+:root,
+[data-tema="light"] {
   /* Cores — Marca */
   --cor-primaria: #ffa600;
   --cor-primaria-escura: #e69500;
@@ -17,6 +18,7 @@
   --cor-texto-suave: #666666;
   --cor-branca: #ffffff;
   --cor-preta: #1a1a1a;
+  --cor-borda: #e5e7eb;
 
   /* Cores — Semânticas */
   --cor-sucesso: #2d8f2d;
@@ -31,7 +33,11 @@
   --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
   --sombra-forte: 0 8px 24px rgba(179, 105, 20, 0.3);
 
-  /* Espaçamento (escala 4px) */
+  /* Skeleton */
+  --skeleton-base: #e0e0e0;
+  --skeleton-brilho: #f5f5f5;
+
+  /* Espaçamento */
   --espaco-xs: 4px;
   --espaco-sm: 8px;
   --espaco-md: 16px;
@@ -47,4 +53,61 @@
   /* Transições */
   --transicao: all 0.3s ease;
   --transicao-rapida: all 0.15s ease;
+  --transicao-tema: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* ============================================
+   TEMA ESCURO
+   ============================================ */
+
+[data-tema="dark"] {
+  /* Cores — Marca (mais suaves no dark) */
+  --cor-primaria: #ffb733;
+  --cor-primaria-escura: #cc8400;
+  --cor-secundaria: #d4823a;
+  --cor-secundaria-escura: #b36914;
+
+  /* Cores — Neutras */
+  --cor-fundo: #121212;
+  --cor-superficie: #1e1e1e;
+  --cor-texto: #e8e8e8;
+  --cor-texto-suave: #a0a0a0;
+  --cor-branca: #ffffff;
+  --cor-preta: #000000;
+  --cor-borda: #2e2e2e;
+
+  /* Cores — Semânticas */
+  --cor-sucesso: #4caf50;
+  --cor-sucesso-hover: #66bb6a;
+  --cor-erro: #ef5350;
+
+  /* Cores — Foco */
+  --cor-foco: #4d9eff;
+  --cor-foco-claro: #82b9ff;
+
+  /* Sombras (mais sutis no dark) */
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --sombra-forte: 0 8px 24px rgba(0, 0, 0, 0.6);
+
+  /* Skeleton dark */
+  --skeleton-base: #2a2a2a;
+  --skeleton-brilho: #3a3a3a;
+}
+
+/* Aplica transição suave ao alternar tema */
+body,
+.menu,
+.card,
+.modal,
+.filtros,
+footer,
+.banner {
+  transition: var(--transicao-tema);
+}
+
+/* Respeita usuário que pediu menos animação */
+@media (prefers-reduced-motion: reduce) {
+  body, .menu, .card, .modal, .filtros, footer, .banner {
+    transition: none;
+  }
 }
