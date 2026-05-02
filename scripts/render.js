@@ -28,7 +28,9 @@ function criarCardHTML(animal) {
            decoding="async">
       <h3>${animal.nome}</h3>
       <p>${animal.idade}</p>
-      <button type="button" class="btn-adotar" data-animal-id="${animal.id}">
+      <button type="button" class="btn-adotar"
+              data-animal-id="${animal.id}"
+              data-animal-nome="${animal.nome}">
         ADOTAR
       </button>
       ${linkDetalhes}
