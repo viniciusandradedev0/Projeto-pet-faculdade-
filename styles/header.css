@@ -3,6 +3,21 @@
    Injetados via JS pelo header.js
    ============================================ */
 
+/* ============================================
+   LAYOUT: Nav primária (esquerda) + Ações (direita)
+   
+   Estratégia: usamos um <li class="menu-separador">
+   com margin-left:auto que "empurra" tudo que vem
+   depois pra direita do header.
+   ============================================ */
+
+.menu-separador {
+  margin-left: auto;
+  /* Sem conteúdo visual — apenas espaçador flex */
+  list-style: none;
+  pointer-events: none;
+}
+
 /* Saudação "Olá, Nome 👋" */
 .menu-saudacao {
   display: flex;
@@ -49,11 +64,32 @@
 /* "Cadastrar" com leve destaque (call-to-action sutil) */
 .menu-link-destaque {
   font-weight: 600;
+  padding: 0.4em 0.9em;
+  border-radius: 6px;
+  background-color: var(--cor-primaria, #ff6b6b);
+  color: #fff !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-link-destaque:hover,
+.menu-link-destaque:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
 }
 
 /* Em telas estreitas, esconde a saudação pra não quebrar o layout */
 @media (max-width: 720px) {
   .menu-saudacao {
     display: none;
+  }
+}
+
+/* Em telas muito pequenas, o separador "some" e tudo volta a fluir */
+@media (max-width: 600px) {
+  .menu-separador {
+    margin-left: 0;
+    flex-basis: 100%;
+    height: 0;
   }
 }

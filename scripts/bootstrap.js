@@ -20,6 +20,9 @@ import { mostrarToast } from './modal.js';
 import { sessao, CHAVES } from './storage.js';
 import { atualizarHeader } from './header.js';
 
+// 🔹 NOVO: re-exporta o mostrarToast pra quem quiser usar via bootstrap
+export { mostrarToast };
+
 // ============================================
 // MENSAGEM-REDIRECT
 // ============================================

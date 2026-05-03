@@ -34,11 +34,23 @@ export const validadores = {
   mensagem: (v) =>
     v.trim().length >= 10 || 'Sua mensagem precisa ter ao menos 10 caracteres.',
 
-  // === Senhas (preparação para Fase 2) ===
+  // === Senhas ===
   senha: (v) => {
     if (v.length < 8) return 'A senha deve ter pelo menos 8 caracteres.';
     if (!/[A-Za-z]/.test(v)) return 'A senha deve conter ao menos 1 letra.';
     if (!/[0-9]/.test(v)) return 'A senha deve conter ao menos 1 número.';
+    return true;
+  },
+
+  /**
+   * Confirmação de senha.
+   * Compara com o campo `name="senha"` do MESMO formulário.
+   * Útil em telas de cadastro e "alterar senha".
+   */
+  senhaConfirmar: (valor, campo) => {
+    if (!valor) return 'Confirme sua senha.';
+    const senhaOriginal = campo.form?.elements['senha']?.value;
+    if (valor !== senhaOriginal) return 'As senhas não coincidem.';
     return true;
   },
 

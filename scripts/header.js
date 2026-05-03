@@ -5,9 +5,9 @@
  * - Deslogado: mostra "Entrar" + "Cadastrar"
  * - Logado:    mostra "Olá, Nome 👋" + "Sair"
  *
- * Funciona em TODAS as páginas — basta o <nav> ter a estrutura padrão
- * (com <ul class="menu-links">). Não exige mudanças no HTML existente:
- * os itens são INJETADOS via JS antes do botão de tema.
+ * Layout: nav primária à ESQUERDA (Início, Animais, Sobre, Contato),
+ * ações à DIREITA (Tema, Entrar/Cadastrar ou Saudação/Sair).
+ * O separador <li class="menu-separador"> empurra tudo pra direita via flex.
  *
  * USO (chamado automaticamente pelo bootstrap.js):
  *   import { atualizarHeader } from './header.js';
@@ -31,6 +31,27 @@ function primeiroNome(nomeCompleto) {
  */
 function limparItensAuth(menuLinks) {
   menuLinks.querySelectorAll('[data-auth-item]').forEach((el) => el.remove());
+}
+
+/**
+ * Garante que o <li> separador exista (empurra ações pra direita via flex).
+ * Inserido ANTES do botão de tema.
+ */
+function garantirSeparador(menuLinks) {
+  let separador = menuLinks.querySelector('.menu-separador');
+  if (separador) return separador;
+
+  separador = document.createElement('li');
+  separador.className = 'menu-separador';
+  separador.setAttribute('aria-hidden', 'true');
+
+  const itemTema = menuLinks.querySelector('#toggle-tema')?.closest('li');
+  if (itemTema) {
+    menuLinks.insertBefore(separador, itemTema);
+  } else {
+    menuLinks.appendChild(separador);
+  }
+  return separador;
 }
 
 /**
@@ -103,7 +124,11 @@ export function atualizarHeader() {
   // Limpa itens de auth anteriores (idempotência)
   limparItensAuth(menuLinks);
 
-  // O botão de tema é o "âncora" — inserimos os itens ANTES dele
+  // Garante o separador que empurra ações pra direita
+  garantirSeparador(menuLinks);
+
+  // Botão de tema = âncora; itens auth são inseridos ANTES dele
+  // (mas DEPOIS do separador, naturalmente)
   const itemTema = menuLinks.querySelector('#toggle-tema')?.closest('li');
 
   const fragmento = document.createDocumentFragment();
