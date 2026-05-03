@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Entre em contato com o PAWS PLACE — projeto CONECTA PET. Tire dúvidas sobre adoção, parcerias ou denúncias de maus tratos. 🐾">
+  <title>Contato — PAWS PLACE</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
+  <script>
+    (function () {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
+  <!-- Favicon emoji 🐾 (SVG inline, zero requisição extra) -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <noscript class="noscript-aviso">
+    Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
+  </noscript>
+
+  <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+  <nav class="menu" aria-label="Navegação principal">
+    <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
+    <ul class="menu-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html">Animais</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html" aria-current="page">Contato</a></li>
+      <li>
+        <button type="button" id="toggle-tema" class="toggle-tema" aria-label="Alternar tema escuro"
+          aria-pressed="false" title="Alternar tema">
+          <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+          <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main>
+
+    <!-- ===== HERO COMPACTO (reusa .hero-pagina do sobre.css) ===== -->
+    <section class="hero-pagina" aria-labelledby="titulo-contato">
+      <div class="hero-pagina__conteudo">
+        <h1 id="titulo-contato" class="hero-pagina__titulo">
+          Fale Conosco 💬
+        </h1>
+        <p class="hero-pagina__subtitulo">
+          Tire dúvidas, faça parcerias ou denuncie maus tratos.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== GRID: FORMULÁRIO + INFOS ===== -->
+    <section class="contato-grid" aria-labelledby="titulo-form">
+
+      <!-- === FORMULÁRIO === -->
+      <div class="contato-form">
+        <h2 id="titulo-form" class="contato-form__titulo">Envie sua mensagem</h2>
+        <p class="contato-form__subtitulo">
+          Responderemos em até 48 horas úteis.
+        </p>
+
+        <form id="form-contato" novalidate>
+          <div class="campo">
+            <label for="contato-nome">Nome completo *</label>
+            <input type="text" id="contato-nome" name="nome" required minlength="3" autocomplete="name"
+              placeholder="Como devemos te chamar?" aria-describedby="erro-contato-nome">
+            <small id="erro-contato-nome" class="campo__erro" data-erro="nome"></small>
+          </div>
+
+          <div class="campo">
+            <label for="contato-email">E-mail *</label>
+            <input type="email" id="contato-email" name="email" required autocomplete="email"
+              placeholder="seu@email.com" aria-describedby="erro-contato-email">
+            <small id="erro-contato-email" class="campo__erro" data-erro="email"></small>
+          </div>
+
+          <div class="campo">
+            <label for="contato-assunto">Assunto *</label>
+            <input type="text" id="contato-assunto" name="assunto" required minlength="3"
+              placeholder="Sobre o que deseja falar?" aria-describedby="erro-contato-assunto">
+            <small id="erro-contato-assunto" class="campo__erro" data-erro="assunto"></small>
+          </div>
+
+          <div class="campo">
+            <label for="contato-mensagem">Mensagem *</label>
+            <textarea id="contato-mensagem" name="mensagem" required minlength="10" rows="5"
+              placeholder="Escreva sua mensagem com detalhes..." aria-describedby="erro-contato-mensagem"></textarea>
+            <small id="erro-contato-mensagem" class="campo__erro" data-erro="mensagem"></small>
+          </div>
+
+          <!-- ===== CONSENTIMENTO LGPD ===== -->
+          <div class="campo campo--consentimento">
+            <p class="lgpd-finalidade">
+              🔒 <strong>Como usaremos seus dados:</strong> seu nome e e-mail serão
+              utilizados <strong>exclusivamente</strong> para responder sua mensagem.
+              Não compartilhamos com terceiros nem enviamos newsletters.
+            </p>
+
+            <label class="checkbox-lgpd" for="contato-consentimento">
+              <input type="checkbox" id="contato-consentimento" name="consentimento" class="checkbox-lgpd__input"
+                required aria-describedby="erro-contato-consentimento" />
+              <span class="checkbox-lgpd__visual" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                  <path d="M2 8.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="checkbox-lgpd__texto">
+                Li e concordo com a
+                <a href="politica-privacidade.html" class="link-politica" target="_blank" rel="noopener">
+                  Política de Privacidade
+                </a>
+                e autorizo o uso dos meus dados para esta finalidade. *
+              </span>
+            </label>
+
+            <small id="erro-contato-consentimento" class="campo__erro" data-erro="consentimento"></small>
+          </div>
+
+          <button type="submit" class="btn-modal btn-modal--primario contato-form__botao">
+            Enviar mensagem 💌
+          </button>
+        </form>
+
+      </div>
+
+      <!-- === INFORMAÇÕES === -->
+      <aside class="contato-info" aria-labelledby="titulo-info">
+        <h2 id="titulo-info" class="contato-info__titulo">Outros canais</h2>
+        <p class="contato-info__subtitulo">
+          Prefere falar direto com a gente? Estamos aqui:
+        </p>
+
+        <!-- Endereço (não é link clicável) -->
+        <div class="info-item">
+          <div class="info-item__icone" aria-hidden="true">📍</div>
+          <div class="info-item__conteudo">
+            <p class="info-item__rotulo">Endereço</p>
+            <p class="info-item__valor">
+              R. Itajubá, 673 — Portão<br>
+              Curitiba — PR, 81070-190
+            </p>
+          </div>
+        </div>
+
+        <!-- Telefone (link tel:) -->
+        <a href="tel:+554132230000" class="info-item">
+          <div class="info-item__icone" aria-hidden="true">📞</div>
+          <div class="info-item__conteudo">
+            <p class="info-item__rotulo">Telefone</p>
+            <p class="info-item__valor">(41) 3223-0000</p>
+          </div>
+        </a>
+
+        <!-- E-mail (link mailto:) -->
+        <a href="mailto:contato@pawsplace.com.br" class="info-item">
+          <div class="info-item__icone" aria-hidden="true">✉️</div>
+          <div class="info-item__conteudo">
+            <p class="info-item__rotulo">E-mail</p>
+            <p class="info-item__valor">contato@pawsplace.com.br</p>
+          </div>
+        </a>
+
+        <!-- Horário -->
+        <div class="info-item">
+          <div class="info-item__icone" aria-hidden="true">🕐</div>
+          <div class="info-item__conteudo">
+            <p class="info-item__rotulo">Horário</p>
+            <p class="info-item__valor">
+              Segunda a sexta, das 9h às 18h<br>
+              Sábado, das 9h às 13h
+            </p>
+          </div>
+        </div>
+
+        <!-- === REDES SOCIAIS === -->
+        <div class="contato-redes">
+          <p class="contato-redes__titulo">Siga-nos</p>
+          <ul class="contato-redes__lista">
+            <li>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                class="rede-social rede-social--instagram" aria-label="Siga-nos no Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.73 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
+                </svg>
+              </a>
+            </li>
+
+            <li>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+                class="rede-social rede-social--facebook" aria-label="Curta nossa página no Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z" />
+                </svg>
+              </a>
+            </li>
+
+            <li>
+              <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer"
+                class="rede-social rede-social--whatsapp" aria-label="Fale conosco no WhatsApp">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.05 21.79h-.01a9.85 9.85 0 0 1-5.02-1.38l-.36-.21-3.74.98 1-3.65-.23-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.43-9.88 9.88-9.88a9.83 9.83 0 0 1 9.88 9.89c0 5.45-4.43 9.88-9.89 9.88M20.52 3.45A11.82 11.82 0 0 0 12.05 0C5.5 0 .17 5.33.16 11.88c0 2.09.55 4.13 1.59 5.93L.07 24l6.33-1.66a11.86 11.86 0 0 0 5.66 1.44h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.16-3.47-8.4" />
+                </svg>
+              </a>
+            </li>
+
+            <li>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+                class="rede-social rede-social--youtube" aria-label="Assista nossos vídeos no YouTube">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.52A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.13c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.13c.34-1.92.5-3.86.5-5.8a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.27 3.6-6.27 3.6z" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===== MAPA ===== -->
+    <section class="contato-mapa" aria-labelledby="titulo-mapa">
+      <header class="contato-mapa__header">
+        <h2 id="titulo-mapa" class="page-title">ＮＯＳＳＡ　ＬＯＣＡＬＩＺＡＣＡＯ</h2>
+        <p class="contato-mapa__subtitulo">
+          Venha nos visitar! Estamos no bairro Portão, em Curitiba 📍
+        </p>
+      </header>
+
+      <div class="contato-mapa__wrapper">
+        <iframe class="contato-mapa__iframe"
+          src="https://www.google.com/maps?q=R.+Itajub%C3%A1,+673+-+Port%C3%A3o,+Curitiba+-+PR,+81070-190&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa da localização do PAWS PLACE — R. Itajubá, 673, Portão, Curitiba" allowfullscreen></iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    <div class="footer-content">
+      <h3>Sobre Nós</h3>
+      <p>Você muda o mundo adotando um animal.<br>Mude o mundo desse animal. 🐾</p>
+      <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
+    </div>
+  </footer>
+
+  <!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+  <button type="button" id="btn-voltar-topo" class="btn-voltar-topo" aria-label="Voltar ao topo da página"
+    title="Voltar ao topo" hidden>
+    <svg class="btn-voltar-topo__progresso" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="btn-voltar-topo__progresso-track" cx="22" cy="22" r="20" />
+      <circle class="btn-voltar-topo__progresso-fill" cx="22" cy="22" r="20" />
+    </svg>
+    <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
+  </button>
+
+  <!-- ===== TOAST CONTAINER (necessário pra mostrarToast) ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== SCRIPT ===== -->
+  <script type="module" src="scripts/contato.js"></script>
+</body>
+
+</html>

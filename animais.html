@@ -1,14 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PAWS PLACE — Adote um animal em Curitiba. Gatos e cachorros esperando por um novo lar cheio de amor. 🐾">
-  <title>PAWS PLACE - Adoção de Animais</title>
+  <meta name="description" content="Conheça todos os animais disponíveis para adoção no PAWS PLACE — gatos e cachorros esperando por um novo lar em Curitiba.">
+  <title>Animais para Adoção - PAWS PLACE</title>
 
-  <!-- Anti-flash: aplica tema ANTES do CSS carregar
-       Sem isso, o site carrega no tema claro e "pisca" pro escuro = horrível.
-       Esse trecho síncrono evita o flash. -->
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
   <script>
     (function() {
       const salvo = localStorage.getItem('paws-tema');
@@ -18,7 +16,7 @@
     })();
   </script>
 
-  <!-- Favicon emoji 🐾 (SVG inline, zero requisição extra) -->
+  <!-- Favicon emoji 🐾 -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
 </head>
@@ -32,8 +30,8 @@
   <nav class="menu" aria-label="Navegação principal">
     <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
     <ul class="menu-links">
-      <li><a href="index.html" aria-current="page">Início</a></li>
-      <li><a href="animais.html">Animais</a></li>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html" aria-current="page">Animais</a></li>
       <li><a href="sobre.html">Sobre</a></li>
       <li><a href="contato.html">Contato</a></li>
       <li>
@@ -52,78 +50,84 @@
     </ul>
   </nav>
 
-  <!-- ===== HEADER COM GALERIA (preservado do original) ===== -->
-  <header id="inicio">
-    <div class="header-images" aria-hidden="true">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfUJ-DWyeTKGDkpQc98RG5rVFjIv099xaTKw&s" alt="" loading="lazy" decoding="async">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWi8d1kRrXGyQC3cc0f5JzT3imNLR2GkcnuQ&s" alt="" loading="lazy" decoding="async">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHC2psp4wdcCTmTdiXdMl_FKYmctRYfe1BYA&s" alt="" loading="lazy" decoding="async">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSShQgfruF-fPestvske9RC0413C2S5fGoYAg&s" alt="" loading="lazy" decoding="async">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9u3kT6DZsUB-y_KxHVsniSvkSOoLp4l8f-g&s" alt="" loading="lazy" decoding="async">
-    </div>
-    <div class="header-overlay"></div>
-    <div class="header-content">
-      <h1>ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</h1>
-      <p>Projeto CONECTA PET</p>
+  <!-- ===== HERO COMPACTO ===== -->
+  <header class="politica-hero">
+    <div class="politica-hero__overlay"></div>
+    <div class="politica-hero__content">
+      <h1>Animais para Adoção</h1>
+      <p>Encontre seu novo melhor amigo 🐾</p>
     </div>
   </header>
 
   <!-- ===== CONTEÚDO PRINCIPAL ===== -->
-  <main>
+  <main id="animais">
 
-    <!-- ===== ESTATÍSTICAS ===== -->
-    <section class="stats" aria-label="Estatísticas dos animais">
-      <div class="stats__item">
-        <span class="stats__numero" id="stats-gatos" aria-live="polite">—</span>
-        <span class="stats__label">🐱 Gatos esperando</span>
-      </div>
-      <div class="stats__divisor" aria-hidden="true"></div>
-      <div class="stats__item">
-        <span class="stats__numero" id="stats-cachorros" aria-live="polite">—</span>
-        <span class="stats__label">🐶 Cachorros esperando</span>
-      </div>
-      <div class="stats__divisor" aria-hidden="true"></div>
-      <div class="stats__item">
-        <span class="stats__numero" id="stats-total" aria-live="polite">—</span>
-        <span class="stats__label">🐾 Total de amiguinhos</span>
-      </div>
-    </section>
-
-    <!-- ===== ANIMAIS EM DESTAQUE ===== -->
-    <section class="destaques" aria-labelledby="titulo-destaques">
-      <header class="destaques__header">
-        <h2 id="titulo-destaques" class="page-title">ＡＮＩＭＡＩＳ　ＥＭ　ＤＥＳＴＡＱＵＥ</h2>
-        <p class="destaques__subtitulo">
-          Conheça alguns dos nossos amiguinhos que estão esperando por você 🐾
-        </p>
-      </header>
-
-      <!-- Lista de destaques (renderizada via JS) -->
-      <div class="animals" data-lista="destaques" aria-label="Animais em destaque">
-        <p class="mensagem-vazia" id="destaques-loading">Carregando amiguinhos... 🐾</p>
-      </div>
-
-      <!-- CTA principal -->
-      <div class="destaques__cta">
-        <a href="animais.html" class="btn-cta">
-          Ver todos os animais
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ===== CTA SECUNDÁRIO: SOBRE O PROJETO ===== -->
-    <section class="cta-sobre" aria-labelledby="titulo-cta-sobre">
-      <h2 id="titulo-cta-sobre">Por que adotar? 💛</h2>
-      <p>
-        Cada adoção transforma duas vidas: a do animal que ganha um lar
-        e a sua, que ganha um amigo para todas as horas.
-        Conheça nossa missão e descubra como você pode fazer parte dessa história.
+    <section class="intro">
+      <h2 class="page-title">ＡＮＩＭＡＩＳ　ＰＡＲＡ　Ａ　ＡＤＯÇÃＯ</h2>
+      <p class="text-center">
+        Cada um desses animaizinhos está esperando por uma nova chance.
+        No link abaixo, você será direcionado ao site oficial de adoção para conhecê-los melhor.
       </p>
-      <a href="sobre.html" class="btn-cta btn-cta--secundario">
-        Conhecer o projeto
-      </a>
     </section>
+
+    <!-- ===== BARRA DE FILTROS ===== -->
+    <section class="filtros" aria-label="Filtros e busca de animais">
+      <div class="filtros__busca">
+        <label for="busca" class="sr-only">Buscar animal por nome</label>
+        <span class="filtros__icone" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="busca"
+          class="filtros__input"
+          placeholder="Buscar pelo nome..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="filtros__grupo" role="group" aria-label="Filtrar por espécie">
+        <button type="button" class="filtro-btn is-active" data-filtro="todos" aria-pressed="true">
+          🐾 Todos
+        </button>
+        <button type="button" class="filtro-btn" data-filtro="gato" aria-pressed="false">
+          🐱 Gatos
+        </button>
+        <button type="button" class="filtro-btn" data-filtro="cachorro" aria-pressed="false">
+          🐶 Cachorros
+        </button>
+      </div>
+    </section>
+
+    <p class="filtros__contador" id="contador-resultados" aria-live="polite"></p>
+
+    <!-- GATOS -->
+    <section class="banner banner-gatos" data-secao="gato" aria-labelledby="titulo-gatos">
+      <h2 id="titulo-gatos" class="section-title">𝙶𝙰𝚃𝙾𝚂</h2>
+    </section>
+
+    <section class="animals" data-lista="gatos" data-secao="gato" aria-label="Lista de gatos para adoção">
+      <!-- Cards renderizados via JavaScript -->
+    </section>
+
+    <!-- CACHORROS -->
+    <section class="banner banner-dogs" data-secao="cachorro" aria-labelledby="titulo-cachorros">
+      <h2 id="titulo-cachorros" class="section-title">𝙲𝙰𝙲𝙷𝙾𝚁𝚁𝙾𝚂</h2>
+    </section>
+
+    <section class="animals" data-lista="cachorros" data-secao="cachorro" aria-label="Lista de cachorros para adoção">
+      <!-- Cards renderizados via JavaScript -->
+    </section>
+
+    <!-- ===== MENSAGEM DE VAZIO ===== -->
+    <div id="mensagem-vazio" class="mensagem-vazio-busca" hidden>
+      <div class="mensagem-vazio-busca__icone" aria-hidden="true">🐾</div>
+      <h2 class="mensagem-vazio-busca__titulo">Nenhum animal encontrado</h2>
+      <p class="mensagem-vazio-busca__texto">
+        Tente buscar por outro nome ou ajustar os filtros.
+      </p>
+      <button type="button" class="btn-limpar" id="limpar-filtros">
+        Limpar filtros
+      </button>
+    </div>
 
   </main>
 
@@ -241,8 +245,11 @@
     <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
   </button>
 
-  <!-- main.js será refatorado na próxima etapa (B.5) -->
-  <script type="module" src="scripts/main.js"></script>
+  <!-- 
+    Script: por enquanto reaproveita main.js (já refatorado na Etapa B.1).
+    Na Etapa B.3 vamos extrair pra animais-page.js (controlador dedicado).
+  -->
+  <script type="module" src="scripts/animais-page.js"></script>
 
 </body>
 </html>

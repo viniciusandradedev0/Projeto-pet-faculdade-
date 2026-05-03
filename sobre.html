@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conheça a missão do PAWS PLACE — projeto CONECTA PET que conecta animais resgatados a lares cheios de amor em Curitiba. 🐾">
+  <title>Sobre — PAWS PLACE</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
+  <script>
+    (function() {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
+  <!-- Favicon emoji 🐾 (SVG inline, zero requisição extra) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <noscript class="noscript-aviso">
+    Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
+  </noscript>
+
+  <!-- ===== MENU DE NAVEGAÇÃO (idêntico ao index.html) ===== -->
+  <nav class="menu" aria-label="Navegação principal">
+    <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
+    <ul class="menu-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html">Animais</a></li>
+      <li><a href="sobre.html" aria-current="page">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
+      <li>
+        <button
+          type="button"
+          id="toggle-tema"
+          class="toggle-tema"
+          aria-label="Alternar tema escuro"
+          aria-pressed="false"
+          title="Alternar tema"
+        >
+          <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+          <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main>
+
+    <!-- ===== HERO COMPACTO ===== -->
+    <section class="hero-pagina" aria-labelledby="titulo-sobre">
+      <div class="hero-pagina__conteudo">
+        <h1 id="titulo-sobre" class="hero-pagina__titulo">
+          Sobre o PAWS PLACE 🐾
+        </h1>
+        <p class="hero-pagina__subtitulo">
+          Conectando animais resgatados a lares cheios de amor.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== NOSSA MISSÃO ===== -->
+    <section class="missao" aria-labelledby="titulo-missao">
+      <div class="missao__icone" aria-hidden="true">💛</div>
+      <h2 id="titulo-missao" class="missao__titulo">Nossa missão</h2>
+      <p class="missao__texto">
+        O <strong>PAWS PLACE</strong> nasceu da convicção de que todo animal
+        merece um lar seguro e cheio de carinho. Atuamos como ponte entre
+        animais resgatados das ruas de Curitiba e famílias dispostas a
+        oferecer um novo começo.
+      </p>
+      <p class="missao__texto">
+        Acreditamos que <strong>adotar é um ato de amor</strong> — e que cada
+        adoção transforma duas vidas: a do animal e a da família que o recebe.
+      </p>
+    </section>
+
+    <!-- ===== COMO FUNCIONA ===== -->
+    <section class="como-funciona" aria-labelledby="titulo-como-funciona">
+      <header class="como-funciona__header">
+        <h2 id="titulo-como-funciona" class="page-title">ＣＯＭＯ　ＦＵＮＣＩＯＮＡ</h2>
+        <p class="como-funciona__subtitulo">
+          Três passos simples para transformar uma vida 🐾
+        </p>
+      </header>
+
+      <ol class="passos" role="list">
+        <li class="passo">
+          <div class="passo__numero" aria-hidden="true">1</div>
+          <h3 class="passo__titulo">Conheça</h3>
+          <p class="passo__descricao">
+            Explore nosso catálogo e encontre o amiguinho que mais combina
+            com você e sua família.
+          </p>
+        </li>
+
+        <li class="passo">
+          <div class="passo__numero" aria-hidden="true">2</div>
+          <h3 class="passo__titulo">Cadastre-se</h3>
+          <p class="passo__descricao">
+            Preencha o formulário de adoção. Nossa equipe entra em contato
+            para uma conversa breve sobre o processo.
+          </p>
+        </li>
+
+        <li class="passo">
+          <div class="passo__numero" aria-hidden="true">3</div>
+          <h3 class="passo__titulo">Ame</h3>
+          <p class="passo__descricao">
+            Após aprovação, você leva seu novo companheiro pra casa e ganha
+            um amigo pra vida toda. 🏡
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== NOSSOS VALORES ===== -->
+    <section class="valores" aria-labelledby="titulo-valores">
+      <header class="valores__header">
+        <h2 id="titulo-valores" class="page-title">ＮＯＳＳＯＳ　ＶＡＬＯＲＥＳ</h2>
+      </header>
+
+      <div class="valores__grid">
+        <article class="valor">
+          <div class="valor__icone" aria-hidden="true">❤️</div>
+          <h3 class="valor__titulo">Amor</h3>
+          <p class="valor__texto">
+            Cada animal é tratado com o carinho que merece, do resgate
+            até o lar definitivo.
+          </p>
+        </article>
+
+        <article class="valor">
+          <div class="valor__icone" aria-hidden="true">🤝</div>
+          <h3 class="valor__titulo">Respeito</h3>
+          <p class="valor__texto">
+            Respeitamos o tempo de cada animal e a realidade de cada família
+            que deseja adotar.
+          </p>
+        </article>
+
+        <article class="valor">
+          <div class="valor__icone" aria-hidden="true">🛡️</div>
+          <h3 class="valor__titulo">Cuidado</h3>
+          <p class="valor__texto">
+            Todos passam por avaliação veterinária antes de serem
+            disponibilizados para adoção.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== CTA FINAL ===== -->
+    <section class="cta-sobre" aria-labelledby="titulo-cta-final">
+      <h2 id="titulo-cta-final">Pronto para mudar uma vida? 💛</h2>
+      <p>
+        Conheça os animais que estão esperando por um lar agora mesmo.
+      </p>
+      <a href="animais.html" class="btn-cta">
+        Ver animais para adoção
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- ===== RODAPÉ (idêntico ao index.html) ===== -->
+  <footer>
+    <div class="footer-content">
+      <h3>Sobre Nós</h3>
+      <p>Você muda o mundo adotando um animal.<br>Mude o mundo desse animal. 🐾</p>
+      <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
+    </div>
+  </footer>
+
+  <!-- ===== BOTÃO VOLTAR AO TOPO (idêntico ao index.html) ===== -->
+  <button
+    type="button"
+    id="btn-voltar-topo"
+    class="btn-voltar-topo"
+    aria-label="Voltar ao topo da página"
+    title="Voltar ao topo"
+    hidden
+  >
+    <svg class="btn-voltar-topo__progresso" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="btn-voltar-topo__progresso-track" cx="22" cy="22" r="20" />
+      <circle class="btn-voltar-topo__progresso-fill" cx="22" cy="22" r="20" />
+    </svg>
+    <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
+  </button>
+
+  <!-- ===== SCRIPT ===== -->
+  <script type="module" src="scripts/sobre.js"></script>
+</body>
+</html>

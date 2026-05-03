@@ -1,0 +1,341 @@
+/* ============================================
+   contato.css
+   Estilos exclusivos da página contato.html
+   Reusa: .hero-pagina (sobre.css), .campo (components.css)
+   ============================================ */
+
+
+/* ============================================
+   GRID PRINCIPAL — FORM + INFOS
+   2 colunas no desktop, 1 coluna no mobile
+   ============================================ */
+
+.contato-grid {
+  max-width: 1200px;
+  margin: clamp(2rem, 4vw, 3rem) auto;
+  padding: 0 var(--espaco-lg);
+
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--espaco-2xl);
+  align-items: start;
+}
+
+
+/* ============================================
+   FORMULÁRIO
+   ============================================ */
+
+.contato-form {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  box-shadow: var(--sombra-suave);
+}
+
+.contato-form__titulo {
+  font-size: 1.5rem;
+  color: var(--cor-secundaria);
+  margin: 0 0 var(--espaco-xs);
+}
+
+.contato-form__subtitulo {
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  margin: 0 0 var(--espaco-lg);
+}
+
+/* Reusa .campo do components.css (estilos de input já prontos) */
+.contato-form .campo {
+  margin-bottom: var(--espaco-md);
+}
+
+.contato-form__botao {
+  /* Reusa .btn-modal--primario do components.css */
+  width: 100%;
+  margin-top: var(--espaco-sm);
+}
+
+
+/* ============================================
+   INFORMAÇÕES DE CONTATO
+   ============================================ */
+
+.contato-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+.contato-info__titulo {
+  font-size: 1.5rem;
+  color: var(--cor-secundaria);
+  margin: 0 0 var(--espaco-xs);
+}
+
+.contato-info__subtitulo {
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  margin: 0 0 var(--espaco-md);
+}
+
+/* Cards individuais (endereço, telefone, e-mail) */
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-md);
+  padding: var(--espaco-md);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicao);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Quando o item é link (tel:/mailto:), efeito hover */
+a.info-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--cor-primaria);
+  box-shadow: var(--sombra-forte);
+}
+
+a.info-item:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+.info-item__icone {
+  font-size: 1.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.info-item__conteudo {
+  flex: 1;
+  min-width: 0; /* permite quebra de texto longo */
+}
+
+.info-item__rotulo {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cor-texto-suave);
+  margin: 0 0 4px;
+}
+
+.info-item__valor {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--cor-texto);
+  margin: 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+
+/* ============================================
+   REDES SOCIAIS
+   ============================================ */
+
+.contato-redes {
+  margin-top: var(--espaco-sm);
+}
+
+.contato-redes__titulo {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cor-texto-suave);
+  margin: 0 0 var(--espaco-sm);
+}
+
+.contato-redes__lista {
+  display: flex;
+  gap: var(--espaco-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.rede-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-borda);
+  color: var(--cor-texto);
+  transition: var(--transicao);
+  text-decoration: none;
+}
+
+.rede-social svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.rede-social:hover {
+  transform: translateY(-3px) scale(1.08);
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: var(--cor-branca);
+  box-shadow: 0 6px 16px rgba(242, 143, 0, 0.35);
+}
+
+.rede-social:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+/* Cores específicas no hover (toque autoral por rede) */
+.rede-social--instagram:hover {
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(220, 39, 67, 0.4);
+}
+
+.rede-social--facebook:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  box-shadow: 0 6px 16px rgba(24, 119, 242, 0.4);
+}
+
+.rede-social--whatsapp:hover {
+  background: #25d366;
+  border-color: #25d366;
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.rede-social--youtube:hover {
+  background: #ff0000;
+  border-color: #ff0000;
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4);
+}
+
+
+/* ============================================
+   MAPA (iframe Google Maps responsivo)
+   ============================================ */
+
+.contato-mapa {
+  max-width: 1200px;
+  margin: clamp(2rem, 4vw, 3rem) auto;
+  padding: 0 var(--espaco-lg);
+}
+
+.contato-mapa__header {
+  text-align: center;
+  margin-bottom: var(--espaco-lg);
+}
+
+.contato-mapa__subtitulo {
+  font-size: 1rem;
+  color: var(--cor-texto-suave);
+  margin: var(--espaco-sm) auto 0;
+  max-width: 600px;
+}
+
+/* Wrapper com aspect-ratio fixo (responsivo, sem JS) */
+.contato-mapa__wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--raio-md);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  border: 1px solid var(--cor-borda);
+}
+
+.contato-mapa__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  /* No dark mode, "esmaece" um pouco o mapa pra combinar com o tema */
+  transition: filter 0.4s ease;
+}
+
+[data-tema="dark"] .contato-mapa__iframe {
+  filter: invert(0.88) hue-rotate(180deg) brightness(0.95);
+}
+
+
+/* ============================================
+   AJUSTES PARA TEMA ESCURO
+   ============================================ */
+
+[data-tema="dark"] .contato-form,
+[data-tema="dark"] .info-item {
+  background: var(--cor-superficie);
+  border-color: var(--cor-borda);
+}
+
+[data-tema="dark"] a.info-item:hover {
+  border-color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .rede-social {
+  background: var(--cor-superficie);
+  border-color: var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+
+/* ============================================
+   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  a.info-item:hover,
+  .rede-social:hover {
+    transform: none;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .contato-grid {
+    grid-template-columns: 1fr; /* empilha em telas médias */
+    gap: var(--espaco-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .contato-form {
+    padding: var(--espaco-lg) var(--espaco-md);
+  }
+
+  .info-item {
+    padding: var(--espaco-md) var(--espaco-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .contato-mapa__wrapper {
+    aspect-ratio: 4 / 3; /* mais alto no celular pra melhor visualização */
+  }
+
+  .rede-social {
+    width: 44px;
+    height: 44px;
+  }
+
+  .rede-social svg {
+    width: 20px;
+    height: 20px;
+  }
+}
