@@ -88,6 +88,13 @@
           </div>
 
           <div class="campo">
+            <label for="contato-telefone">Telefone *</label>
+            <input type="tel" id="contato-telefone" name="telefone" required autocomplete="tel" inputmode="tel"
+              placeholder="(41) 99999-9999" aria-describedby="erro-contato-telefone">
+            <small id="erro-contato-telefone" class="campo__erro" data-erro="telefone"></small>
+          </div>
+
+          <div class="campo">
             <label for="contato-assunto">Assunto *</label>
             <input type="text" id="contato-assunto" name="assunto" required minlength="3"
               placeholder="Sobre o que deseja falar?" aria-describedby="erro-contato-assunto">
@@ -104,7 +111,7 @@
           <!-- ===== CONSENTIMENTO LGPD ===== -->
           <div class="campo campo--consentimento">
             <p class="lgpd-finalidade">
-              🔒 <strong>Como usaremos seus dados:</strong> seu nome e e-mail serão
+              🔒 <strong>Como usaremos seus dados:</strong> seu nome, e-mail e telefone serão
               utilizados <strong>exclusivamente</strong> para responder sua mensagem.
               Não compartilhamos com terceiros nem enviamos newsletters.
             </p>
