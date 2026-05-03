@@ -1,0 +1,459 @@
+/* ============================================
+   POLÍTICA DE PRIVACIDADE
+   Estilos específicos da página politica-privacidade.html
+   Reutiliza tokens, menu, footer e toggle do main.css
+   ============================================ */
+
+/* ============================================
+   HERO COMPACTO
+   Header reduzido (sem galeria, só título)
+   ============================================ */
+
+.politica-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  padding: var(--espaco-2xl) var(--espaco-md);
+  text-align: center;
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+}
+
+.politica-hero::before {
+  /* Patinha decorativa de fundo */
+  content: '🐾';
+  position: absolute;
+  font-size: 12rem;
+  opacity: 0.08;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%) rotate(-15deg);
+  pointer-events: none;
+}
+
+.politica-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.05));
+  pointer-events: none;
+}
+
+.politica-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--cor-branca);
+}
+
+.politica-hero h1 {
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  margin-bottom: var(--espaco-sm);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.politica-hero p {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  opacity: 0.95;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   MAIN — CONTAINER DO CONTEÚDO
+   ============================================ */
+
+.politica {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: var(--espaco-2xl) var(--espaco-lg) var(--espaco-2xl);
+  color: var(--cor-texto);
+  line-height: 1.75;
+}
+
+/* ============================================
+   INTRO (data de atualização + resumo)
+   ============================================ */
+
+.politica__intro {
+  background: var(--cor-superficie);
+  border-left: 4px solid var(--cor-primaria);
+  border-radius: var(--raio-sm);
+  padding: var(--espaco-lg);
+  margin-bottom: var(--espaco-2xl);
+  box-shadow: var(--sombra-suave);
+}
+
+.politica__atualizacao {
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-sm);
+  padding-bottom: var(--espaco-sm);
+  border-bottom: 1px dashed var(--cor-borda);
+}
+
+.politica__atualizacao time {
+  font-weight: 600;
+  color: var(--cor-secundaria);
+}
+
+.politica__resumo {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.politica__resumo abbr {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  color: var(--cor-secundaria);
+}
+
+/* ============================================
+   SUMÁRIO NAVEGÁVEL
+   ============================================ */
+
+.politica__sumario {
+  background: var(--cor-superficie-secundaria);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-lg);
+  margin-bottom: var(--espaco-2xl);
+}
+
+.politica__sumario-titulo {
+  font-size: 1.1rem;
+  color: var(--cor-secundaria);
+  margin-bottom: var(--espaco-md);
+}
+
+.politica__sumario ol {
+  list-style: none;
+  counter-reset: item;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--espaco-xs) var(--espaco-md);
+  padding: 0;
+  margin: 0;
+}
+
+.politica__sumario li {
+  counter-increment: item;
+  position: relative;
+}
+
+.politica__sumario li::before {
+  content: counter(item, decimal-leading-zero);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  margin-right: var(--espaco-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.politica__sumario a {
+  color: var(--cor-texto);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: var(--transicao-rapida);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+
+.politica__sumario a:hover {
+  color: var(--cor-primaria);
+  border-bottom-color: var(--cor-primaria);
+}
+
+.politica__sumario a:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   SEÇÕES DA POLÍTICA
+   ============================================ */
+
+.politica__secao {
+  margin-bottom: var(--espaco-2xl);
+  /* scroll-margin: âncora não fica colada no menu sticky */
+  scroll-margin-top: 90px;
+}
+
+.politica__secao h2 {
+  color: var(--cor-secundaria);
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  margin-bottom: var(--espaco-md);
+  padding-bottom: var(--espaco-sm);
+  border-bottom: 2px solid var(--cor-primaria);
+  /* Hover suave caso adicione âncora visual no futuro */
+  transition: var(--transicao-rapida);
+}
+
+.politica__secao p {
+  margin-bottom: var(--espaco-md);
+  font-size: 1rem;
+}
+
+.politica__secao p:last-child {
+  margin-bottom: 0;
+}
+
+.politica__secao strong {
+  color: var(--cor-texto);
+  font-weight: 700;
+}
+
+.politica__secao em {
+  font-style: italic;
+  color: var(--cor-secundaria);
+}
+
+.politica__secao code {
+  background: var(--cor-superficie-secundaria);
+  border: 1px solid var(--cor-borda);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+  color: var(--cor-secundaria);
+}
+
+/* ============================================
+   LISTAS
+   ============================================ */
+
+.politica__lista {
+  list-style: none;
+  padding: 0;
+  margin: var(--espaco-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+.politica__lista li {
+  position: relative;
+  padding: var(--espaco-sm) var(--espaco-sm) var(--espaco-sm) var(--espaco-xl);
+  background: var(--cor-superficie-secundaria);
+  border-radius: var(--raio-sm);
+  border-left: 3px solid var(--cor-primaria);
+  transition: var(--transicao-rapida);
+}
+
+.politica__lista li::before {
+  content: '🐾';
+  position: absolute;
+  left: var(--espaco-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.politica__lista li:hover {
+  border-left-color: var(--cor-secundaria);
+  transform: translateX(3px);
+}
+
+/* Variante: lista de direitos (sem patinha, ícone vem do conteúdo) */
+.politica__lista--direitos li {
+  padding-left: var(--espaco-md);
+}
+
+.politica__lista--direitos li::before {
+  display: none;
+}
+
+/* ============================================
+   DESTAQUES (boxes informativos)
+   ============================================ */
+
+.politica__destaque {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 166, 0, 0.08),
+    rgba(163, 90, 17, 0.05)
+  );
+  border: 1px solid var(--cor-primaria);
+  border-radius: var(--raio-sm);
+  padding: var(--espaco-md);
+  margin: var(--espaco-md) 0;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   SEÇÃO DE CONTATO (DPO)
+   ============================================ */
+
+.politica__secao--contato .politica__contato-card {
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  color: var(--cor-branca);
+  padding: var(--espaco-lg);
+  border-radius: var(--raio-md);
+  box-shadow: var(--sombra-suave);
+  margin-top: var(--espaco-md);
+}
+
+.politica__secao--contato .politica__contato-card p {
+  margin: 0;
+  line-height: 2;
+}
+
+.politica__secao--contato .politica__contato-card strong {
+  color: var(--cor-branca);
+}
+
+.politica__link {
+  color: var(--cor-branca);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  padding-bottom: 1px;
+  transition: var(--transicao-rapida);
+}
+
+.politica__link:hover {
+  border-bottom-color: var(--cor-branca);
+  border-bottom-width: 2px;
+}
+
+.politica__link:focus-visible {
+  outline: 3px solid var(--cor-branca);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   BOTÃO VOLTAR
+   ============================================ */
+
+.politica__voltar {
+  text-align: center;
+  margin-top: var(--espaco-2xl);
+  padding-top: var(--espaco-xl);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.btn-voltar {
+  display: inline-block;
+  background: var(--cor-primaria);
+  color: var(--cor-branca);
+  padding: 12px 28px;
+  border-radius: var(--raio-pill);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: var(--transicao);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-voltar:hover {
+  background: var(--cor-primaria-escura);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.btn-voltar:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   AJUSTES PARA TEMA ESCURO
+   ============================================ */
+
+[data-tema="dark"] .politica__intro {
+  background: var(--cor-superficie);
+  border-left-color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .politica__sumario {
+  background: var(--cor-superficie-secundaria);
+  border-color: var(--cor-borda);
+}
+
+[data-tema="dark"] .politica__lista li {
+  background: var(--cor-superficie);
+  border-left-color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .politica__lista li:hover {
+  background: var(--cor-superficie-secundaria);
+}
+
+[data-tema="dark"] .politica__destaque {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 183, 51, 0.08),
+    rgba(212, 130, 58, 0.05)
+  );
+  border-color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .politica__secao code {
+  background: #2a2a2a;
+  border-color: var(--cor-borda);
+  color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .politica-hero {
+  background: linear-gradient(135deg, var(--cor-primaria-escura), #5a3900);
+}
+
+/* ============================================
+   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .politica__lista li:hover,
+  .btn-voltar:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .politica {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .politica-hero {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .politica-hero::before {
+    font-size: 8rem;
+    opacity: 0.06;
+  }
+
+  .politica__sumario ol {
+    grid-template-columns: 1fr;
+  }
+
+  .politica__intro,
+  .politica__sumario {
+    padding: var(--espaco-md);
+  }
+
+  .politica__lista li {
+    padding-left: var(--espaco-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .politica {
+    padding: var(--espaco-lg) var(--espaco-md);
+  }
+
+  .politica__secao {
+    margin-bottom: var(--espaco-xl);
+  }
+
+  .politica__secao--contato .politica__contato-card {
+    padding: var(--espaco-md);
+  }
+}
