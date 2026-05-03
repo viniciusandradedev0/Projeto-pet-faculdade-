@@ -1,0 +1,181 @@
+/* ============================================
+   home.css
+   Estilos exclusivos da home (index.html)
+   Integrado ao design system (tokens.css)
+   ============================================ */
+
+/* ===== ESTATÍSTICAS ===== */
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3rem);
+
+  max-width: 1100px;
+  margin: clamp(2rem, 5vw, 3.5rem) auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) var(--espaco-lg);
+
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  box-shadow: var(--sombra-suave);
+}
+
+.stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-sm);
+  text-align: center;
+  min-width: 140px;
+}
+
+.stats__numero {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--cor-primaria);
+  font-variant-numeric: tabular-nums;
+}
+
+.stats__label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+}
+
+.stats__divisor {
+  width: 1px;
+  height: 50px;
+  background: var(--cor-borda);
+}
+
+@media (max-width: 600px) {
+  .stats__divisor {
+    width: 60%;
+    height: 1px;
+  }
+}
+
+/* ===== SEÇÃO DE DESTAQUES ===== */
+.destaques {
+  max-width: 1200px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+  padding: 0 var(--espaco-lg);
+}
+
+.destaques__header {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.destaques__subtitulo {
+  font-size: 1.05rem;
+  color: var(--cor-texto-suave);
+  margin: var(--espaco-sm) auto 0;
+  max-width: 600px;
+}
+
+.destaques__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+/* ===== BOTÃO CTA ===== */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  padding: 0.9rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  background: var(--cor-primaria);
+  color: var(--cor-branca);
+  border: 2px solid var(--cor-primaria);
+  border-radius: var(--raio-pill);
+
+  transition: var(--transicao);
+  box-shadow: var(--sombra-suave);
+  cursor: pointer;
+}
+
+.btn-cta:hover {
+  transform: translateY(-2px);
+  background: var(--cor-primaria-escura);
+  border-color: var(--cor-primaria-escura);
+  box-shadow: var(--sombra-forte);
+}
+
+.btn-cta:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+.btn-cta:active {
+  transform: translateY(0);
+}
+
+/* Variante outline */
+.btn-cta--secundario {
+  background: transparent;
+  color: var(--cor-primaria);
+  box-shadow: none;
+}
+
+.btn-cta--secundario:hover {
+  background: var(--cor-primaria);
+  color: var(--cor-branca);
+}
+
+/* ===== BLOCO "POR QUE ADOTAR?" ===== */
+.cta-sobre {
+  max-width: 800px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+  padding: clamp(2rem, 5vw, 3rem) var(--espaco-lg);
+  text-align: center;
+
+  background: var(--cor-superficie-secundaria);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+}
+
+.cta-sobre h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  margin-bottom: var(--espaco-md);
+  color: var(--cor-texto);
+}
+
+.cta-sobre p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--cor-texto-suave);
+  margin: 0 auto var(--espaco-xl);
+  max-width: 600px;
+}
+
+/* ===== MENSAGEM VAZIA ===== */
+.mensagem-vazia {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--espaco-2xl) var(--espaco-md);
+  font-size: 1.1rem;
+  color: var(--cor-texto-suave);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 480px) {
+  .stats {
+    flex-direction: column;
+    gap: var(--espaco-lg);
+  }
+
+  .btn-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
