@@ -34,18 +34,21 @@ const PREFIXO = 'paws-';
  * Todas as chaves de storage do projeto.
  * Use SEMPRE essas constantes — nunca strings literais.
  *
- * 🔮 Fase 2 adicionará aqui: USUARIO, SESSAO, FAVORITOS, etc.
+ *  Fase 2
  */
 export const CHAVES = Object.freeze({
-  // === Já em uso na Fase 1 ===
+  // === Já em uso ===
   TEMA: `${PREFIXO}tema`,
   MENSAGEM_REDIRECT: `${PREFIXO}mensagem-redirect`,
 
-  // === Reservadas para Fase 2 (descomente quando usar) ===
-  // USUARIO: `${PREFIXO}usuario`,
-  // SESSAO: `${PREFIXO}sessao`,
-  // FAVORITOS: `${PREFIXO}favoritos`,
+  // === Autenticação (Fase 2) ===
+  USUARIOS: `${PREFIXO}usuarios`,           // lista de todos os usuários cadastrados
+  SESSAO: `${PREFIXO}sessao`,               // email do usuário logado no momento
+
+  // === Pedidos de adoção (Fase 2) ===
+  PEDIDOS: `${PREFIXO}pedidos`,             // lista de pedidos de adoção
 });
+
 
 // ============================================
 // FACTORY: cria uma API uniforme para qualquer Storage

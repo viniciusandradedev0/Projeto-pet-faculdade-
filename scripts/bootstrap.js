@@ -5,11 +5,8 @@
  * Responsabilidades:
  * 1. Tema claro/escuro (toggle + persistência)
  * 2. Botão "voltar ao topo"
- * 3. Toast de mensagem-redirect (vinda de outra página via sessionStorage)
- *
- * 🔮 Fase 2 adicionará aqui:
- * - Renovação de sessão (auth.js)
- * - Atualização do header com nome do usuário logado
+ * 3. Header dinâmico (estado de login)
+ * 4. Toast de mensagem-redirect (vinda de outra página via sessionStorage)
  *
  * USO:
  *   import { inicializarBootstrap } from './bootstrap.js';
@@ -21,6 +18,7 @@ import { inicializarTema } from './tema.js';
 import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
 import { mostrarToast } from './modal.js';
 import { sessao, CHAVES } from './storage.js';
+import { atualizarHeader } from './header.js';
 
 // ============================================
 // MENSAGEM-REDIRECT
@@ -71,5 +69,6 @@ function exibirMensagemRedirectPendente() {
 export function inicializarBootstrap() {
   inicializarTema();
   inicializarBotaoVoltarTopo();
+  atualizarHeader();              // Atualiza nav com estado de login
   exibirMensagemRedirectPendente();
 }
