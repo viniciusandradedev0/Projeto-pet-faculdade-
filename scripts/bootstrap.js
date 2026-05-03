@@ -20,16 +20,11 @@
 import { inicializarTema } from './tema.js';
 import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
 import { mostrarToast } from './modal.js';
+import { sessao, CHAVES } from './storage.js';
 
 // ============================================
 // MENSAGEM-REDIRECT
 // ============================================
-
-/**
- * Chave usada no sessionStorage para mensagens entre páginas.
- * Padrão: "paws-<contexto>" para evitar colisão com outros projetos no mesmo domínio.
- */
-const CHAVE_MENSAGEM_REDIRECT = 'paws-mensagem-redirect';
 
 /**
  * Salva uma mensagem para ser exibida na PRÓXIMA página carregada.
@@ -43,15 +38,7 @@ const CHAVE_MENSAGEM_REDIRECT = 'paws-mensagem-redirect';
  *   window.location.href = 'index.html';
  */
 export function salvarMensagemRedirect(texto, tipo = 'info') {
-  try {
-    sessionStorage.setItem(
-      CHAVE_MENSAGEM_REDIRECT,
-      JSON.stringify({ texto, tipo })
-    );
-  } catch (err) {
-    // sessionStorage pode estar bloqueado (modo privado restrito, cookies off)
-    console.warn('[bootstrap] Não foi possível salvar mensagem-redirect:', err);
-  }
+  sessao.salvar(CHAVES.MENSAGEM_REDIRECT, { texto, tipo });
 }
 
 /**
@@ -59,32 +46,12 @@ export function salvarMensagemRedirect(texto, tipo = 'info') {
  * Roda automaticamente em toda página via inicializarBootstrap().
  */
 function exibirMensagemRedirectPendente() {
-  let raw;
-  try {
-    raw = sessionStorage.getItem(CHAVE_MENSAGEM_REDIRECT);
-  } catch {
-    return; // sessionStorage indisponível → ignora silenciosamente
-  }
-
-  if (!raw) return;
+  const mensagem = sessao.ler(CHAVES.MENSAGEM_REDIRECT);
+  if (!mensagem?.texto) return;
 
   // Consome IMEDIATAMENTE (antes de exibir) para evitar duplicação
-  // se algo der errado no parse ou no toast.
-  try {
-    sessionStorage.removeItem(CHAVE_MENSAGEM_REDIRECT);
-  } catch {
-    /* noop */
-  }
-
-  let mensagem;
-  try {
-    mensagem = JSON.parse(raw);
-  } catch {
-    console.warn('[bootstrap] mensagem-redirect malformada, ignorando.');
-    return;
-  }
-
-  if (!mensagem?.texto) return;
+  // se algo der errado no toast.
+  sessao.remover(CHAVES.MENSAGEM_REDIRECT);
 
   // Pequeno delay para garantir que o toast-container já está no DOM
   // e a animação de entrada não compete com o paint inicial.
