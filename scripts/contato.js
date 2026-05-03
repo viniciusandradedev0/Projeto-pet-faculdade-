@@ -3,8 +3,7 @@
  * Controlador da página /contato.html
  */
 
-import { inicializarTema } from './tema.js';
-import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
+import { inicializarBootstrap } from './bootstrap.js';
 import { mostrarToast } from './modal.js';
 import {
   validarFormulario,
@@ -27,13 +26,13 @@ function inicializarFormularioContato() {
     e.preventDefault();
 
     const { ok, primeiroInvalido } = validarFormulario(form, [
-  'nome',
-  'email',
-  'telefone',
-  'assunto',
-  'mensagem',
-  'consentimento',
-]);
+      'nome',
+      'email',
+      'telefone',
+      'assunto',
+      'mensagem',
+      'consentimento',
+    ]);
 
     if (!ok) {
       primeiroInvalido?.focus();
@@ -60,8 +59,7 @@ function inicializarFormularioContato() {
 }
 
 function init() {
-  inicializarTema();
-  inicializarBotaoVoltarTopo();
+  inicializarBootstrap();
   inicializarFormularioContato();
 }
 

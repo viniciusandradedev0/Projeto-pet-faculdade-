@@ -16,17 +16,15 @@ import { carregarAnimais } from './data.js';
 import { renderizarPorEspecie } from './render.js';
 import { inicializarFiltros } from './filtros.js';
 import { conectarBotoesAdotar, inicializarModalAdocao } from './modal.js';
-import { inicializarTema } from './tema.js';
-import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
+import { inicializarBootstrap } from './bootstrap.js';
 import { observarCards } from './animacoes.js';
 
 /**
  * Bootstrap da página de animais.
  */
 async function init() {
-  // === Componentes globais (presentes em todas as páginas) ===
-  inicializarTema();
-  inicializarBotaoVoltarTopo();
+  // === Componentes globais (tema + voltar-topo + mensagem-redirect) ===
+  inicializarBootstrap();
 
   // === Modal de adoção (específico desta página + home) ===
   inicializarModalAdocao();

@@ -3,7 +3,7 @@
  * Controlador da página /sobre.html
  *
  * Responsabilidades:
- * - Inicializar componentes globais (tema + voltar-ao-topo)
+ * - Inicializar componentes globais (via bootstrap)
  *
  * Esta página é estática (sem dados dinâmicos), portanto NÃO usa:
  * - data.js / render.js  → não há cards de animais
@@ -14,15 +14,13 @@
  * Reusa 100% dos módulos compartilhados — zero duplicação de código.
  */
 
-import { inicializarTema } from './tema.js';
-import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
+import { inicializarBootstrap } from './bootstrap.js';
 
 /**
  * Bootstrap da página Sobre.
  */
 function init() {
-  inicializarTema();
-  inicializarBotaoVoltarTopo();
+  inicializarBootstrap();
 }
 
 // === Bootstrap idempotente ===
