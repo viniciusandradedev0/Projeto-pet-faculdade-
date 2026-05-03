@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesse sua conta no PAWS PLACE para acompanhar seus pedidos de adoção. 🐾">
+  <title>Entrar — PAWS PLACE</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
+  <script>
+    (function() {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
+  <!-- Favicon emoji 🐾 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <noscript class="noscript-aviso">
+    Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
+  </noscript>
+
+  <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+  <nav class="menu" aria-label="Navegação principal">
+    <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
+    <ul class="menu-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html">Animais</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
+      <li>
+        <button
+          type="button"
+          id="toggle-tema"
+          class="toggle-tema"
+          aria-label="Alternar tema escuro"
+          aria-pressed="false"
+          title="Alternar tema"
+        >
+          <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+          <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="auth-page">
+
+    <section class="auth-card" aria-labelledby="titulo-login">
+      <header class="auth-card__header">
+        <div class="auth-card__icone" aria-hidden="true">🐾</div>
+        <h1 id="titulo-login" class="auth-card__titulo">Bem-vindo de volta!</h1>
+        <p class="auth-card__subtitulo">
+          Entre na sua conta para acompanhar seus pedidos de adoção.
+        </p>
+      </header>
+
+      <form id="form-login" class="auth-form" novalidate>
+
+        <div class="campo">
+          <label for="login-email">E-mail *</label>
+          <input
+            type="email"
+            id="login-email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="seu@email.com"
+            aria-describedby="erro-login-email"
+          >
+          <small id="erro-login-email" class="campo__erro" data-erro="email"></small>
+        </div>
+
+        <div class="campo">
+          <label for="login-senha">Senha *</label>
+          <div class="campo-senha">
+            <input
+              type="password"
+              id="login-senha"
+              name="senha"
+              required
+              autocomplete="current-password"
+              placeholder="Sua senha"
+              aria-describedby="erro-login-senha"
+            >
+            <button
+              type="button"
+              class="campo-senha__toggle"
+              id="toggle-senha"
+              aria-label="Mostrar senha"
+              aria-pressed="false"
+              title="Mostrar/ocultar senha"
+            >
+              <!-- Olho ABERTO (senha oculta = estado inicial) -->
+              <svg class="campo-senha__icone campo-senha__icone--aberto"
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+
+              <!-- Olho RISCADO (senha visível) -->
+              <svg class="campo-senha__icone campo-senha__icone--fechado"
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                <line x1="2" x2="22" y1="2" y2="22"/>
+              </svg>
+            </button>
+          </div>
+          <small id="erro-login-senha" class="campo__erro" data-erro="senha"></small>
+        </div>
+
+        <div class="auth-form__opcoes">
+          <label class="checkbox-simples" for="login-lembrar">
+            <input type="checkbox" id="login-lembrar" name="lembrar">
+            <span>Lembrar de mim</span>
+          </label>
+
+          <a href="#" class="auth-form__esqueci" id="link-esqueci-senha">
+            Esqueci minha senha
+          </a>
+        </div>
+
+        <button type="submit" class="btn-modal btn-modal--primario auth-form__botao" id="btn-entrar">
+          Entrar 🔓
+        </button>
+
+      </form>
+
+      <footer class="auth-card__footer">
+        <p>
+          Ainda não tem conta?
+          <a href="cadastro.html" class="auth-card__link-destaque">Cadastre-se grátis</a>
+        </p>
+      </footer>
+
+    </section>
+
+  </main>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    <div class="footer-content">
+      <h3>Sobre Nós</h3>
+      <p>Você muda o mundo adotando um animal.<br>Mude o mundo desse animal. 🐾</p>
+      <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
+    </div>
+  </footer>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== SCRIPT ===== -->
+  <script type="module" src="scripts/login.js"></script>
+
+</body>
+</html>

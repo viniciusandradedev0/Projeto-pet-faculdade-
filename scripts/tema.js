@@ -1,10 +1,10 @@
 /**
  * tema.js
- * Gerencia o tema claro/escuro com persistência em localStorage.
+ * Gerencia o tema claro/escuro com persistência via storage.js.
  * O tema inicial já foi aplicado no <head> (anti-flash).
  */
 
-const STORAGE_KEY = 'paws-tema';
+import { storage, CHAVES } from './storage.js';
 
 /**
  * Retorna o tema atualmente aplicado no <html>.
@@ -18,7 +18,7 @@ function obterTemaAtual() {
  */
 function aplicarTema(tema) {
   document.documentElement.setAttribute('data-tema', tema);
-  localStorage.setItem(STORAGE_KEY, tema);
+  storage.salvar(CHAVES.TEMA, tema);
 
   const botao = document.getElementById('toggle-tema');
   if (botao) {
@@ -49,7 +49,8 @@ export function inicializarTema() {
   // Acompanha mudanças do SO (apenas se usuário NUNCA escolheu manualmente)
   const preferenciaCor = window.matchMedia('(prefers-color-scheme: dark)');
   const atualizarTemaDoSO = (e) => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    // Se ainda não há preferência salva, segue o SO
+    if (storage.ler(CHAVES.TEMA) === null) {
       aplicarTema(e.matches ? 'dark' : 'light');
     }
   };

@@ -7,7 +7,7 @@
  * - Atualizar estatísticas (contadores)
  * - Sortear e renderizar 4 animais em destaque
  * - Conectar modal de adoção nos cards de destaque
- * - Inicializar componentes globais (tema, voltar-ao-topo, fade-in)
+ * - Inicializar componentes globais (via bootstrap)
  *
  * NÃO inclui filtros nem busca — esses são exclusivos de animais.html.
  */
@@ -15,8 +15,7 @@
 import { carregarAnimais } from './data.js';
 import { renderizarAnimais } from './render.js';
 import { conectarBotoesAdotar, inicializarModalAdocao } from './modal.js';
-import { inicializarTema } from './tema.js';
-import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
+import { inicializarBootstrap } from './bootstrap.js';
 import { observarCards } from './animacoes.js';
 
 
@@ -125,9 +124,10 @@ function mostrarErroCarregamento() {
  * Bootstrap da home.
  */
 async function init() {
-  // === Componentes globais ===
-  inicializarTema();
-  inicializarBotaoVoltarTopo();
+  // === Componentes globais (tema + voltar-topo + mensagem-redirect) ===
+  inicializarBootstrap();
+
+  // === Modal de adoção (específico desta página + animais.html) ===
   inicializarModalAdocao();
 
   // === Carrega dados ===

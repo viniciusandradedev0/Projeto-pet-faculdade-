@@ -1,0 +1,305 @@
+/* ============================================
+   AUTH — páginas de Login e Cadastro
+   Card centralizado com formulário.
+   Reaproveita tokens, .campo, .checkbox-lgpd e .btn-modal
+   já existentes no projeto.
+   ============================================ */
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 3rem 1rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 152, 0, 0.06), transparent 60%);
+}
+
+[data-tema="dark"] .auth-page {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.05), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 152, 0, 0.04), transparent 60%);
+}
+
+/* ===== CARD ===== */
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--cor-fundo-card, #fff);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.06));
+  animation: auth-card-entrada 0.4s ease-out;
+}
+
+[data-tema="dark"] .auth-card {
+  background: var(--cor-fundo-card, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes auth-card-entrada {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== HEADER DO CARD ===== */
+.auth-card__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-card__icone {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  animation: auth-icone-pulso 2.5s ease-in-out infinite;
+}
+
+@keyframes auth-icone-pulso {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+
+.auth-card__titulo {
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--cor-texto, inherit);
+  font-weight: 700;
+}
+
+.auth-card__subtitulo {
+  margin: 0;
+  color: var(--cor-texto-suave, #666);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+[data-tema="dark"] .auth-card__subtitulo {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* ===== FORMULÁRIO ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ============================================
+   CAMPO DE SENHA (com toggle SVG de visibilidade)
+   ============================================ */
+.campo-senha {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.campo-senha input {
+  width: 100%;
+  padding-right: 3rem;
+}
+
+.campo-senha__toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cor-texto-suave, #6b7280);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.campo-senha__toggle:hover,
+.campo-senha__toggle:focus-visible {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--cor-primaria, #ff9800);
+  outline: none;
+}
+
+[data-tema="dark"] .campo-senha__toggle {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+[data-tema="dark"] .campo-senha__toggle:hover,
+[data-tema="dark"] .campo-senha__toggle:focus-visible {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--cor-primaria, #ffb733);
+}
+
+/* Ícone SVG (herda cor via currentColor) */
+.campo-senha__icone {
+  width: 20px;
+  height: 20px;
+  display: block;
+  pointer-events: none;
+}
+
+/* Estado padrão: senha OCULTA → mostra olho aberto, esconde fechado */
+.campo-senha__icone--fechado {
+  display: none;
+}
+
+/* Quando senha VISÍVEL (aria-pressed="true"): inverte */
+.campo-senha__toggle[aria-pressed="true"] .campo-senha__icone--aberto {
+  display: none;
+}
+
+.campo-senha__toggle[aria-pressed="true"] .campo-senha__icone--fechado {
+  display: block;
+}
+
+/* ===== OPÇÕES (lembrar + esqueci senha) ===== */
+.auth-form__opcoes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: -0.25rem;
+}
+
+.checkbox-simples {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--cor-texto, inherit);
+  user-select: none;
+}
+
+.checkbox-simples input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--cor-primaria, #ff9800);
+}
+
+.auth-form__esqueci {
+  font-size: 0.9rem;
+  color: var(--cor-primaria, #ff9800);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.auth-form__esqueci:hover,
+.auth-form__esqueci:focus-visible {
+  opacity: 0.8;
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ===== BOTÃO PRINCIPAL ===== */
+.auth-form__botao {
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  padding: 0.85rem 1.5rem;
+  position: relative;
+}
+
+.auth-form__botao.is-loading {
+  pointer-events: none;
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.auth-form__botao.is-loading::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: auth-spinner 0.7s linear infinite;
+}
+
+@keyframes auth-spinner {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ===== FOOTER DO CARD ===== */
+.auth-card__footer {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.08));
+  text-align: center;
+}
+
+[data-tema="dark"] .auth-card__footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.auth-card__footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave, #666);
+}
+
+[data-tema="dark"] .auth-card__footer p {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+.auth-card__link-destaque {
+  color: var(--cor-primaria, #ff9800);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.auth-card__link-destaque:hover,
+.auth-card__link-destaque:focus-visible {
+  opacity: 0.8;
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 520px) {
+  .auth-page    { padding: 1.5rem 0.75rem; }
+  .auth-card    { padding: 2rem 1.25rem; border-radius: 12px; }
+  .auth-card__titulo { font-size: 1.5rem; }
+  .auth-card__icone  { font-size: 2.5rem; }
+}
+
+/* ============================================
+   CADASTRO — variantes do auth-card
+   ============================================ */
+
+/* Card de cadastro um pouco mais largo (mais campos) */
+.auth-card--cadastro {
+  max-width: 480px;
+}
+
+/* Dica abaixo do campo de senha */
+.campo__dica {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.82rem;
+  color: var(--cor-texto-secundario, #888);
+  opacity: 0.85;
+}
+
+/* Quando o campo tem erro, esconde a dica pra não competir visualmente */
+.campo--invalido ~ .campo__dica {
+  display: none;
+}

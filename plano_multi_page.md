@@ -12,7 +12,6 @@
 - [x] Sistema de design tokens (CSS variables)
 - [x] Tema claro/escuro com persistência
 - [x] Listagem de animais com dados em JSON
-- [x] Filtros (espécie, porte, idade)
 - [x] Modal de detalhes do animal
 - [x] Página de Política de Privacidade
 - [x] Botão "Voltar ao topo" com anel de progresso
@@ -58,16 +57,13 @@ PROJETO-PET-FACULDADE/
 
 | Fase | Objetivo | Status |
 |---|---|---|
-| **Fase 1** | Migração para Multi-page (rotas reais) | ⏳ Próxima |
+| **Fase 1** | Migração para Multi-page (rotas reais) | Ok |
 | **Fase 2** | Páginas de Login e Pedidos de Adoção | 🔜 Após Fase 1 |
 
 ## ❓ PERGUNTAS PENDENTES (responder antes de começar Etapa B)
 
-1. **🗂️ Estrutura proposta:** OK? Algo a alterar?
-
 # 🔐 FASE 2 — LOGIN E PEDIDOS DE ADOÇÃO
 
-> ⚠️ **ATENÇÃO:** Esta será a **fase atual do projeto após concluir a Fase 1**.
 > A implementação **se limitará exclusivamente** às funcionalidades descritas abaixo.
 
 ## 🎯 Objetivo

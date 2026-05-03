@@ -2,31 +2,31 @@
  * modal.js
  * Gerencia o modal de adoção, validação do formulário e toasts de feedback.
  *
- * Uso:
- *   import { inicializarModalAdocao, conectarBotoesAdotar, mostrarToast } from './modal.js';
- *   inicializarModalAdocao();   // 1x por página (se houver modal)
- *   conectarBotoesAdotar();     // após renderizar os cards
+ * ⚠️ NOTA: Na Fase 2, o modal de adoção será substituído pela página adotar.html.
+ * Este arquivo continuará exportando mostrarToast() (usado em todo o site).
  */
 
-// === ÍCONES DOS TOASTS (constante de módulo, não depende do DOM) ===
+import {
+  validarCampo,
+  validarFormulario,
+  conectarValidacaoAoVivo,
+  limparErros,
+} from './validacao.js';
+
+// === ÍCONES DOS TOASTS ===
 const ICONES_TOAST = {
   sucesso: '✅',
   erro: '⚠️',
   info: 'ℹ️',
 };
 
-// === ESTADO INTERNO DO MÓDULO ===
-// Guardado em closure pra que conectarBotoesAdotar() saiba se o modal existe.
+// === ESTADO INTERNO ===
 let modalRef = null;
 let tituloAnimalRef = null;
 const supportsDialog = typeof HTMLDialogElement === 'function';
 
-/**
- * Fecha o modal (com fallback para navegadores sem suporte a <dialog>).
- */
 function fecharModal() {
   if (!modalRef) return;
-
   if (supportsDialog && typeof modalRef.close === 'function') {
     modalRef.close();
   } else {
@@ -34,10 +34,6 @@ function fecharModal() {
   }
 }
 
-/**
- * Abre o modal pré-preenchendo o nome do animal.
- * Move o foco para o primeiro campo (acessibilidade).
- */
 export function abrirModalAdocao(nomeAnimal) {
   if (!modalRef || !tituloAnimalRef) {
     console.warn('⚠️ Modal não inicializado nesta página.');
@@ -55,10 +51,6 @@ export function abrirModalAdocao(nomeAnimal) {
   setTimeout(() => document.getElementById('form-nome')?.focus(), 50);
 }
 
-/**
- * Mostra uma notificação toast.
- * Funciona em qualquer página que tenha #toast-container.
- */
 export function mostrarToast(mensagem, tipo = 'info', duracao = 4000) {
   const toastContainer = document.getElementById('toast-container');
   if (!toastContainer) {
@@ -81,15 +73,9 @@ export function mostrarToast(mensagem, tipo = 'info', duracao = 4000) {
   }, duracao);
 }
 
-/**
- * Conecta os cliques dos botões "ADOTAR" em todos os containers [data-lista].
- * Pode ser chamada múltiplas vezes (ex.: após filtros), pois usa delegação.
- *
- * ⚠️ Para evitar handlers duplicados, marcamos o container com data-adotar-conectado.
- */
 export function conectarBotoesAdotar() {
   document.querySelectorAll('[data-lista]').forEach((container) => {
-    if (container.dataset.adotarConectado === 'true') return; // já conectado
+    if (container.dataset.adotarConectado === 'true') return;
 
     container.addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-adotar');
@@ -103,65 +89,16 @@ export function conectarBotoesAdotar() {
 }
 
 // ============================================
-// VALIDADORES (PT-BR)
+// INICIALIZAÇÃO
 // ============================================
 
-const validadores = {
-  nome: (v) =>
-    v.trim().length >= 3 || 'Informe seu nome completo (mínimo 3 letras).',
-  email: (v) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Digite um e-mail válido.',
-  telefone: (v) =>
-    v.replace(/\D/g, '').length >= 10 ||
-    'Telefone deve ter DDD + número (mín. 10 dígitos).',
-  consentimento: (_, campo) =>
-    campo.checked ||
-    'Você precisa concordar com a Política de Privacidade para continuar.',
-};
-
-/**
- * Valida um único campo, atualizando ARIA e a mensagem de erro visível.
- */
-function validarCampo(form, campo) {
-  const validador = validadores[campo.name];
-  if (!validador) return true;
-
-  const valor = campo.type === 'checkbox' ? campo.checked : campo.value;
-  const resultado = validador(valor, campo);
-  const erroEl = form.querySelector(`[data-erro="${campo.name}"]`);
-
-  if (resultado === true) {
-    campo.removeAttribute('aria-invalid');
-    if (erroEl) erroEl.textContent = '';
-    return true;
-  }
-
-  campo.setAttribute('aria-invalid', 'true');
-  if (erroEl) erroEl.textContent = resultado;
-  return false;
-}
-
-// ============================================
-// INICIALIZAÇÃO (chamar 1x por página)
-// ============================================
-
-/**
- * Inicializa o modal de adoção:
- * - Conecta listeners de fechar (backdrop, botões, ESC nativo do <dialog>)
- * - Conecta validação dos campos
- * - Conecta envio do formulário
- *
- * Sai silenciosamente se a página não tiver o modal.
- */
 export function inicializarModalAdocao() {
   const modal = document.getElementById('modal-adocao');
   const form = document.getElementById('form-adocao');
   const tituloAnimal = document.getElementById('modal-nome-animal');
 
-  // Guard clause: página não tem modal → sai sem erro
   if (!modal || !form || !tituloAnimal) return;
 
-  // Salva referências no escopo do módulo (acessadas por abrirModalAdocao)
   modalRef = modal;
   tituloAnimalRef = tituloAnimal;
 
@@ -172,39 +109,27 @@ export function inicializarModalAdocao() {
     }
   });
 
-  // === Reset do form ao fechar (ESC nativo do <dialog> também dispara 'close') ===
+  // === Reset do form ao fechar ===
   modal.addEventListener('close', () => {
     form.reset();
-    form.querySelectorAll('[aria-invalid="true"]').forEach((el) =>
-      el.removeAttribute('aria-invalid')
-    );
-    form.querySelectorAll('.campo__erro').forEach((el) => (el.textContent = ''));
+    limparErros(form); // ← agora vem do módulo central
   });
 
-  // === Validação on-blur (ou on-change pra checkbox) ===
-  form.querySelectorAll('input, textarea').forEach((campo) => {
-    const evento = campo.type === 'checkbox' ? 'change' : 'blur';
-    campo.addEventListener(evento, () => validarCampo(form, campo));
-  });
+  // === Validação on-blur (módulo central) ===
+  conectarValidacaoAoVivo(form);
 
   // === Submit ===
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const camposObrigatorios = ['nome', 'email', 'telefone', 'consentimento'];
-    let tudoOk = true;
-    let primeiroInvalido = null;
+    const { ok, primeiroInvalido } = validarFormulario(form, [
+      'nome',
+      'email',
+      'telefone',
+      'consentimento',
+    ]);
 
-    camposObrigatorios.forEach((nome) => {
-      const campo = form.elements[nome];
-      if (!campo) return;
-      if (!validarCampo(form, campo)) {
-        tudoOk = false;
-        if (!primeiroInvalido) primeiroInvalido = campo;
-      }
-    });
-
-    if (!tudoOk) {
+    if (!ok) {
       primeiroInvalido?.focus();
       mostrarToast('⚠️ Verifique os campos destacados.', 'erro');
       return;
