@@ -1135,6 +1135,170 @@ footer {
 }
 
 /* ============================================
+   BOTÃO VOLTAR AO TOPO
+   - Fixo no canto inferior direito
+   - Anel SVG de progresso (% rolado da página)
+   - Aparece só após scroll significativo
+   - Acessível (aria-label, focus-visible, reduced-motion)
+   ============================================ */
+
+.btn-voltar-topo {
+  /* Posicionamento fixo no canto inferior direito */
+  position: fixed;
+  bottom: var(--espaco-xl);
+  right: var(--espaco-xl);
+  z-index: 999;
+
+  /* Tamanho e formato circular */
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  /* Gradiente da marca (mesmo do menu/header) */
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  color: var(--cor-branca);
+
+  /* Sombra suave com tom da marca */
+  box-shadow:
+    0 4px 14px rgba(242, 143, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+
+  /* Centraliza o conteúdo (SVG + seta) */
+  display: grid;
+  place-items: center;
+
+  /* Estado inicial: invisível e deslocado pra baixo */
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  pointer-events: none;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.4s ease;
+}
+
+/* === Estado visível (controlado por JS) === */
+.btn-voltar-topo.is-visivel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* === Hover (eleva e intensifica sombra) === */
+.btn-voltar-topo:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow:
+    0 8px 20px rgba(242, 143, 0, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* === Active (efeito de pressionar) === */
+.btn-voltar-topo:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* === Foco acessível === */
+.btn-voltar-topo:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 4px;
+}
+
+/* === Anel SVG de progresso === */
+.btn-voltar-topo__progresso {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Rotaciona pra começar do topo (12h) em vez da direita (3h) */
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+/* Track: círculo de fundo do anel */
+.btn-voltar-topo__progresso-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 2.5;
+}
+
+/* Fill: círculo que se preenche com o scroll */
+.btn-voltar-topo__progresso-fill {
+  fill: none;
+  stroke: var(--cor-branca);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+
+  /* Circunferência = 2 * π * r = 2 * π * 20 ≈ 125.66 */
+  stroke-dasharray: 125.66;
+  /* Estado inicial: 100% "vazio" (vai diminuindo com o scroll) */
+  stroke-dashoffset: 125.66;
+
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* === Ícone (seta) === */
+.btn-voltar-topo__icone {
+  position: relative;
+  z-index: 1;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  /* Pequena animação de "subir" no hover */
+  transition: transform 0.3s ease;
+}
+
+.btn-voltar-topo:hover .btn-voltar-topo__icone {
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   AJUSTES DARK MODE
+   ============================================ */
+
+[data-tema="dark"] .btn-voltar-topo {
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  box-shadow:
+    0 4px 14px rgba(255, 183, 51, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+[data-tema="dark"] .btn-voltar-topo:hover {
+  box-shadow:
+    0 8px 20px rgba(255, 183, 51, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+[data-tema="dark"] .btn-voltar-topo__progresso-track {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-voltar-topo,
+  .btn-voltar-topo__icone,
+  .btn-voltar-topo__progresso-fill {
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-voltar-topo:hover {
+    transform: none;
+  }
+
+  .btn-voltar-topo:hover .btn-voltar-topo__icone {
+    transform: none;
+  }
+}
+
+/* ============================================
    RESPONSIVIDADE
    ============================================ */
 

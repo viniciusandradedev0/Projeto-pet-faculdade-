@@ -8,11 +8,13 @@ import { renderizarPorEspecie } from './render.js';
 import { inicializarFiltros } from './filtros.js';
 import { conectarBotoesAdotar } from './modal.js';
 import { inicializarTema } from './tema.js';
+import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
 import { observarCards } from './animacoes.js';
 
 async function init() {
   // Tema (sincroniza ARIA do botão com o tema já aplicado)
   inicializarTema();
+  inicializarBotaoVoltarTopo();
 
   const animais = await carregarAnimais();
 

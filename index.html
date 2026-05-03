@@ -17,6 +17,8 @@
     })();
   </script>
 
+  <!-- Favicon emoji 🐾 (SVG inline, zero requisição extra) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
@@ -235,6 +237,22 @@
 
 <!-- ===== TOAST ===== -->
 <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+<button
+  type="button"
+  id="btn-voltar-topo"
+  class="btn-voltar-topo"
+  aria-label="Voltar ao topo da página"
+  title="Voltar ao topo"
+  hidden
+>
+  <svg class="btn-voltar-topo__progresso" viewBox="0 0 44 44" aria-hidden="true">
+    <circle class="btn-voltar-topo__progresso-track" cx="22" cy="22" r="20" />
+    <circle class="btn-voltar-topo__progresso-fill" cx="22" cy="22" r="20" />
+  </svg>
+  <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
+</button>
 
 <!-- Scripts (módulos ES6) -->
 <script type="module" src="scripts/main.js"></script>
