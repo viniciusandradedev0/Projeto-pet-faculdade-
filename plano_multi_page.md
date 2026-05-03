@@ -75,7 +75,7 @@ Transformar o site **single-page com scroll** em um **site multi-page** com rota
 ### 📍 Etapa E — Componentizar header/footer (avaliar estratégia)
 
 ---
-
+---------------------------------------------------------------------
 ## 📂 ESTRUTURA PROPOSTA (após Fase 1)
 
 ```
@@ -160,30 +160,30 @@ PAWS-PLACE-PROJECT/
 
 ## 📋 MAPEAMENTO DE CONTEÚDO POR PÁGINA
 
-### `index.html` (HOME)
-- Hero (mantém atual)
-- Seção "Animais em destaque" (3-4 pets) + botão "Ver todos →"
-- Seção curta "Como adotar" (3 passos)
-- CTA para contato
-- ❌ Remove: lista completa + filtros (migra para `animais.html`)
+  ### `index.html` (HOME)
+  - Hero (mantém atual)
+  - Seção "Animais em destaque" (3-4 pets) + botão "Ver todos →"
+  - Seção curta "Como adotar" (3 passos)
+  - CTA para contato
+  - ❌ Remove: lista completa + filtros (migra para `animais.html`)
 
-### `animais.html` 🆕
-- Cabeçalho: "Nossos amiguinhos"
-- Filtros (espécie, porte, idade)
-- Grid completo de animais
-- Modal de detalhes
+  ### `animais.html` 🆕
+  - Cabeçalho: "Nossos amiguinhos"
+  - Filtros (espécie, porte, idade)
+  - Grid completo de animais
+  - Modal de detalhes
 
-### `sobre.html` 🆕
-- Missão, visão, valores
-- História da ONG
-- Equipe (placeholder inicial)
+  ### `sobre.html` 🆕
+  - Missão, visão, valores
+  - História da ONG
+  - Equipe (placeholder inicial)
 
-### `contato.html` 🆕
-- Formulário (nome, email, mensagem)
-- Informações: endereço, telefone, e-mail, redes sociais
-- Mapa (placeholder inicial)
+  ### `contato.html` 🆕
+  - Formulário (nome, email, mensagem)
+  - Informações: endereço, telefone, e-mail, redes sociais
+  - Mapa (placeholder inicial)
 
----
+  ---
 
 ## ❓ PERGUNTAS PENDENTES (responder antes de começar Etapa B)
 

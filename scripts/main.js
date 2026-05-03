@@ -1,34 +1,29 @@
-/**
- * main.js
- * Ponto de entrada da aplicação.
- */
+// scripts/main.js (apenas o trecho que muda)
 
 import { carregarAnimais } from './data.js';
 import { renderizarPorEspecie } from './render.js';
 import { inicializarFiltros } from './filtros.js';
-import { conectarBotoesAdotar } from './modal.js';
+// ⬇️ ADICIONAR inicializarModalAdocao
+import { conectarBotoesAdotar, inicializarModalAdocao } from './modal.js';
 import { inicializarTema } from './tema.js';
 import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
 import { observarCards } from './animacoes.js';
 
 async function init() {
-  // Tema (sincroniza ARIA do botão com o tema já aplicado)
   inicializarTema();
   inicializarBotaoVoltarTopo();
+  inicializarModalAdocao();   // ⬅️ NOVO
 
   const animais = await carregarAnimais();
 
-  // Render inicial + fade-in
   renderizarPorEspecie(animais);
   observarCards();
 
-  // Filtros: re-renderiza E re-observa cards novos
   inicializarFiltros(animais, (filtrados) => {
     renderizarPorEspecie(filtrados);
     observarCards();
   });
 
-  // Botões "ADOTAR"
   conectarBotoesAdotar();
 }
 

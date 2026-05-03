@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conheça todos os animais disponíveis para adoção no PAWS PLACE — gatos e cachorros esperando por um novo lar em Curitiba.">
+  <title>Animais para Adoção - PAWS PLACE</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
+  <script>
+    (function() {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
+  <!-- Favicon emoji 🐾 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <noscript class="noscript-aviso">
+    Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
+  </noscript>
+
+  <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+  <nav class="menu" aria-label="Navegação principal">
+    <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
+    <ul class="menu-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html" aria-current="page">Animais</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
+      <li>
+        <button
+          type="button"
+          id="toggle-tema"
+          class="toggle-tema"
+          aria-label="Alternar tema escuro"
+          aria-pressed="false"
+          title="Alternar tema"
+        >
+          <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+          <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO COMPACTO ===== -->
+  <header class="politica-hero">
+    <div class="politica-hero__overlay"></div>
+    <div class="politica-hero__content">
+      <h1>Animais para Adoção</h1>
+      <p>Encontre seu novo melhor amigo 🐾</p>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main id="animais">
+
+    <section class="intro">
+      <h2 class="page-title">ＡＮＩＭＡＩＳ　ＰＡＲＡ　Ａ　ＡＤＯÇÃＯ</h2>
+      <p class="text-center">
+        Cada um desses animaizinhos está esperando por uma nova chance.
+        No link abaixo, você será direcionado ao site oficial de adoção para conhecê-los melhor.
+      </p>
+    </section>
+
+    <!-- ===== BARRA DE FILTROS ===== -->
+    <section class="filtros" aria-label="Filtros e busca de animais">
+      <div class="filtros__busca">
+        <label for="busca" class="sr-only">Buscar animal por nome</label>
+        <span class="filtros__icone" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="busca"
+          class="filtros__input"
+          placeholder="Buscar pelo nome..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="filtros__grupo" role="group" aria-label="Filtrar por espécie">
+        <button type="button" class="filtro-btn is-active" data-filtro="todos" aria-pressed="true">
+          🐾 Todos
+        </button>
+        <button type="button" class="filtro-btn" data-filtro="gato" aria-pressed="false">
+          🐱 Gatos
+        </button>
+        <button type="button" class="filtro-btn" data-filtro="cachorro" aria-pressed="false">
+          🐶 Cachorros
+        </button>
+      </div>
+    </section>
+
+    <p class="filtros__contador" id="contador-resultados" aria-live="polite"></p>
+
+    <!-- GATOS -->
+    <section class="banner banner-gatos" data-secao="gato" aria-labelledby="titulo-gatos">
+      <h2 id="titulo-gatos" class="section-title">𝙶𝙰𝚃𝙾𝚂</h2>
+    </section>
+
+    <section class="animals" data-lista="gatos" data-secao="gato" aria-label="Lista de gatos para adoção">
+      <!-- Cards renderizados via JavaScript -->
+    </section>
+
+    <!-- CACHORROS -->
+    <section class="banner banner-dogs" data-secao="cachorro" aria-labelledby="titulo-cachorros">
+      <h2 id="titulo-cachorros" class="section-title">𝙲𝙰𝙲𝙷𝙾𝚁𝚁𝙾𝚂</h2>
+    </section>
+
+    <section class="animals" data-lista="cachorros" data-secao="cachorro" aria-label="Lista de cachorros para adoção">
+      <!-- Cards renderizados via JavaScript -->
+    </section>
+
+    <!-- ===== MENSAGEM DE VAZIO ===== -->
+    <div id="mensagem-vazio" class="mensagem-vazio-busca" hidden>
+      <div class="mensagem-vazio-busca__icone" aria-hidden="true">🐾</div>
+      <h2 class="mensagem-vazio-busca__titulo">Nenhum animal encontrado</h2>
+      <p class="mensagem-vazio-busca__texto">
+        Tente buscar por outro nome ou ajustar os filtros.
+      </p>
+      <button type="button" class="btn-limpar" id="limpar-filtros">
+        Limpar filtros
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    <div class="footer-content">
+      <h3>Sobre Nós</h3>
+      <p>Você muda o mundo adotando um animal.<br>Mude o mundo desse animal. 🐾</p>
+      <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
+    </div>
+  </footer>
+
+  <!-- ===== MODAL DE ADOÇÃO ===== -->
+  <dialog id="modal-adocao" class="modal" aria-labelledby="modal-titulo">
+    <form method="dialog" class="modal__form" id="form-adocao" novalidate>
+      <header class="modal__header">
+        <h2 id="modal-titulo" class="modal__titulo">
+          Quero adotar <span id="modal-nome-animal">—</span>
+        </h2>
+        <button type="button" class="modal__fechar" aria-label="Fechar formulário" data-fechar-modal>
+          ✕
+        </button>
+      </header>
+
+      <div class="modal__corpo">
+        <div class="campo">
+          <label for="form-nome">Seu nome completo *</label>
+          <input type="text" id="form-nome" name="nome" required minlength="3" autocomplete="name" aria-describedby="erro-nome" />
+          <small id="erro-nome" class="campo__erro" data-erro="nome"></small>
+        </div>
+
+        <div class="campo">
+          <label for="form-email">E-mail *</label>
+          <input type="email" id="form-email" name="email" required autocomplete="email" aria-describedby="erro-email" />
+          <small id="erro-email" class="campo__erro" data-erro="email"></small>
+        </div>
+
+        <div class="campo">
+          <label for="form-telefone">Telefone *</label>
+          <input type="tel" id="form-telefone" name="telefone" required
+                 placeholder="(41) 99999-9999" autocomplete="tel" aria-describedby="erro-telefone" />
+          <small id="erro-telefone" class="campo__erro" data-erro="telefone"></small>
+        </div>
+
+        <div class="campo">
+          <label for="form-mensagem">Por que você quer adotar?</label>
+          <textarea id="form-mensagem" name="mensagem" rows="3" maxlength="300"
+                    placeholder="Conte um pouco sobre você e seu lar..." aria-describedby="erro-mensagem"></textarea>
+          <small id="erro-mensagem" class="campo__erro" data-erro="mensagem"></small>
+        </div>
+
+        <!-- ===== CONSENTIMENTO LGPD ===== -->
+        <div class="campo campo--consentimento">
+          <p class="lgpd-finalidade">
+            🔒 <strong>Como usaremos seus dados:</strong> seu nome, e-mail e telefone
+            serão utilizados <strong>exclusivamente</strong> para entrarmos em contato
+            sobre o processo de adoção. Não compartilhamos com terceiros.
+          </p>
+
+          <label class="checkbox-lgpd" for="form-consentimento">
+            <input
+              type="checkbox"
+              id="form-consentimento"
+              name="consentimento"
+              class="checkbox-lgpd__input"
+              required
+              aria-describedby="erro-consentimento"
+            />
+            <span class="checkbox-lgpd__visual" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="currentColor"
+                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="checkbox-lgpd__texto">
+              Li e concordo com a
+              <a href="politica-privacidade.html" class="link-politica" target="_blank" rel="noopener">
+                Política de Privacidade
+              </a>
+              e autorizo o uso dos meus dados para esta finalidade. *
+            </span>
+          </label>
+
+          <small id="erro-consentimento" class="campo__erro" data-erro="consentimento"></small>
+        </div>
+      </div>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn-modal btn-modal--secundario" data-fechar-modal>
+          Cancelar
+        </button>
+        <button type="submit" class="btn-modal btn-modal--primario">
+          Enviar pedido 🐾
+        </button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+  <button
+    type="button"
+    id="btn-voltar-topo"
+    class="btn-voltar-topo"
+    aria-label="Voltar ao topo da página"
+    title="Voltar ao topo"
+    hidden
+  >
+    <svg class="btn-voltar-topo__progresso" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="btn-voltar-topo__progresso-track" cx="22" cy="22" r="20" />
+      <circle class="btn-voltar-topo__progresso-fill" cx="22" cy="22" r="20" />
+    </svg>
+    <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
+  </button>
+
+  <!-- 
+    Script: por enquanto reaproveita main.js (já refatorado na Etapa B.1).
+    Na Etapa B.3 vamos extrair pra animais-page.js (controlador dedicado).
+  -->
+  <script type="module" src="scripts/animais-page.js"></script>
+
+</body>
+</html>
