@@ -21,30 +21,38 @@
 
 ### Estrutura atual de pastas
 
-```
-PAWS-PLACE-PROJECT/
+PROJETO-PET-FACULDADE/
 ├── data/
 │   └── animais.json
 ├── scripts/
 │   ├── animacoes.js
+│   ├── animais-page.js
+│   ├── contato.js
 │   ├── data.js
 │   ├── filtros.js
 │   ├── main.js
 │   ├── modal.js
 │   ├── render.js
+│   ├── sobre.js
 │   ├── tema.js
 │   └── voltar-topo.js
 ├── styles/
 │   ├── base.css
 │   ├── components.css
+│   ├── contato.css
+│   ├── home.css
 │   ├── main.css
 │   ├── politica.css
+│   ├── sobre.css
 │   └── tokens.css
+├── animais.html
+├── contato.html
 ├── index.html
-└── politica-privacidade.html
-```
+├── plano_multi_page.md
+├── politica-privacidade.html
+├── README.md
+└── sobre.html
 
----
 
 ## 🗺️ VISÃO GERAL DAS FASES
 
@@ -53,53 +61,9 @@ PAWS-PLACE-PROJECT/
 | **Fase 1** | Migração para Multi-page (rotas reais) | ⏳ Próxima |
 | **Fase 2** | Páginas de Login e Pedidos de Adoção | 🔜 Após Fase 1 |
 
-## 🧩 ESTRATÉGIAS PARA HEADER/FOOTER (Etapa E)
-
-### Opção A — Duplicação consciente ⭐ (recomendada para começar)
-- Header/footer copiados em cada HTML
-- ✅ Simples, sem mágica, sem servidor
-- ✅ SEO perfeito
-- ❌ Edição em múltiplos arquivos (mas busca-e-substitui resolve)
-
-**Plano:** começar com Opção A.
-
----
-
-## 📋 MAPEAMENTO DE CONTEÚDO POR PÁGINA
-
-  ### `index.html` (HOME)
-  - Hero (mantém atual)
-  - Seção "Animais em destaque" (3-4 pets) + botão "Ver todos →"
-  - Seção curta "Como adotar" (3 passos)
-  - CTA para contato
-  - ❌ Remove: lista completa + filtros (migra para `animais.html`)
-
-  ### `animais.html` 🆕
-  - Cabeçalho: "Nossos amiguinhos"
-  - Filtros (espécie, porte, idade)
-  - Grid completo de animais
-  - Modal de detalhes
-
-  ### `sobre.html` 🆕
-  - Missão, visão, valores
-  - História da ONG
-  - Equipe (placeholder inicial)
-
-  ### `contato.html` 🆕
-  - Formulário (nome, email, mensagem)
-  - Informações: endereço, telefone, e-mail, redes sociais
-  - Mapa (placeholder inicial)
-
-  ---
-
 ## ❓ PERGUNTAS PENDENTES (responder antes de começar Etapa B)
 
 1. **🗂️ Estrutura proposta:** OK? Algo a alterar?
-3. **🎨 Sobre/Contato:** Já tem conteúdo real
-4. **🧩 Header/Footer (Etapa E):** confirmar Opção A
-5. **🌐 Publicação:** Tudo pelo repositorio github
-
----
 
 # 🔐 FASE 2 — LOGIN E PEDIDOS DE ADOÇÃO
 
