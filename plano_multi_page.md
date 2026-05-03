@@ -1,8 +1,7 @@
-# 🐾 PAWS PLACE — Plano de Migração Multi-Page
+# 🐾 PAWS PLACE — Plano de Evolução do Projeto
 
 > Documento de continuidade do projeto. Status atual + próximos passos detalhados.
-> **Data de criação:** 02/05/2026
-> **Stack:** HTML + CSS + JavaScript (vanilla, ES6 modules)
+> **Stack:** HTML + CSS + JavaScript (vanilla)
 
 ---
 
@@ -47,7 +46,18 @@ PAWS-PLACE-PROJECT/
 
 ---
 
-## 🎯 OBJETIVO DA PRÓXIMA FASE
+## 🗺️ VISÃO GERAL DAS FASES
+
+| Fase | Objetivo | Status |
+|---|---|---|
+| **Fase 1** | Migração para Multi-page (rotas reais) | ⏳ Próxima |
+| **Fase 2** | Páginas de Login e Pedidos de Adoção | 🔜 Após Fase 1 |
+
+---
+
+# 🚀 FASE 1 — MIGRAÇÃO MULTI-PAGE
+
+## 🎯 Objetivo
 
 Transformar o site **single-page com scroll** em um **site multi-page** com rotas reais:
 
@@ -56,17 +66,7 @@ Transformar o site **single-page com scroll** em um **site multi-page** com rota
 - Indicação de página ativa via `aria-current="page"`
 - Manter UX e estilo já desenvolvidos
 
-### ❓ Decisão tomada: React?
-
-**NÃO migrar para React agora.** Justificativa:
-1. Projeto vanilla está sólido e funcional
-2. Multi-page em HTML é fundamento essencial
-3. React seria overkill para site institucional
-4. Plano: terminar este projeto em vanilla → criar projeto NOVO em React (ganha 2 projetos no portfólio)
-
----
-
-## 🗺️ ROADMAP — Etapas em ordem
+## 🪜 Roadmap da Fase 1 — Etapas em ordem
 
 ### 📍 Etapa A — Planejamento e estrutura ✅ (já feito)
 ### 📍 Etapa B — Criar `animais.html` (validar abordagem)
@@ -76,7 +76,7 @@ Transformar o site **single-page com scroll** em um **site multi-page** com rota
 
 ---
 
-## 📂 ESTRUTURA PROPOSTA (após multi-page)
+## 📂 ESTRUTURA PROPOSTA (após Fase 1)
 
 ```
 PAWS-PLACE-PROJECT/
@@ -154,18 +154,6 @@ PAWS-PLACE-PROJECT/
 - ✅ SEO perfeito
 - ❌ Edição em múltiplos arquivos (mas busca-e-substitui resolve)
 
-### Opção B — Includes via `fetch`
-- Header/footer em arquivos separados, carregados via JS
-- ✅ DRY real
-- ❌ Flash de conteúdo vazio
-- ❌ SEO prejudicado
-- ❌ Não roda em `file://`
-
-### Opção C — Build tool (Vite, Eleventy, Astro)
-- Templates compilados em build time
-- ✅ Melhor dos dois mundos
-- ❌ Adiciona toolchain
-
 **Plano:** começar com Opção A. Reavaliar na Etapa E.
 
 ---
@@ -200,48 +188,153 @@ PAWS-PLACE-PROJECT/
 ## ❓ PERGUNTAS PENDENTES (responder antes de começar Etapa B)
 
 1. **🗂️ Estrutura proposta:** OK? Algo a alterar?
-2. **🏠 Conteúdo da home:** Hero + Destaques + Como Adotar + CTA, ou versão mais simples?
-3. **🎨 Sobre/Contato:** já tem conteúdo real ou usar placeholders/Lorem Ipsum?
-4. **🧩 Header/Footer (Etapa E):** confirmar Opção A para começar?
-5. **🌐 Publicação:** GitHub Pages? Vercel? Netlify? Só local? (afeta tratamento de URLs)
+3. **🎨 Sobre/Contato:** Já tem conteúdo real
+4. **🧩 Header/Footer (Etapa E):** confirmar Opção A
+5. **🌐 Publicação:** Tudo pelo repositorio github
 
 ---
 
-## 💬 COMMIT DA ÚLTIMA ENTREGA (Botão Voltar ao Topo)
+# 🔐 FASE 2 — LOGIN E PEDIDOS DE ADOÇÃO
 
-```bash
-git add .
-git commit -m "feat(ui): adiciona botão flutuante 'voltar ao topo' com anel de progresso
+> ⚠️ **ATENÇÃO:** Esta será a **fase atual do projeto após concluir a Fase 1**.
+> A implementação **se limitará exclusivamente** às funcionalidades descritas abaixo.
 
-- Botão fixo no canto inferior direito com gradiente da marca
-- Anel SVG que preenche conforme o scroll da página
-- Aparece suavemente após 300px de scroll (fade + slide-in)
-- Scroll suave ao clicar, com foco devolvido ao topo (a11y)
-- Throttling via requestAnimationFrame para performance
-- Listeners passivos no scroll/resize (otimização mobile)
-- Respeita prefers-reduced-motion
-- Favicon emoji 🐾 inline para corrigir 404 no console
-- Implementado em index.html e politica-privacidade.html"
+## 🎯 Objetivo
+
+Permitir que o usuário:
+1. **Crie uma conta e faça login** no site
+2. **Solicite a adoção** de um animal através de um formulário estruturado
+3. **Acompanhe** os pedidos de adoção que ele já fez
+
+---
+
+## 📦 Escopo definido (o que ENTRA nesta fase)
+
+### Página `login.html` 🆕
+- Formulário de **Login** (e-mail + senha)
+- Formulário de **Cadastro** (nome, e-mail, senha, telefone)
+- Alternância entre Login ↔ Cadastro (tabs ou botões)
+- Validação client-side (campos obrigatórios, formato de e-mail, força de senha)
+- Mensagens de erro/sucesso amigáveis
+- Link "Esqueci minha senha" (placeholder, sem implementação real ainda)
+
+### Página `adotar.html` 🆕
+- Acessada ao clicar em "Quero adotar" no card/modal do animal
+- Formulário de **Pedido de Adoção** com campos:
+  - Dados do animal (preenchidos automaticamente via query string ou localStorage)
+  - Dados do adotante (puxados do perfil logado)
+  - Endereço residencial completo
+  - Tipo de moradia (casa/apartamento, com quintal?)
+  - Possui outros animais? Quais?
+  - Há crianças na residência?
+  - Motivo para adotar (textarea)
+  - Aceite dos termos e responsabilidades (checkbox obrigatório)
+- Confirmação visual ao enviar (modal ou página de sucesso)
+
+### Página `meus-pedidos.html` 🆕
+- Lista dos pedidos de adoção feitos pelo usuário logado
+- Status de cada pedido (Em análise / Aprovado / Recusado)
+- Detalhes ao clicar em cada pedido
+
+### Restrições e proteções
+- Usuário **não logado** que tente acessar `adotar.html` ou `meus-pedidos.html` é redirecionado para `login.html`
+- Após login, header mostra **"Olá, [Nome]"** + botão "Sair"
+- Botão "Quero adotar" só funciona se o usuário estiver logado (caso contrário, redireciona para login)
+
+---
+
+## 🚫 Fora de escopo desta fase (NÃO implementar)
+- ❌ Backend real (vamos usar `localStorage` como simulação)
+- ❌ Recuperação de senha por e-mail
+- ❌ Login social (Google, Facebook)
+- ❌ Painel administrativo da ONG
+- ❌ Sistema de aprovação/recusa de pedidos por admin
+- ❌ Notificações em tempo real
+- ❌ Upload de documentos/comprovantes
+- ❌ Sistema de doações/pagamentos
+- ❌ Chat com a ONG
+- ❌ Avaliações ou comentários
+- ❌ Histórico médico/vacinas dos animais
+
+---
+
+## 🛠️ Stack técnica da Fase 2
+- **Persistência:** `localStorage` (simulando banco de dados)
+- **Sessão:** `sessionStorage` ou objeto em `localStorage` com flag `isLoggedIn`
+- **Senhas:** **NÃO armazenar em texto plano** — usar hash simples (ex.: `SubtleCrypto` API nativa do browser) **com aviso explícito** de que isso é didático e não substitui um backend real
+- **Validação:** API nativa de Constraint Validation + JS customizado
+- **Sem dependências externas** (mantém o vanilla)
+
+---
+
+## 📂 Estrutura de pastas após Fase 2
+
+```
+PAWS-PLACE-PROJECT/
+├── data/
+│   ├── animais.json
+│   └── pedidos-mock.json     🆕 (estrutura de exemplo)
+├── scripts/
+│   ├── (todos os anteriores)
+│   ├── auth.js               🆕 login, cadastro, logout, getUserAtual
+│   ├── login-page.js         🆕 controlador da página login
+│   ├── adotar-page.js        🆕 controlador do formulário de adoção
+│   ├── meus-pedidos.js       🆕 listagem de pedidos do usuário
+│   └── storage.js            🆕 wrapper sobre localStorage
+├── styles/
+│   ├── (todos os anteriores)
+│   ├── auth.css              🆕 login/cadastro
+│   └── adotar.css            🆕 formulário de adoção
+├── login.html                🆕
+├── adotar.html               🆕
+├── meus-pedidos.html         🆕
+└── (demais páginas)
 ```
 
 ---
 
-## 🚀 COMO RETOMAR ESTE PROJETO
+## 🪜 Roadmap da Fase 2 — Etapas sugeridas
+
+### 📍 Etapa F — Modelagem de dados
+Definir formato dos objetos `usuario` e `pedidoAdocao` no localStorage.
+
+### 📍 Etapa G — Módulo `auth.js` + `storage.js`
+Funções utilitárias: `cadastrar()`, `login()`, `logout()`, `usuarioAtual()`, `estaLogado()`.
+
+### 📍 Etapa H — Página `login.html`
+HTML + CSS + integração com `auth.js`.
+
+### 📍 Etapa I — Atualização do header (estado logado)
+Mostrar nome do usuário + botão "Sair" quando logado.
+
+### 📍 Etapa J — Página `adotar.html`
+Formulário de adoção, com proteção de rota (só logado acessa).
+
+### 📍 Etapa K — Página `meus-pedidos.html`
+Listagem dos pedidos do usuário atual.
+
+### 📍 Etapa L — Integração final
+Botão "Quero adotar" no card/modal redireciona corretamente.
+
+---
+
+# 🚀 COMO RETOMAR ESTE PROJETO
 
 Quando voltar a trabalhar, faça assim:
 
 1. Abra este documento
 2. Confira o **Status Atual** (o que já está pronto)
-3. Responda as **5 perguntas pendentes** acima
-4. Continue da **Etapa B — criar `animais.html`**
+3. Identifique em qual **Fase** e **Etapa** você parou
+4. Responda as perguntas pendentes da fase atual
+5. Continue da próxima etapa
 
 ### Prompt sugerido para retomar com a IA:
 
-> "Vamos retomar o projeto PAWS PLACE. Estou na **Etapa B** do plano de migração multi-page (criar `animais.html`). Segue o plano completo em anexo + minhas respostas às perguntas pendentes: [colar respostas]. Pode seguir com a Etapa B."
+> "Vamos retomar o projeto PAWS PLACE. Estou na **Fase [X], Etapa [Y]** do plano. Segue o documento completo em anexo + minhas respostas às perguntas pendentes: [colar respostas]. Pode seguir."
 
 ---
 
-## 📚 GLOSSÁRIO TÉCNICO RÁPIDO
+# 📚 GLOSSÁRIO TÉCNICO RÁPIDO
 
 - **Multi-page (MPA):** site com várias páginas HTML reais, navegação recarrega a página
 - **Single-page (SPA):** uma página só, navegação simulada via JS (React, Vue)
@@ -249,6 +342,11 @@ Quando voltar a trabalhar, faça assim:
 - **a11y:** abreviação de "accessibility" (acessibilidade)
 - **SEO:** Search Engine Optimization — otimização para buscadores
 - **`aria-current="page"`:** atributo que indica ao leitor de tela qual é a página atual no menu
+- **localStorage:** armazenamento persistente do navegador (sobrevive ao fechamento da aba)
+- **sessionStorage:** armazenamento temporário (limpa ao fechar a aba)
+- **Hash de senha:** transformação irreversível de senha em string ininteligível, para não armazenar em texto plano
+- **Auth (autenticação):** processo de identificar quem é o usuário (login)
+- **Authz (autorização):** processo de verificar o que o usuário pode fazer (permissões)
 
 ---
 
