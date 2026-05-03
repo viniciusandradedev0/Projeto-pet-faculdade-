@@ -1,0 +1,364 @@
+/* ============================================
+   sobre.css
+   Estilos exclusivos da página sobre.html
+   Integrado ao design system (tokens.css)
+   ============================================ */
+
+
+/* ============================================
+   HERO COMPACTO
+   Inspirado no .politica-hero, mas sem patinha
+   ============================================ */
+
+.hero-pagina {
+  position: relative;
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  padding: var(--espaco-2xl) var(--espaco-md);
+  text-align: center;
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+}
+
+.hero-pagina::before {
+  /* Patinha decorativa de fundo (canto esquerdo) */
+  content: '🐾';
+  position: absolute;
+  font-size: 11rem;
+  opacity: 0.08;
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%) rotate(15deg);
+  pointer-events: none;
+}
+
+.hero-pagina::after {
+  /* Patinha decorativa de fundo (canto direito) */
+  content: '🐾';
+  position: absolute;
+  font-size: 11rem;
+  opacity: 0.08;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%) rotate(-15deg);
+  pointer-events: none;
+}
+
+.hero-pagina__conteudo {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--cor-branca);
+}
+
+.hero-pagina__titulo {
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  margin-bottom: var(--espaco-sm);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-pagina__subtitulo {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  opacity: 0.95;
+  letter-spacing: 1px;
+}
+
+
+/* ============================================
+   NOSSA MISSÃO
+   Bloco centralizado com ícone grande
+   ============================================ */
+
+.missao {
+  max-width: 760px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+  padding: clamp(2rem, 5vw, 3rem) var(--espaco-lg);
+  text-align: center;
+
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  box-shadow: var(--sombra-suave);
+}
+
+.missao__icone {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1;
+  margin-bottom: var(--espaco-md);
+  /* Animação sutil de pulsação */
+  animation: pulsoSuave 3s ease-in-out infinite;
+}
+
+@keyframes pulsoSuave {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+
+.missao__titulo {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  color: var(--cor-secundaria);
+  margin-bottom: var(--espaco-lg);
+}
+
+.missao__texto {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--cor-texto);
+  margin-bottom: var(--espaco-md);
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.missao__texto:last-child {
+  margin-bottom: 0;
+}
+
+.missao__texto strong {
+  color: var(--cor-secundaria);
+  font-weight: 700;
+}
+
+
+/* ============================================
+   COMO FUNCIONA
+   3 passos numerados em grid
+   ============================================ */
+
+.como-funciona {
+  max-width: 1200px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+  padding: 0 var(--espaco-lg);
+}
+
+.como-funciona__header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.como-funciona__subtitulo {
+  font-size: 1.05rem;
+  color: var(--cor-texto-suave);
+  margin: var(--espaco-sm) auto 0;
+  max-width: 600px;
+}
+
+.passos {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--espaco-lg);
+  padding: 0;
+  margin: 0;
+}
+
+.passo {
+  position: relative;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-2xl) var(--espaco-lg) var(--espaco-lg);
+  text-align: center;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicao);
+}
+
+.passo:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-forte);
+  border-color: var(--cor-primaria);
+}
+
+.passo__numero {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+  color: var(--cor-branca);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+
+  box-shadow: 0 4px 12px rgba(242, 143, 0, 0.4);
+}
+
+.passo__titulo {
+  font-size: 1.3rem;
+  color: var(--cor-secundaria);
+  margin-bottom: var(--espaco-sm);
+  margin-top: var(--espaco-sm);
+}
+
+.passo__descricao {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--cor-texto-suave);
+  margin: 0;
+}
+
+
+/* ============================================
+   NOSSOS VALORES
+   3 cards com ícone + título + texto
+   ============================================ */
+
+.valores {
+  max-width: 1200px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+  padding: 0 var(--espaco-lg);
+}
+
+.valores__header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.valores__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--espaco-lg);
+}
+
+.valor {
+  background: var(--cor-superficie-secundaria);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-xl) var(--espaco-lg);
+  text-align: center;
+  transition: var(--transicao);
+}
+
+.valor:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-suave);
+  border-color: var(--cor-primaria);
+}
+
+.valor__icone {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: var(--espaco-md);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.valor:hover .valor__icone {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.valor__titulo {
+  font-size: 1.25rem;
+  color: var(--cor-secundaria);
+  margin-bottom: var(--espaco-sm);
+}
+
+.valor__texto {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--cor-texto-suave);
+  margin: 0;
+}
+
+
+/* ============================================
+   AJUSTES PARA TEMA ESCURO
+   ============================================ */
+
+[data-tema="dark"] .hero-pagina {
+  background: linear-gradient(135deg, var(--cor-primaria-escura), #5a3900);
+}
+
+[data-tema="dark"] .missao {
+  background: var(--cor-superficie);
+  border-color: var(--cor-borda);
+}
+
+[data-tema="dark"] .passo {
+  background: var(--cor-superficie);
+  border-color: var(--cor-borda);
+}
+
+[data-tema="dark"] .passo:hover {
+  border-color: var(--cor-primaria);
+}
+
+[data-tema="dark"] .passo__numero {
+  box-shadow: 0 4px 12px rgba(255, 183, 51, 0.35);
+}
+
+[data-tema="dark"] .valor {
+  background: var(--cor-superficie-secundaria);
+  border-color: var(--cor-borda);
+}
+
+[data-tema="dark"] .valor:hover {
+  border-color: var(--cor-primaria);
+}
+
+
+/* ============================================
+   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .missao__icone {
+    animation: none;
+  }
+
+  .passo:hover,
+  .valor:hover {
+    transform: none;
+  }
+
+  .valor:hover .valor__icone {
+    transform: none;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .hero-pagina {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .hero-pagina::before,
+  .hero-pagina::after {
+    font-size: 7rem;
+    opacity: 0.06;
+  }
+
+  .missao {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .passos,
+  .valores__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .passo {
+    padding: var(--espaco-2xl) var(--espaco-md) var(--espaco-md);
+  }
+
+  .valor {
+    padding: var(--espaco-lg) var(--espaco-md);
+  }
+}

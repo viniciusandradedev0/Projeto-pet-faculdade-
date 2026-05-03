@@ -19,6 +19,7 @@ import { inicializarTema } from './tema.js';
 import { inicializarBotaoVoltarTopo } from './voltar-topo.js';
 import { observarCards } from './animacoes.js';
 
+
 // === Configurações ===
 const QUANTIDADE_DESTAQUES = 4;
 

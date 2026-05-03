@@ -53,99 +53,6 @@ PAWS-PLACE-PROJECT/
 | **Fase 1** | Migração para Multi-page (rotas reais) | ⏳ Próxima |
 | **Fase 2** | Páginas de Login e Pedidos de Adoção | 🔜 Após Fase 1 |
 
----
-
-# 🚀 FASE 1 — MIGRAÇÃO MULTI-PAGE
-
-## 🎯 Objetivo
-
-Transformar o site **single-page com scroll** em um **site multi-page** com rotas reais:
-
-- Cada item do menu (Animais, Sobre, Contato) leva a uma URL própria
-- Header/footer consistentes entre páginas
-- Indicação de página ativa via `aria-current="page"`
-- Manter UX e estilo já desenvolvidos
-
-## 🪜 Roadmap da Fase 1 — Etapas em ordem
-
-### 📍 Etapa A — Planejamento e estrutura ✅ (já feito)
-### 📍 Etapa B — Criar `animais.html` (validar abordagem)
-### 📍 Etapa C — Criar `sobre.html` e `contato.html`
-### 📍 Etapa D — Atualizar menu de navegação
-### 📍 Etapa E — Componentizar header/footer (avaliar estratégia)
-
----
----------------------------------------------------------------------
-## 📂 ESTRUTURA PROPOSTA (após Fase 1)
-
-```
-PAWS-PLACE-PROJECT/
-├── data/
-│   └── animais.json
-├── scripts/
-│   ├── animacoes.js
-│   ├── data.js
-│   ├── filtros.js
-│   ├── main.js              ← controlador da home
-│   ├── animais-page.js      🆕 controlador de /animais
-│   ├── contato.js           🆕 validação do form
-│   ├── modal.js
-│   ├── nav.js               🆕 menu ativo + mobile
-│   ├── render.js
-│   ├── tema.js
-│   └── voltar-topo.js
-├── styles/
-│   ├── base.css
-│   ├── components.css
-│   ├── main.css
-│   ├── politica.css
-│   ├── sobre.css            🆕
-│   ├── contato.css          🆕
-│   └── tokens.css
-├── index.html               (home: hero + destaques)
-├── animais.html             🆕 lista + filtros
-├── sobre.html               🆕 missão, valores
-├── contato.html             🆕 formulário + info
-└── politica-privacidade.html
-```
-
----
-
-## 🧠 DECISÕES ARQUITETURAIS
-
-### 1. Páginas no root (não em subpastas)
-- ✅ `animais.html` → URL: `/animais.html`
-- ❌ Evitar: `pages/animais.html` → URL feia
-- 💡 Em produção (Netlify/Vercel), `.html` some automaticamente
-
-### 2. Um JS controlador por página
-
-| Página | JS principal | Responsabilidade |
-|---|---|---|
-| `index.html` | `main.js` | Hero + cards de destaque |
-| `animais.html` | `animais-page.js` | Lista + filtros + modal |
-| `sobre.html` | (apenas comuns) | Página estática |
-| `contato.html` | `contato.js` | Validação do form |
-
-### 3. JS compartilhados em todas as páginas
-- `tema.js` — toggle dark/light
-- `voltar-topo.js` — botão flutuante
-- `nav.js` 🆕 — destacar item ativo + menu mobile
-
-### 4. CSS — mantém padrão atual
-
-| Arquivo | Carregado em | Conteúdo |
-|---|---|---|
-| `tokens.css` | todas | Variáveis CSS |
-| `base.css` | todas | Reset + tipografia |
-| `components.css` | todas | Botões, cards, header, footer, modal |
-| `main.css` | `index.html`, `animais.html` | Hero, grid, filtros |
-| `sobre.css` 🆕 | `sobre.html` | Layout específico |
-| `contato.css` 🆕 | `contato.html` | Layout específico |
-| `politica.css` | `politica-privacidade.html` | (já existe) |
-
----
-
 ## 🧩 ESTRATÉGIAS PARA HEADER/FOOTER (Etapa E)
 
 ### Opção A — Duplicação consciente ⭐ (recomendada para começar)
@@ -154,7 +61,7 @@ PAWS-PLACE-PROJECT/
 - ✅ SEO perfeito
 - ❌ Edição em múltiplos arquivos (mas busca-e-substitui resolve)
 
-**Plano:** começar com Opção A. Reavaliar na Etapa E.
+**Plano:** começar com Opção A.
 
 ---
 
