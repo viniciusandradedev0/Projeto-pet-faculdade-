@@ -1,20 +1,21 @@
-Etapa 0.5 — Criar auth.js (com PBKDF2 + sessão 24h)
-Etapa 0.6 — Criar proteger-rota.js
-Etapa 3   — Remover modal + adotar.html
-Etapa 4   — meus-pedidos.html (com simulação de status)
-Etapa 5   — perfil.html (versão mínima + excluir conta)
-Etapa 6   — Atualizar política-privacidade.html
-Etapa 7   — Testes e polimento
-Etapa 7 — Testes e polimento
-  7.1 — Setup do Vitest (package.json + jsdom)
-  7.2 — Testes unitários:
-        • validacao.js     (todos os validadores)
-        • storage.js       (read/write/parse seguro)
-        • auth.js          (hash, login, logout, sessão expirada)
-        • filtros.js       (busca normalizada, debounce)
-  7.3 — Checklist manual de fluxos E2E:
-        • Cadastro → Login → Adotar → Ver pedido
-        • Logout → tentar acessar rota protegida
-        • Sessão expirada (simular 48h)
-        • Excluir conta + verificar dados removidos
-  7.4 — Polimento final (responsividade, a11y, console limpo)
+# 📋 Roadmap — Projeto de Adoção
+
+- Etapa 1 — Fundação do Projeto
+- Etapa 2 — Autenticação e Cadastro
+- Etapa 3 — Remover modal + adotar.html
+- Etapa 4 — meus-pedidos.html (com simulação de status)
+- Etapa 5 — perfil.html (versão mínima + excluir conta)
+- Etapa 6 — Atualizar política-privacidade.html
+- Etapa 7 — Testes e polimento
+  - 7.1 — Setup do Vitest (package.json + jsdom)
+  - 7.2 — Testes unitários:
+    - validacao.js     (todos os validadores)
+    - storage.js       (read/write/parse seguro)
+    - auth.js          (hash, login, logout, sessão expirada)
+    - filtros.js       (busca normalizada, debounce)
+  - 7.3 — Checklist manual de fluxos E2E:
+    - Cadastro → Login → Adotar → Ver pedido
+    - Logout → tentar acessar rota protegida
+    - Sessão expirada (simular 48h)
+    - Excluir conta + verificar dados removidos
+  - 7.4 — Polimento final (responsividade, a11y, console limpo)
