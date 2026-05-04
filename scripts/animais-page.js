@@ -8,6 +8,10 @@
  * - Inicializar filtros, busca e modal de adoção
  * - Aplicar fade-in nos cards
  *
+ * 🌍 Página PÚBLICA: qualquer visitante pode ver os animais.
+ * A proteção de rota fica reservada para páginas que dependem
+ * do usuário logado (adotar, meus-pedidos, perfil, favoritos).
+ *
  * Esta página NÃO compartilha controlador com a home (index.html),
  * que tem o seu próprio (main.js).
  */
@@ -47,7 +51,6 @@ async function init() {
 }
 
 // === Bootstrap idempotente ===
-// Executa só após o DOM estar pronto, mesmo se o script for carregado tarde
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

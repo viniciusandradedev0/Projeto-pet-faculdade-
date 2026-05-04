@@ -44,6 +44,7 @@ export const CHAVES = Object.freeze({
   // === Autenticação (Fase 2) ===
   USUARIOS: `${PREFIXO}usuarios`,           // lista de todos os usuários cadastrados
   SESSAO: `${PREFIXO}sessao`,               // email do usuário logado no momento
+  REDIRECT_POS_LOGIN: `${PREFIXO}redirect-pos-login`, // 🔹 NOVO: URL pra retornar após login
 
   // === Pedidos de adoção (Fase 2) ===
   PEDIDOS: `${PREFIXO}pedidos`,             // lista de pedidos de adoção
