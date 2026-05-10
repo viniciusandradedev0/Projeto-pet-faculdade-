@@ -1,0 +1,71 @@
+# 📋 Roadmap — FASE 2: BACK-END C# ASP.NET CORE
+# Objetivo: substituir localStorage por banco real + autenticação JWT
+# Projeto: backend/PawsPlace.Api  |  .NET 8  |  SQLite (dev)
+
+# ============================================================
+# FASE 2 — BACK-END
+# ============================================================
+
+- [x] Etapa 8 — Setup do projeto ASP.NET Core
+  - Web API .NET 8 criada (dotnet new webapi)
+  - Pacotes: EF Core Sqlite 8.0.15, BCrypt.Net-Next, JwtBearer 8.0.15
+  - Models: Usuario, Animal, Pedido, Favorito
+  - AppDbContext com índices únicos e relacionamentos
+  - Program.cs: JWT + CORS + migrations automáticas
+  - Migration inicial: CriarTabelasIniciais
+
+- [ ] Etapa 9 — Seed dos animais + verificação do banco
+  - Popular tabela Animais com os 15 do data/animais.json
+  - Rodar dotnet run e confirmar que o banco é criado
+  - Banco sugerido: SQLite (dev) → PostgreSQL (prod)
+
+- [ ] Etapa 10 — Autenticação JWT
+  - POST /api/auth/cadastro — bcrypt hash, retorna JWT
+  - POST /api/auth/login    — verifica hash, retorna JWT
+  - POST /api/auth/logout   — client descarta o token
+  - JwtService: gerar e validar tokens
+  - JWT contém: userId, email, nome, expiração
+
+- [ ] Etapa 11 — Endpoints de animais (público)
+  - GET /api/animais        — lista todos
+  - GET /api/animais/{slug} — detalhe por slug
+
+- [ ] Etapa 12 — Endpoints de pedidos (autenticado)
+  - POST /api/pedidos       — criar pedido
+  - GET  /api/pedidos/meus  — pedidos do usuário logado
+
+- [ ] Etapa 12.5 — Favoritos (autenticado)
+  - POST   /api/favoritos/{animalSlug} — adicionar
+  - DELETE /api/favoritos/{animalSlug} — remover
+  - GET    /api/favoritos/meus         — listar com dados do animal
+
+- [ ] Etapa 13 — Endpoints de perfil (autenticado)
+  - GET    /api/usuarios/me — dados do usuário
+  - PUT    /api/usuarios/me — atualizar nome/telefone
+  - DELETE /api/usuarios/me — excluir conta + pedidos + favoritos
+
+- [ ] Etapa 14 — Migração do front-end para consumir a API
+  - Criar scripts/api.js (URL base da API)
+  - Reescrever: auth.js, adotar.js, meus-pedidos.js, perfil.js, data.js
+  - Reescrever: proteger-rota.js (verificar JWT expirado)
+  - Adicionar: favoritos no front (coração nos cards + favoritos.html)
+  - Remover: storage.js (substituído por fetch + JWT)
+  - Manter:   validacao.js, filtros.js, render.js, tema.js, animacoes.js
+
+- [ ] Etapa 15 — Deploy do back-end
+  - Opções gratuitas: Railway, Render, Azure (estudante)
+  - Variáveis de ambiente: JWT_SECRET, CONNECTION_STRING
+  - CORS: aceitar origem do GitHub Pages
+  - Front: apontar para URL da API em produção
+
+
+# ============================================================
+# FASE 3 — MELHORIAS FUTURAS (PÓS-BACKEND)
+# ============================================================
+
+- [ ] Painel admin: gerenciar animais e atualizar status dos pedidos
+- [ ] Upload de foto de perfil (Azure Blob ou Cloudinary)
+- [ ] Notificações por e-mail ao mudar status do pedido (SendGrid)
+- [ ] Paginação nos endpoints de animais e pedidos
+- [ ] Testes de integração no back-end (xUnit + WebApplicationFactory)
+- [ ] Migração para Blazor WebAssembly (front em C# consumindo a mesma API)

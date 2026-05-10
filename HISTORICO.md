@@ -1,0 +1,123 @@
+# Histórico de Implementação — Paws Place
+
+> Registro rápido do que foi construído, decisões tomadas e fluxos implementados.
+> Usado como base para documentação futura.
+
+---
+
+## Stack
+
+| Camada | Tecnologia |
+|--------|-----------|
+| Front  | HTML + CSS + JavaScript ES6 modules (Vanilla, sem framework) |
+| Testes | Vitest + jsdom |
+| Back   | C# ASP.NET Core 8 Web API |
+| Banco  | SQLite (dev) → PostgreSQL (prod) |
+| Auth   | JWT (back) / SHA-256 localStorage (front — fase 1) |
+| Deploy | GitHub Pages (front) · Railway/Render (back — planejado) |
+
+---
+
+## Fase 1 — Front-end
+
+### Fundação
+- Estrutura de páginas HTML com ES6 modules nativos
+- Sistema de temas claro/escuro com `prefers-color-scheme` e `localStorage`
+- `storage.js` — wrapper centralizado para localStorage/sessionStorage com prefixo `paws-`
+- Header dinâmico injetado via JS conforme estado de autenticação
+
+### Autenticação (client-side)
+- `auth.js` — cadastro e login com hash SHA-256 via Web Crypto API
+- Sessão persistente (`lembrar de mim`) ou por aba (sessionStorage)
+- `proteger-rota.js` — redireciona para login com URL de retorno salva
+- Validação de formulários centralizada em `validacao.js` (PT-BR, ARIA)
+
+### Fluxo de adoção
+```
+Catálogo (animais.html)
+  → botão ADOTAR (link para adotar.html?id=...)
+    → adotar.html [rota protegida]
+      → formulário com dados do usuário pré-preenchidos
+        → pedido salvo em paws-pedidos (localStorage)
+          → redirect para meus-pedidos.html com toast de sucesso
+```
+
+### Páginas protegidas (requerem login)
+- `adotar.html` — formulário de pedido de adoção
+- `meus-pedidos.html` — histórico com badges de status
+- `perfil.html` — dados do usuário + excluir conta (limpa todo localStorage)
+
+### LGPD
+- Checkbox de consentimento com timestamp + versão em adotar.html e contato.html
+- `politica-privacidade.html` reescrita refletindo uso real de localStorage
+
+### Testes (Vitest + jsdom)
+- `validacao.test.js` — 43 testes (todos os validadores)
+- `storage.test.js` — 28 testes (CRUD + limpeza seletiva por prefixo)
+- `auth.test.js` — 34 testes (cadastro, login, sessão, polyfill crypto)
+- `filtros.test.js` — 20 testes (normalização, debounce, filtro, busca)
+- **Total: 125 testes passando**
+
+---
+
+## Fase 2 — Back-end (em andamento)
+
+### Etapa 8 — Setup concluído ✅
+- Projeto `PawsPlace.Api` em `backend/`
+- Pacotes instalados: EF Core Sqlite, BCrypt.Net-Next, JwtBearer (todos v8.0.15)
+- Models criados com relacionamentos e índices únicos:
+
+```
+Usuario ──< Pedido >── Animal
+   └──────< Favorito >──┘
+```
+
+- `AppDbContext` configurado com:
+  - Email único por usuário
+  - Slug único por animal
+  - Favorito único por (usuário + animal)
+  - Cascade delete em Pedidos e Favoritos ao excluir usuário
+- `Program.cs` com JWT Bearer, CORS e migrations automáticas na inicialização
+- Migration inicial `CriarTabelasIniciais` gerada
+
+### Próximo — Etapa 9: Seed + banco rodando
+→ Popular tabela Animais com os 15 do `data/animais.json`
+→ `dotnet run` e confirmar que o SQLite é criado
+
+---
+
+## Decisões de arquitetura
+
+| Decisão | Motivo |
+|---------|--------|
+| Vanilla JS no front (sem framework) | Aprendizado de fundamentos + requisito do projeto |
+| SHA-256 no client (Fase 1) | Didático — Fase 2 migra para bcrypt no servidor |
+| SQLite em dev | Zero configuração — migra para PostgreSQL no deploy |
+| JWT sem refresh token (Fase 2) | Simplicidade — expiração curta (8h) é suficiente para o escopo |
+| Favoritos incluído desde o modelo | Custo zero adicioná-lo ao schema agora; difícil migrar depois |
+| Front JS + API C# separados | Padrão real de mercado; Blazor fica como opção futura (Fase 3) |
+
+---
+
+## Fluxo de autenticação (Fase 2 — planejado)
+
+```
+Cadastro
+  → POST /api/auth/cadastro { nome, email, senha, telefone }
+    → bcrypt hash da senha → salvo no banco
+      → retorna JWT { userId, email, nome, exp }
+        → front salva JWT no localStorage
+
+Login
+  → POST /api/auth/login { email, senha }
+    → bcrypt.verify → retorna JWT
+      → front salva JWT
+
+Requisição autenticada
+  → Header: Authorization: Bearer <token>
+    → Middleware JwtBearer valida
+      → Controller recebe userId via User.Claims
+
+Logout
+  → front remove JWT do localStorage (sem chamada à API)
+```
