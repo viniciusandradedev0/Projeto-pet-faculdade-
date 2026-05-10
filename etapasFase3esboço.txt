@@ -44,12 +44,31 @@
   - DELETE /api/usuarios/me → 204 (cascade remove pedidos + favoritos)
 
 - [ ] Etapa 14 — Migração do front-end para consumir a API
-  - Criar scripts/api.js (URL base da API)
-  - Reescrever: auth.js, adotar.js, meus-pedidos.js, perfil.js, data.js
-  - Reescrever: proteger-rota.js (verificar JWT expirado)
-  - Adicionar: favoritos no front (coração nos cards + favoritos.html)
-  - Remover: storage.js (substituído por fetch + JWT)
-  - Manter:   validacao.js, filtros.js, render.js, tema.js, animacoes.js
+  # Favoritos no front ficam para DEPOIS desta etapa
+  # API URL configurada em scripts/config.js (localhost agora, prod depois)
+  #
+  # CRIAR:
+  - scripts/config.js          — API_BASE = 'http://localhost:5173'
+  #
+  # REESCREVER:
+  - scripts/auth.js            — fetch POST /api/auth/* + salva paws-jwt no localStorage
+  - scripts/data.js            — fetch GET /api/animais (remove uso de animais.json)
+  - scripts/adotar.js          — fetch POST /api/pedidos (remove paws-pedidos)
+  - scripts/meus-pedidos.js    — fetch GET /api/pedidos/meus (remove paws-pedidos)
+  - scripts/perfil.js          — fetch GET/PUT/DELETE /api/usuarios/me
+  - scripts/proteger-rota.js   — decodifica JWT, verifica expiração, sem storage.js
+  - scripts/storage.js         — simplificar: manter só paws-tema, paws-jwt e redirect
+  #
+  # MANTER SEM ALTERAÇÃO:
+  - validacao.js, filtros.js, render.js, tema.js
+  - animacoes.js, voltar-topo.js, header.js, bootstrap.js
+  - modal.js (só mostrarToast), animais-page.js, main.js
+  - cadastro.js, login.js, contato.js, sobre.js
+  #
+  # localStorage APÓS migração:
+  # REMOVE: paws-usuarios, paws-sessao, paws-pedidos
+  # ADICIONA: paws-jwt (token JWT)
+  # MANTÉM: paws-tema, paws-mensagem-redirect, paws-redirect-pos-login
 
 - [ ] Etapa 15 — Deploy do back-end
   - Opções gratuitas: Railway, Render, Azure (estudante)

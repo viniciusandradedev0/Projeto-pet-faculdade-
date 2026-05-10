@@ -122,7 +122,42 @@ backend/PawsPlace.Api/
 
 **Build final: 0 erros, 0 warnings.**
 
-### Próximo — Etapa 14: Migração do front para consumir a API
+### API validada manualmente ✅
+Testes com curl confirmaram:
+- GET /api/animais → 15 animais retornados
+- POST /api/auth/cadastro → JWT gerado
+- POST /api/auth/login → token válido
+- POST /api/pedidos (com JWT) → pedido criado, status "pendente"
+- GET /api/pedidos/meus → lista retornada corretamente
+
+---
+
+## Próximo — Etapa 14: Migração do front para consumir a API
+
+### O que muda no localStorage
+
+| Chave | Antes | Depois |
+|-------|-------|--------|
+| `paws-usuarios` | array de usuários | **removida** (está no banco) |
+| `paws-sessao` | {email} do logado | **removida** (substituída por JWT) |
+| `paws-pedidos` | array de pedidos | **removida** (está no banco) |
+| `paws-jwt` | não existia | **nova** (token JWT) |
+| `paws-tema` | preferência de tema | permanece |
+| `paws-mensagem-redirect` | toast pós-redirect | permanece |
+| `paws-redirect-pos-login` | URL de retorno | permanece |
+
+### Arquivos a reescrever
+
+| Arquivo | O que muda |
+|---------|-----------|
+| `scripts/config.js` | NOVO — `API_BASE = 'http://localhost:5173'` |
+| `scripts/auth.js` | fetch /api/auth/* + salva paws-jwt |
+| `scripts/data.js` | fetch GET /api/animais |
+| `scripts/adotar.js` | fetch POST /api/pedidos |
+| `scripts/meus-pedidos.js` | fetch GET /api/pedidos/meus |
+| `scripts/perfil.js` | fetch GET/PUT/DELETE /api/usuarios/me |
+| `scripts/proteger-rota.js` | decodifica JWT, verifica expiração |
+| `scripts/storage.js` | simplificar (remove chaves obsoletas) |
 
 ---
 

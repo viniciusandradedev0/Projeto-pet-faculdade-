@@ -1,152 +1,95 @@
-# CLAUDE.md — Paws Place
+# CLAUDE.md — Paws Place (Front-end)
 
-## O que e o projeto
+## O que é o projeto
 
-Site de adocao de animais (gatos e cachorros) feito em HTML, CSS e JavaScript puro (ES6+ modules). Sem frameworks, sem bundler. Dados mockados em `data/animais.json`. Testes unitarios com Vitest + jsdom.
+Site de adoção de animais (gatos e cachorros). Stack completa:
+- **Front:** HTML + CSS + JavaScript ES6 modules (Vanilla, sem framework), deploy no GitHub Pages
+- **Back:** C# ASP.NET Core 8 Web API + SQLite, em `backend/PawsPlace.Api/`
+- **Testes front:** Vitest + jsdom (125 testes)
 
-## Estrutura do projeto
+## Estrutura do front-end
 
 ```
-├── data/animais.json              # Dados dos animais (fetch local)
+├── data/animais.json              # Mantido como referência — Etapa 14 migra para API
 ├── scripts/
-│   ├── storage.js                 # Wrapper central de localStorage/sessionStorage
-│   ├── auth.js                    # Cadastro, login, logout, sessao (SHA-256 client-side)
-│   ├── validacao.js               # Validadores de formulario (nome, email, telefone, senha)
-│   ├── proteger-rota.js           # Protecao de rotas client-side (redireciona se nao logado)
-│   ├── header.js                  # Menu dinamico (logado: Perfil, Meus Pedidos, Sair)
-│   ├── bootstrap.js               # Inicializacao global (tema, header, toasts)
-│   ├── tema.js                    # Dark/light mode com persistencia
-│   ├── data.js                    # Fetch de animais.json
-│   ├── filtros.js                 # Busca e filtro por especie com debounce
-│   ├── render.js                  # Renderizacao de cards (botao ADOTAR = link para adotar.html)
-│   ├── modal.js                   # Apenas mostrarToast() (modal de adocao removido na Etapa 3)
+│   ├── storage.js                 # Wrapper de localStorage/sessionStorage (simplificado na Etapa 14)
+│   ├── auth.js                    # Cadastro, login, logout (SHA-256 — migra para fetch na Etapa 14)
+│   ├── validacao.js               # Validadores PT-BR (sem alteração na Etapa 14)
+│   ├── proteger-rota.js           # Proteção de rotas (migra: verifica JWT na Etapa 14)
+│   ├── header.js                  # Menu dinâmico (sem alteração)
+│   ├── bootstrap.js               # Inicialização global (sem alteração)
+│   ├── tema.js                    # Dark/light mode (sem alteração)
+│   ├── data.js                    # Fetch de animais (migra para GET /api/animais na Etapa 14)
+│   ├── filtros.js                 # Busca e filtro (sem alteração)
+│   ├── render.js                  # Renderização de cards (sem alteração)
+│   ├── modal.js                   # Apenas mostrarToast()
 │   ├── animais-page.js            # Controlador de animais.html
-│   ├── main.js                    # Controlador da index.html (home)
-│   ├── adotar.js                  # Controlador de adotar.html (protegido, salva pedido)
-│   ├── meus-pedidos.js            # Controlador de meus-pedidos.html (protegido)
-│   ├── perfil.js                  # Controlador de perfil.html (protegido, excluir conta)
+│   ├── main.js                    # Controlador da index.html
+│   ├── adotar.js                  # Pedido de adoção (migra para POST /api/pedidos)
+│   ├── meus-pedidos.js            # Histórico (migra para GET /api/pedidos/meus)
+│   ├── perfil.js                  # Perfil + excluir conta (migra para /api/usuarios/me)
 │   ├── cadastro.js                # Controlador de cadastro.html
 │   ├── login.js                   # Controlador de login.html
 │   ├── contato.js                 # Controlador de contato.html
 │   ├── sobre.js                   # Controlador de sobre.html
 │   ├── animacoes.js               # Fade-in com IntersectionObserver
-│   └── voltar-topo.js             # Botao scroll-to-top com progresso
+│   └── voltar-topo.js             # Scroll-to-top com progresso
 ├── styles/
 │   ├── main.css                   # Importa todos os outros CSS
-│   ├── tokens.css                 # Variaveis CSS
-│   ├── base.css                   # Reset e utilitarios
-│   ├── components.css             # Menu, card, footer, modal, toast, etc.
-│   ├── header.css                 # Navegacao
-│   ├── home.css                   # Estilos da index.html
-│   ├── auth.css                   # Login e cadastro
-│   ├── adotar.css                 # Pagina de pedido de adocao
-│   ├── meus-pedidos.css           # Lista de pedidos com badges de status
-│   ├── perfil.css                 # Card de perfil e zona de perigo
-│   ├── contato.css                # Formulario de contato
-│   ├── sobre.css                  # Pagina institucional
-│   └── politica.css               # Politica de privacidade
+│   ├── tokens.css, base.css, components.css
+│   ├── header.css, home.css, auth.css
+│   ├── adotar.css, meus-pedidos.css, perfil.css
+│   └── contato.css, sobre.css, politica.css
 ├── tests/
-│   ├── auth.test.js               # 34 testes (cadastrar, login, logout, sessao)
-│   ├── storage.test.js            # 28 testes (salvar, ler, remover, limpar)
-│   ├── validacao.test.js          # 43 testes (todos os validadores + validarFormulario)
-│   └── filtros.test.js            # 20 testes (normalização, debounce, filtro, busca, limpar)
-├── index.html                     # Home (destaques + stats)
-├── animais.html                   # Catalogo com filtros
-├── adotar.html                    # Pedido de adocao (rota protegida)
-├── meus-pedidos.html              # Historico de pedidos (rota protegida)
-├── perfil.html                    # Perfil do usuario + excluir conta (rota protegida)
-├── cadastro.html                  # Registro de usuario
-├── login.html                     # Autenticacao
-├── contato.html                   # Formulario de contato
-├── sobre.html                     # Pagina institucional
-├── politica-privacidade.html      # LGPD (atualizada com dados reais do site)
+│   ├── auth.test.js               # 34 testes
+│   ├── storage.test.js            # 28 testes
+│   ├── validacao.test.js          # 43 testes
+│   └── filtros.test.js            # 20 testes  →  total: 125
+├── index.html, animais.html, adotar.html
+├── meus-pedidos.html, perfil.html
+├── cadastro.html, login.html, contato.html
+├── sobre.html, politica-privacidade.html
 ├── package.json                   # Vitest + jsdom
-├── vitest.config.js               # environment: jsdom, globals: true
-└── .gitignore                     # node_modules/, dist/, coverage/
+├── vitest.config.js
+└── .gitignore
 ```
 
-## Chaves de storage usadas
+## Chaves de storage — estado atual (Fase 1)
 
 ### localStorage
-- `paws-tema` — 'light' | 'dark'
-- `paws-usuarios` — array com todos os usuarios cadastrados
-- `paws-sessao` — {email} do usuario logado (quando "lembrar de mim")
-- `paws-pedidos` — array com todos os pedidos de adocao
+- `paws-tema` — 'light' | 'dark' **(permanece na Etapa 14)**
+- `paws-usuarios` — array de usuários **(removido na Etapa 14 → banco de dados)**
+- `paws-sessao` — {email} do logado **(removido na Etapa 14 → JWT)**
+- `paws-pedidos` — array de pedidos **(removido na Etapa 14 → banco de dados)**
+
+### localStorage — após Etapa 14
+- `paws-tema` — preferência de tema
+- `paws-jwt` — token JWT do usuário logado
 
 ### sessionStorage
-- `paws-sessao` — {email} do usuario logado (sem lembrar)
-- `paws-mensagem-redirect` — {texto, tipo} para toast pos-redirect
-- `paws-redirect-pos-login` — URL de retorno apos login
+- `paws-sessao` — {email} sem lembrar **(removido na Etapa 14)**
+- `paws-mensagem-redirect` — toast pós-redirect **(permanece)**
+- `paws-redirect-pos-login` — URL de retorno **(permanece)**
 
-## Estrutura de um pedido (paws-pedidos)
+## Roadmap do front-end
 
-```js
-{
-  id: string,               // Date.now().toString(36)
-  animalId: string,         // id do animal (ex: "nespresso")
-  animalNome: string,
-  animalEspecie: 'gato' | 'cachorro',
-  usuarioEmail: string,     // chave de associacao com paws-usuarios
-  nome: string,
-  email: string,
-  telefone: string,
-  mensagem: string,
-  status: 'pendente' | 'em_analise' | 'aprovado' | 'recusado',
-  dataPedido: string,       // ISO 8601
-  consentimentoTimestamp: string,
-  consentimentoVersao: '1.0',
-}
-```
+- [x] Etapa 1 — Fundação do projeto
+- [x] Etapa 2 — Autenticação e cadastro (localStorage + SHA-256)
+- [x] Etapa 3 — adotar.html (página dedicada, rota protegida)
+- [x] Etapa 4 — meus-pedidos.html (simulação de status)
+- [x] Etapa 5 — perfil.html (dados + excluir conta)
+- [x] Etapa 6 — politica-privacidade.html (LGPD real)
+- [x] Etapa 7 — Vitest (125 testes)
+- [x] Etapa 8 — Polimento (console, semântica HTML, CSS)
+- [ ] Etapa 14 — Migração para consumir a API (ver etapasFase3esboço.txt)
 
-## Roadmap atual
+## Convenções do front
 
-- [x] Etapa 1 — Fundacao do projeto
-- [x] Etapa 2 — Autenticacao e cadastro
-- [x] Etapa 3 — Remover modal de adocao + criar `adotar.html` (pagina dedicada)
-- [x] Etapa 4 — Criar `meus-pedidos.html` (simulacao de status de pedidos)
-- [x] Etapa 5 — Criar `perfil.html` (versao minima + excluir conta)
-- [x] Etapa 6 — Atualizar `politica-privacidade.html`
-- [x] Etapa 7 — Testes unitarios com Vitest (125 testes passando)
-  - auth.test.js (34), storage.test.js (28), validacao.test.js (43), filtros.test.js (20)
-- [x] Etapa 8 — Polimento final
-  - console.log de dados do usuario removido de contato.js
-  - HTML semantico corrigido: article dentro de li em meus-pedidos
-  - Checklist E2E manual concluido (cadastro, adocao, pedidos, excluir conta)
-
-## Plano futuro: migrar para backend C# .NET
-
-O projeto vai ganhar um backend em ASP.NET que substitui o localStorage por banco de dados real.
-
-### O que muda com o backend
-- `storage.js` — removido inteiramente
-- `paws-usuarios` — migra para banco de dados
-- `paws-sessao` — substituido por JWT ou cookie HttpOnly
-- Hash SHA-256 no client — senha vai para o backend com bcrypt/argon2
-- `auth.js` — vira chamadas fetch para `/api/auth/*`
-- `data.js` — `animais.json` vira `GET /api/animais`
-- `adotar.js` submit — vira `POST /api/pedidos`
-- `meus-pedidos.js` — vira `GET /api/pedidos/{usuarioId}`
-- `perfil.js` exclusao — vira `DELETE /api/usuarios/{id}`
-- `proteger-rota.js` — valida token, mas autorizacao real fica no servidor
-
-### O que NAO muda
-- `validacao.js` — validacao de formulario no front continua
-- `filtros.js` — filtro local continua
-- `render.js`, `animacoes.js`, `tema.js`, `voltar-topo.js` — independentes do backend
-
-### Endpoints futuros
-- `POST /api/auth/cadastro` + `POST /api/auth/login` + `POST /api/auth/logout`
-- `GET /api/animais`
-- `POST /api/pedidos` + `GET /api/pedidos/{usuarioId}`
-- `GET/PUT/DELETE /api/usuarios/{id}`
-
-## Convencoes
-
-- Idioma do codigo: portugues (nomes de variaveis, funcoes, comentarios)
-- Modules ES6 nativos (type="module" no HTML)
-- Sem frameworks ou bibliotecas externas no front
-- Acessibilidade: aria-live, aria-invalid, semantica HTML5, prefers-reduced-motion
-- LGPD: consentimento com timestamp e versao em formularios de adocao e contato
+- Idioma do código: português (variáveis, funções, comentários)
+- ES6 modules nativos (`type="module"` no HTML)
+- Sem frameworks ou bibliotecas externas
+- Acessibilidade: aria-live, aria-invalid, semântica HTML5, prefers-reduced-motion
+- LGPD: consentimento com timestamp + versão em adotar.html e contato.html
 - Prefixo `paws-` em todas as chaves de storage
-- Testes: Vitest + jsdom, rodar com `npm test` (125 testes, 4 arquivos)
+- Testes: `npm test` (Vitest + jsdom)
 - Deploy: https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
