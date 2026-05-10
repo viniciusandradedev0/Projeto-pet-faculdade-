@@ -8,10 +8,23 @@ using PawsPlace.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ============================================================
-// BANCO DE DADOS — SQLite via Entity Framework Core
+// BANCO DE DADOS
+// PostgreSQL em produção (DATABASE_URL), SQLite em desenvolvimento
 // ============================================================
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    // Produção: Railway fornece DATABASE_URL no formato postgresql://...
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(databaseUrl));
+}
+else
+{
+    // Desenvolvimento local: SQLite
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 // ============================================================
 // AUTENTICAÇÃO JWT
@@ -38,11 +51,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 // ============================================================
-// CORS — permite o front (GitHub Pages + localhost)
+// CORS
+// Em produção: lê CORS_ORIGINS (env var, vírgula separada)
+// Em dev: lê appsettings.json
 // ============================================================
-var origensPermitidas = builder.Configuration
-    .GetSection("Cors:OrigensPermitidas")
-    .Get<string[]>() ?? [];
+var corsOrigensEnv = Environment.GetEnvironmentVariable("CORS_ORIGINS");
+var origensPermitidas = !string.IsNullOrEmpty(corsOrigensEnv)
+    ? corsOrigensEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+    : builder.Configuration.GetSection("Cors:OrigensPermitidas").Get<string[]>() ?? [];
 
 builder.Services.AddCors(options =>
 {
@@ -68,7 +84,7 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // ============================================================
-// MIGRATIONS AUTOMÁTICAS ao iniciar (dev)
+// MIGRATIONS + SEED ao iniciar
 // ============================================================
 using (var scope = app.Services.CreateScope())
 {

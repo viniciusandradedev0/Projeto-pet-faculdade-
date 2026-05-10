@@ -77,11 +77,14 @@
   # ADICIONA: paws-jwt (token JWT, só se "lembrar de mim" marcado)
   # MANTÉM: paws-tema, paws-mensagem-redirect, paws-redirect-pos-login
 
-- [ ] Etapa 15 — Deploy do back-end
-  - Opções gratuitas: Railway, Render, Azure (estudante)
-  - Variáveis de ambiente: JWT_SECRET, CONNECTION_STRING
-  - CORS: aceitar origem do GitHub Pages
-  - Front: apontar para URL da API em produção
+- [x] Etapa 15 — Deploy do back-end (preparação concluída — ver DEPLOY.md)
+  - Plataforma: Railway (deploy via GitHub, PostgreSQL gratuito incluso)
+  - Program.cs: auto-detecta DATABASE_URL (PostgreSQL) ou SQLite
+  - Program.cs: CORS_ORIGINS via env var ou appsettings
+  - Npgsql.EntityFrameworkCore.PostgreSQL 9.0.0 instalado
+  - backend/railway.toml criado
+  # ⚠️  PENDENTE: executar os 9 passos do DEPLOY.md no site do Railway
+  # ⚠️  PENDENTE: atualizar scripts/config.js com a URL real após deploy
 
 
 # ============================================================

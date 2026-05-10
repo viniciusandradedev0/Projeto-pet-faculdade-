@@ -96,7 +96,7 @@ dotnet run          # http://localhost:5173
 - [x] Etapa 12.5 — FavoritosController (autenticado)
 - [x] Etapa 13 — UsuariosController/perfil (autenticado)
 - [x] Etapa 14 — Migração do front para consumir a API (⚠️ teste manual pendente)
-- [ ] Etapa 15 — Deploy (Railway/Render/Azure)
+- [x] Etapa 15 — Deploy preparado (Railway) — ver DEPLOY.md para executar
 
 ## Convenções do back
 
