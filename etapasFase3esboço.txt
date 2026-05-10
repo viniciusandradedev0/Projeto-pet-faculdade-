@@ -43,7 +43,7 @@
   - PUT    /api/usuarios/me → valida nome+telefone, 200 ou 400
   - DELETE /api/usuarios/me → 204 (cascade remove pedidos + favoritos)
 
-- [ ] Etapa 14 — Migração do front-end para consumir a API
+- [x] Etapa 14 — Migração do front-end para consumir a API
   # Favoritos no front ficam para DEPOIS desta etapa
   #
   # DECISÕES DE IMPLEMENTAÇÃO:

@@ -7,16 +7,15 @@
  * - Ler ?id= da URL e carregar os dados do animal
  * - Preencher a página com as informações do animal
  * - Gerenciar o formulário de adoção com validação
- * - Salvar pedido em paws-pedidos e redirecionar com toast de sucesso
+ * - Criar pedido via API REST e redirecionar com toast de sucesso
  */
 
 import { carregarAnimais } from './data.js';
 import { protegerRota } from './proteger-rota.js';
-import { obterEmailUsuario, obterUsuario } from './auth.js';
-import { storage, CHAVES } from './storage.js';
 import { validarCampo, validarFormulario, conectarValidacaoAoVivo } from './validacao.js';
 import { inicializarBootstrap, salvarMensagemRedirect } from './bootstrap.js';
 import { mostrarToast } from './modal.js';
+import { apiFetch } from './config.js';
 
 // ============================================
 // INICIALIZAÇÃO
@@ -120,7 +119,7 @@ function configurarFormulario(animal) {
 
   conectarValidacaoAoVivo(form);
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const { ok, primeiroInvalido } = validarFormulario(form, [
@@ -136,38 +135,33 @@ function configurarFormulario(animal) {
       return;
     }
 
-    salvarPedido(form, animal);
-
-    salvarMensagemRedirect(
-      `Pedido de adoção de ${animal.nome} enviado! Entraremos em contato em breve. 🐾`,
-      'sucesso'
-    );
-    window.location.replace('meus-pedidos.html');
+    try {
+      await salvarPedido(form, animal);
+      salvarMensagemRedirect(
+        `Pedido de adoção de ${animal.nome} enviado! Entraremos em contato em breve. 🐾`,
+        'sucesso'
+      );
+      window.location.replace('meus-pedidos.html');
+    } catch (erro) {
+      mostrarToast(erro.message, 'erro');
+    }
   });
 }
 
-function salvarPedido(form, animal) {
+async function salvarPedido(form, animal) {
   const dados = Object.fromEntries(new FormData(form));
-  const pedidos = storage.ler(CHAVES.PEDIDOS, []);
-
-  const novoPedido = {
-    id: Date.now().toString(36),
-    animalId: animal.id,
-    animalNome: animal.nome,
-    animalEspecie: animal.especie,
-    usuarioEmail: obterEmailUsuario(),
-    nome: dados.nome,
-    email: dados.email,
-    telefone: dados.telefone,
-    mensagem: dados.mensagem || '',
-    status: 'pendente',
-    dataPedido: new Date().toISOString(),
-    consentimentoTimestamp: new Date().toISOString(),
-    consentimentoVersao: '1.0',
-  };
-
-  pedidos.push(novoPedido);
-  storage.salvar(CHAVES.PEDIDOS, pedidos);
+  const res = await apiFetch('/api/pedidos', {
+    method: 'POST',
+    body: JSON.stringify({
+      animalSlug: animal.id,
+      telefone: dados.telefone,
+      mensagem: dados.mensagem || '',
+    }),
+  });
+  if (!res.ok) {
+    const erro = await res.json().catch(() => ({}));
+    throw new Error(erro.mensagem || 'Erro ao enviar pedido.');
+  }
 }
 
 // ============================================

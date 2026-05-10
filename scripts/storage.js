@@ -34,20 +34,19 @@ const PREFIXO = 'paws-';
  * Todas as chaves de storage do projeto.
  * Use SEMPRE essas constantes — nunca strings literais.
  *
- *  Fase 2
+ * Etapa 14: USUARIOS, SESSAO e PEDIDOS removidos (migrados para o backend).
+ * JWT substitui SESSAO — salvo em localStorage (lembrar=true) ou sessionStorage.
  */
 export const CHAVES = Object.freeze({
-  // === Já em uso ===
+  // === Preferências locais (permanecem client-side) ===
   TEMA: `${PREFIXO}tema`,
-  MENSAGEM_REDIRECT: `${PREFIXO}mensagem-redirect`,
 
-  // === Autenticação (Fase 2) ===
-  USUARIOS: `${PREFIXO}usuarios`,           // lista de todos os usuários cadastrados
-  SESSAO: `${PREFIXO}sessao`,               // email do usuário logado no momento
-  REDIRECT_POS_LOGIN: `${PREFIXO}redirect-pos-login`, // 🔹 NOVO: URL pra retornar após login
+  // === Autenticação via JWT (Etapa 14) ===
+  JWT: `${PREFIXO}jwt`,
 
-  // === Pedidos de adoção (Fase 2) ===
-  PEDIDOS: `${PREFIXO}pedidos`,             // lista de pedidos de adoção
+  // === Fluxo de navegação ===
+  MENSAGEM_REDIRECT:  `${PREFIXO}mensagem-redirect`,
+  REDIRECT_POS_LOGIN: `${PREFIXO}redirect-pos-login`,
 });
 
 

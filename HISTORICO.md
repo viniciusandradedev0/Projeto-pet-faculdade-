@@ -154,18 +154,23 @@ Testes com curl confirmaram:
 | URL da API | Auto-detectada: `localhost:5173` em dev, URL real em prod (via `scripts/config.js`) |
 | `animais.json` | Mantido como fallback se API cair. Remover após deploy confirmado. |
 
-### Arquivos a reescrever
+### Etapa 14 — Migração concluída ✅
 
-| Arquivo | O que muda |
+| Arquivo | O que mudou |
 |---------|-----------|
-| `scripts/config.js` | NOVO — `API_BASE` auto-detectada por hostname |
-| `scripts/auth.js` | fetch /api/auth/* + salva paws-jwt (localStorage ou sessionStorage) |
-| `scripts/data.js` | fetch GET /api/animais (fallback: animais.json) |
-| `scripts/adotar.js` | fetch POST /api/pedidos |
-| `scripts/meus-pedidos.js` | fetch GET /api/pedidos/meus |
-| `scripts/perfil.js` | fetch GET/PUT/DELETE /api/usuarios/me |
-| `scripts/proteger-rota.js` | decodifica JWT, verifica expiração |
-| `scripts/storage.js` | simplificar (remove chaves obsoletas) |
+| `scripts/config.js` | NOVO — `API_BASE` auto-detectada + `apiFetch` com JWT automático |
+| `scripts/storage.js` | Simplificado — removidas USUARIOS, SESSAO, PEDIDOS; adicionada JWT |
+| `scripts/auth.js` | fetch /api/auth/* + JWT em localStorage (lembrar) ou sessionStorage |
+| `scripts/data.js` | fetch GET /api/animais, fallback para animais.json |
+| `scripts/proteger-rota.js` | Decodifica JWT client-side, sem depender de auth.js |
+| `scripts/adotar.js` | fetch POST /api/pedidos via apiFetch |
+| `scripts/meus-pedidos.js` | fetch GET /api/pedidos/meus via apiFetch |
+| `scripts/perfil.js` | fetch GET/DELETE /api/usuarios/me, logout limpa paws-jwt |
+
+**localStorage após migração:**
+- Removidas: `paws-usuarios`, `paws-sessao`, `paws-pedidos`
+- Adicionada: `paws-jwt` (token JWT, quando "lembrar de mim" marcado)
+- Mantidas: `paws-tema`, `paws-mensagem-redirect`, `paws-redirect-pos-login`
 
 ---
 

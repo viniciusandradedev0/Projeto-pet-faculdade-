@@ -14,9 +14,61 @@
  * middleware de autorização). Este módulo é didático.
  */
 
-import { obterUsuario, estaLogado } from './auth.js';
 import { sessao, CHAVES } from './storage.js';
 import { salvarMensagemRedirect } from './bootstrap.js';
+
+// ============================================
+// HELPERS INTERNOS (não exportados)
+// ============================================
+
+/**
+ * Decodifica o payload de um JWT sem verificar assinatura.
+ * Suficiente para leitura client-side (ex.: expiração, dados do usuário).
+ *
+ * @param {string} token
+ * @returns {Object|null} payload decodificado ou null se inválido
+ */
+function decodificarJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+  } catch { return null; }
+}
+
+/**
+ * Lê o JWT salvo, preferindo localStorage (lembrar sessão)
+ * e caindo em sessionStorage (sessão temporária).
+ *
+ * @returns {string|null}
+ */
+function obterToken() {
+  return localStorage.getItem(CHAVES.JWT) ?? sessionStorage.getItem(CHAVES.JWT);
+}
+
+/**
+ * Verifica se há um JWT válido e não expirado.
+ *
+ * @returns {boolean}
+ */
+function estaLogado() {
+  const token = obterToken();
+  if (!token) return false;
+  const payload = decodificarJwt(token);
+  return !!payload && payload.exp * 1000 > Date.now();
+}
+
+/**
+ * Extrai os dados do usuário a partir do JWT, se válido.
+ * Retorna null se não há token ou se ele está expirado.
+ *
+ * @returns {{ id: string, nome: string, email: string }|null}
+ */
+function obterUsuarioDoToken() {
+  const token = obterToken();
+  if (!token) return null;
+  const payload = decodificarJwt(token);
+  if (!payload || payload.exp * 1000 <= Date.now()) return null;
+  return { id: payload.nameid, nome: payload.unique_name, email: payload.email };
+}
 
 // ============================================
 // API PÚBLICA
@@ -41,12 +93,12 @@ export function protegerRota(opcoes = {}) {
     lembrarOrigem = true,
   } = opcoes;
 
-  const usuario = obterUsuario();
+  const usuario = obterUsuarioDoToken();
 
-  // ✅ Logado → libera passagem
+  // Logado → libera passagem
   if (usuario) return usuario;
 
-  // ❌ Não logado → prepara redirect
+  // Não logado → prepara redirect
 
   // 1. Salva mensagem-redirect (mesmo sistema do bootstrap.js)
   salvarMensagemRedirect(mensagem, tipoToast);
@@ -82,8 +134,7 @@ export function obterRedirectPosLogin(fallback = 'index.html') {
 
 /**
  * Inverso: protege rotas que NÃO devem ser acessadas se logado
- * (ex.: login.html, cadastro.html). Substitui a duplicação que
- * existe hoje em login.js e cadastro.js.
+ * (ex.: login.html, cadastro.html).
  *
  * @param {Object} [opcoes]
  * @param {string} [opcoes.redirectTo='index.html']

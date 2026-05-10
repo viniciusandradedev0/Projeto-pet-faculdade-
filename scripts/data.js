@@ -1,49 +1,44 @@
 /**
  * data.js
- * Responsável por carregar os dados dos animais do JSON.
+ * Responsável por carregar os dados dos animais.
+ * Tenta a API REST primeiro; em caso de falha, usa o fallback local (animais.json).
  */
 
-const URL_DADOS = './data/animais.json';
+import { API_BASE } from './config.js';
+
+const URL_FALLBACK = 'data/animais.json';
 
 /**
- * Carrega a lista de animais do arquivo JSON.
+ * Carrega a lista de animais.
+ * 1. Tenta GET ${API_BASE}/api/animais
+ * 2. Se falhar (network error ou resposta não-ok), usa data/animais.json como fallback.
+ * 3. Se o fallback também falhar, lança o erro.
+ *
+ * Objetos retornados da API têm o campo "id" substituído pelo "slug"
+ * para manter compatibilidade com render.js.
+ *
  * @returns {Promise<Array>} Lista de animais
  */
 export async function carregarAnimais() {
   try {
-    const resposta = await fetch(URL_DADOS);
+    const resposta = await fetch(`${API_BASE}/api/animais`);
 
     if (!resposta.ok) {
-      throw new Error(`Erro HTTP ${resposta.status}: não foi possível carregar ${URL_DADOS}`);
+      throw new Error(`Resposta não-ok da API: ${resposta.status} ${resposta.statusText}`);
     }
 
     const animais = await resposta.json();
 
-    if (!Array.isArray(animais)) {
-      throw new Error('JSON inválido: esperado um array de animais');
+    return animais.map(animal => ({ ...animal, id: animal.slug }));
+  } catch (erroApi) {
+    console.warn('Aviso: API indisponível, usando fallback local.', erroApi);
+
+    const respostaFallback = await fetch(URL_FALLBACK);
+
+    if (!respostaFallback.ok) {
+      throw new Error(`Fallback também falhou: HTTP ${respostaFallback.status}`);
     }
 
-    return animais;
-  } catch (erro) {
-    console.error('❌ Falha ao carregar animais:', erro.message);
-    console.error('Verifique:');
-    console.error('1. O arquivo data/animais.json existe?');
-    console.error('2. O JSON é válido? (use https://jsonlint.com)');
-    console.error('3. O Live Server está rodando?');
-
-    document.querySelectorAll('[data-lista]').forEach(container => {
-      container.innerHTML = `
-        <p class="mensagem-vazia mensagem-vazia--erro" role="alert">
-          ⚠️ Erro ao carregar animais. Verifique o console (F12) para mais detalhes.
-        </p>
-      `;
-    });
-
-    const contador = document.getElementById('contador-resultados');
-    if (contador) {
-      contador.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.';
-    }
-
-    return [];
+    return respostaFallback.json();
   }
 }

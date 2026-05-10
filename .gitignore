@@ -4,6 +4,7 @@ dist/
 coverage/
 
 # .NET
+*.sln
 backend/**/bin/
 backend/**/obj/
 backend/**/*.db

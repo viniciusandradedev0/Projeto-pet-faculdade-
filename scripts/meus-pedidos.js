@@ -4,15 +4,14 @@
  *
  * Responsabilidades:
  * - Proteger a rota (requer login)
- * - Ler paws-pedidos do localStorage e filtrar pelo usuário logado
+ * - Buscar pedidos do usuário na API REST (GET /api/pedidos/meus)
  * - Renderizar lista de pedidos com status
  * - Exibir estado vazio com CTA para animais.html
  */
 
 import { protegerRota } from './proteger-rota.js';
-import { obterEmailUsuario } from './auth.js';
-import { storage, CHAVES } from './storage.js';
-import { inicializarBootstrap } from './bootstrap.js';
+import { inicializarBootstrap, mostrarToast } from './bootstrap.js';
+import { apiFetch } from './config.js';
 
 // ============================================
 // CONFIGURAÇÃO DE STATUS
@@ -31,43 +30,41 @@ const ICONE_ESPECIE = { gato: '🐱', cachorro: '🐶' };
 // INICIALIZAÇÃO
 // ============================================
 
-function init() {
+async function init() {
   inicializarBootstrap();
 
-  const usuario = protegerRota({
-    mensagem: 'Faça login para ver seus pedidos de adoção. 🐾',
-  });
+  const usuario = protegerRota({ mensagem: 'Faça login para ver seus pedidos de adoção. 🐾' });
   if (!usuario) return;
-
-  const emailUsuario = obterEmailUsuario();
-  const todosPedidos = storage.ler(CHAVES.PEDIDOS, []);
-  const meusPedidos = todosPedidos.filter((p) => p.usuarioEmail === emailUsuario);
 
   const lista = document.getElementById('lista-pedidos');
   const estadoVazio = document.getElementById('estado-vazio');
   const contadorEl = document.getElementById('contador-pedidos');
 
-  if (!lista) return;
+  try {
+    const res = await apiFetch('/api/pedidos/meus');
+    if (!res.ok) throw new Error('Falha ao buscar pedidos.');
 
-  if (meusPedidos.length === 0) {
-    lista.hidden = true;
-    if (estadoVazio) estadoVazio.hidden = false;
-    if (contadorEl) contadorEl.hidden = true;
-    return;
+    const pedidos = await res.json(); // array de PedidoResponseDto
+
+    if (pedidos.length === 0) {
+      lista.hidden = true;
+      if (estadoVazio) estadoVazio.hidden = false;
+      if (contadorEl) contadorEl.hidden = true;
+      return;
+    }
+
+    if (contadorEl) {
+      contadorEl.textContent = `${pedidos.length} pedido${pedidos.length > 1 ? 's' : ''}`;
+    }
+
+    const fragment = document.createDocumentFragment();
+    pedidos.forEach(pedido => fragment.appendChild(criarCardPedido(pedido)));
+    lista.appendChild(fragment);
+
+  } catch (err) {
+    console.error('[meus-pedidos]', err);
+    mostrarToast('Não foi possível carregar seus pedidos.', 'erro');
   }
-
-  if (contadorEl) {
-    contadorEl.textContent = `${meusPedidos.length} pedido${meusPedidos.length > 1 ? 's' : ''}`;
-  }
-
-  // Ordem: mais recentes primeiro
-  const ordenados = [...meusPedidos].sort(
-    (a, b) => new Date(b.dataPedido) - new Date(a.dataPedido)
-  );
-
-  const fragment = document.createDocumentFragment();
-  ordenados.forEach((pedido) => fragment.appendChild(criarCardPedido(pedido)));
-  lista.appendChild(fragment);
 }
 
 // ============================================

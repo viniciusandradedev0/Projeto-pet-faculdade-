@@ -4,25 +4,36 @@
  *
  * Responsabilidades:
  *  - Protege a rota (redireciona se não logado)
- *  - Exibe os dados do usuário na tela
+ *  - Busca os dados do usuário via GET /api/usuarios/me
+ *  - Exibe os dados na tela
  *  - Permite excluir a conta com confirmação via <dialog> nativo
  */
 
-import { inicializarBootstrap, salvarMensagemRedirect } from './bootstrap.js';
+import { inicializarBootstrap, salvarMensagemRedirect, mostrarToast } from './bootstrap.js';
 import { protegerRota } from './proteger-rota.js';
-import { obterUsuario, logout } from './auth.js';
-import { storage, CHAVES } from './storage.js';
+import { apiFetch } from './config.js';
 
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
 
-inicializarBootstrap();
+async function init() {
+  inicializarBootstrap();
 
-const usuario = protegerRota({ mensagem: 'Faça login para acessar seu perfil. 🐾' });
-if (!usuario) {
-  // Rota protegida — o redirect já foi disparado, interrompe execução
-  throw new Error('Usuário não autenticado. Redirecionando…');
+  const usuario = protegerRota({ mensagem: 'Faça login para acessar seu perfil. 🐾' });
+  if (!usuario) {
+    // Rota protegida — o redirect já foi disparado, interrompe execução
+    return;
+  }
+
+  try {
+    await preencherPagina();
+  } catch (erro) {
+    console.error('[perfil] Erro ao carregar dados:', erro);
+    mostrarToast('Não foi possível carregar seu perfil. Tente novamente.', 'erro');
+  }
+
+  configurarDialogExclusao();
 }
 
 // ============================================
@@ -33,99 +44,114 @@ if (!usuario) {
  * Formata uma data ISO 8601 para o formato legível em pt-BR.
  * Ex.: "2024-03-15T10:00:00.000Z" → "15 de março de 2024"
  *
- * @param {string} dataISO
+ * @param {string} iso
  * @returns {string}
  */
-function formatarData(dataISO) {
+function formatarData(iso) {
   try {
-    return new Date(dataISO).toLocaleDateString('pt-BR', {
+    return new Date(iso).toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
     });
   } catch {
-    return dataISO;
+    return iso;
   }
 }
 
 /**
- * Preenche os elementos de exibição com os dados do usuário.
+ * Busca os dados do usuário na API e preenche os elementos de exibição.
  */
-function preencherDados() {
-  const seletor = (id) => document.getElementById(id);
+async function preencherPagina() {
+  const res = await apiFetch('/api/usuarios/me');
+  if (!res.ok) throw new Error('Sessão inválida.');
+  const usuario = await res.json(); // { id, nome, email, telefone, dataCadastro }
 
-  const nomeTitulo = seletor('perfil-nome-titulo');
-  if (nomeTitulo) nomeTitulo.textContent = usuario.nome;
+  const nomeEl = document.getElementById('perfil-nome-titulo');
+  if (nomeEl) nomeEl.textContent = usuario.nome;
 
-  const campoNome = seletor('perfil-nome');
-  if (campoNome) campoNome.textContent = usuario.nome;
-
-  const campoEmail = seletor('perfil-email');
-  if (campoEmail) campoEmail.textContent = usuario.email;
-
-  const campoTelefone = seletor('perfil-telefone');
-  if (campoTelefone) campoTelefone.textContent = usuario.telefone || '—';
-
-  const campoData = seletor('perfil-data');
-  if (campoData) campoData.textContent = formatarData(usuario.dataCadastro);
+  const campos = {
+    'perfil-nome':     usuario.nome,
+    'perfil-email':    usuario.email,
+    'perfil-telefone': usuario.telefone || '—',
+    'perfil-data':     formatarData(usuario.dataCadastro),
+  };
+  Object.entries(campos).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  });
 }
-
-preencherDados();
 
 // ============================================
 // EXCLUSÃO DE CONTA
 // ============================================
 
-const dialog = document.getElementById('dialog-confirmar-exclusao');
-const btnExcluir = document.getElementById('btn-excluir-conta');
-const btnConfirmar = document.getElementById('btn-confirmar-exclusao');
-const btnCancelar = document.getElementById('btn-cancelar-exclusao');
-
 /**
- * Abre o dialog nativo de confirmação.
+ * Configura os eventos do dialog de confirmação de exclusão.
  */
-function abrirDialogExclusao() {
-  if (dialog) dialog.showModal();
+function configurarDialogExclusao() {
+  const dialog     = document.getElementById('dialog-confirmar-exclusao');
+  const btnExcluir  = document.getElementById('btn-excluir-conta');
+  const btnConfirmar = document.getElementById('btn-confirmar-exclusao');
+  const btnCancelar  = document.getElementById('btn-cancelar-exclusao');
+
+  /**
+   * Abre o dialog nativo de confirmação.
+   */
+  function abrirDialogExclusao() {
+    if (dialog) dialog.showModal();
+  }
+
+  /**
+   * Fecha o dialog sem fazer nada.
+   */
+  function fecharDialog() {
+    if (dialog) dialog.close();
+  }
+
+  /**
+   * Executa a exclusão da conta via API:
+   *  1. DELETE /api/usuarios/me
+   *  2. Remove o JWT do storage
+   *  3. Redireciona para a home com mensagem de despedida
+   */
+  async function confirmarExclusao() {
+    try {
+      const res = await apiFetch('/api/usuarios/me', { method: 'DELETE' });
+
+      if (res.ok) {
+        // Remove o JWT de ambos os storages
+        localStorage.removeItem('paws-jwt');
+        sessionStorage.removeItem('paws-jwt');
+
+        salvarMensagemRedirect('Sua conta foi excluída. Até logo! 👋', 'info');
+        window.location.replace('index.html');
+      } else {
+        mostrarToast('Não foi possível excluir sua conta. Tente novamente.', 'erro');
+        fecharDialog();
+      }
+    } catch {
+      mostrarToast('Erro de conexão. Verifique sua internet e tente novamente.', 'erro');
+      fecharDialog();
+    }
+  }
+
+  // Vincula eventos
+  if (btnExcluir)   btnExcluir.addEventListener('click', abrirDialogExclusao);
+  if (btnConfirmar) btnConfirmar.addEventListener('click', confirmarExclusao);
+  if (btnCancelar)  btnCancelar.addEventListener('click', fecharDialog);
+
+  // Fecha o dialog ao clicar fora (no backdrop nativo)
+  if (dialog) {
+    dialog.addEventListener('click', (evento) => {
+      // O clique é no backdrop quando o alvo é o próprio <dialog>
+      if (evento.target === dialog) fecharDialog();
+    });
+  }
 }
 
-/**
- * Fecha o dialog sem fazer nada.
- */
-function fecharDialog() {
-  if (dialog) dialog.close();
-}
+// ============================================
+// PONTO DE ENTRADA
+// ============================================
 
-/**
- * Executa a exclusão da conta:
- *  1. Remove o usuário da lista no storage
- *  2. Encerra a sessão
- *  3. Redireciona para a home com mensagem de despedida
- */
-function confirmarExclusao() {
-  const emailUsuario = usuario.email;
-
-  // Lê lista atual, remove o usuário e salva de volta
-  const lista = storage.ler(CHAVES.USUARIOS, []);
-  const listaAtualizada = lista.filter((u) => u.email !== emailUsuario);
-  storage.salvar(CHAVES.USUARIOS, listaAtualizada);
-
-  // Encerra sessão
-  logout();
-
-  // Agenda mensagem de despedida e redireciona
-  salvarMensagemRedirect('Sua conta foi excluída. Até logo! 👋', 'info');
-  window.location.replace('index.html');
-}
-
-// Vincula eventos
-if (btnExcluir) btnExcluir.addEventListener('click', abrirDialogExclusao);
-if (btnConfirmar) btnConfirmar.addEventListener('click', confirmarExclusao);
-if (btnCancelar) btnCancelar.addEventListener('click', fecharDialog);
-
-// Fecha o dialog ao clicar fora (no backdrop nativo)
-if (dialog) {
-  dialog.addEventListener('click', (evento) => {
-    // O clique é no backdrop quando o alvo é o próprio <dialog>
-    if (evento.target === dialog) fecharDialog();
-  });
-}
+init();
