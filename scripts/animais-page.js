@@ -18,6 +18,7 @@ import { renderizarPorEspecie } from './render.js';
 import { inicializarFiltros } from './filtros.js';
 import { inicializarBootstrap } from './bootstrap.js';
 import { observarCards } from './animacoes.js';
+import { inicializarFavoritos } from './favoritos.js';
 
 async function init() {
   inicializarBootstrap();
@@ -26,10 +27,12 @@ async function init() {
 
   renderizarPorEspecie(animais);
   observarCards();
+  await inicializarFavoritos();
 
-  inicializarFiltros(animais, (filtrados) => {
+  inicializarFiltros(animais, async (filtrados) => {
     renderizarPorEspecie(filtrados);
     observarCards();
+    await inicializarFavoritos();
   });
 }
 

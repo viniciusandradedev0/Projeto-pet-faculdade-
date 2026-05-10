@@ -56,6 +56,16 @@ function criarCardElemento(animal) {
     card.appendChild(linkWrapper);
   }
 
+  // Botão de favorito (coração)
+  const btnFav = document.createElement('button');
+  btnFav.type = 'button';
+  btnFav.className = 'btn-favorito';
+  btnFav.dataset.animalId = animal.id; // animal.id é o slug
+  btnFav.setAttribute('aria-label', `Adicionar ${animal.nome} aos favoritos`);
+  btnFav.setAttribute('aria-pressed', 'false');
+  btnFav.textContent = '🤍';
+  card.appendChild(btnFav);
+
   return card;
 }
 

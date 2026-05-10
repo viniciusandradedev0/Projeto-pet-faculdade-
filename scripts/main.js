@@ -16,6 +16,7 @@ import { carregarAnimais } from './data.js';
 import { renderizarAnimais } from './render.js';
 import { inicializarBootstrap } from './bootstrap.js';
 import { observarCards } from './animacoes.js';
+import { inicializarFavoritos } from './favoritos.js';
 
 
 // === Configurações ===
@@ -139,6 +140,9 @@ async function init() {
 
     // === Anima cards (fade-in cascata) ===
     observarCards();
+
+    // === Inicializa favoritos (preenche corações) ===
+    await inicializarFavoritos();
   } catch (erro) {
     console.error('[main] Falha ao inicializar a home:', erro);
     mostrarErroCarregamento();

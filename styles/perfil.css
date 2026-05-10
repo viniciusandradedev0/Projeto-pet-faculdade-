@@ -136,6 +136,56 @@
   word-break: break-word;
 }
 
+/* ===== SEÇÃO DE EDIÇÃO ===== */
+.perfil-edicao {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.015);
+}
+
+[data-tema="dark"] .perfil-edicao {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.perfil-edicao__titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cor-texto, inherit);
+  margin: 0 0 1.25rem 0;
+}
+
+.perfil-edicao__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.perfil-edicao__acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 520px) {
+  .perfil-edicao {
+    padding: 1rem 1rem;
+  }
+
+  .perfil-edicao__acoes {
+    flex-direction: column-reverse;
+  }
+
+  .perfil-edicao__acoes .btn-modal {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* ===== ZONA DE PERIGO ===== */
 .perfil-zona-perigo {
   margin-top: 2rem;

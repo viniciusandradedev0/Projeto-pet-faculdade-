@@ -1,0 +1,373 @@
+/* ============================================
+   FAVORITOS — botão coração nos cards e página de favoritos
+   ============================================ */
+
+/* ===== BOTÃO CORAÇÃO NOS CARDS ===== */
+.btn-favorito {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--raio-pill, 999px);
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+  align-self: center;
+  margin-top: 0.25rem;
+  /* Garante que fique visível sobre o card laranja */
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-favorito:hover {
+  transform: scale(1.25);
+  opacity: 0.85;
+}
+
+.btn-favorito:active {
+  transform: scale(0.95);
+}
+
+.btn-favorito:focus-visible {
+  outline: 3px solid var(--cor-branca, #fff);
+  outline-offset: 2px;
+}
+
+.btn-favorito:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ===== CONTAINER PRINCIPAL DA PÁGINA ===== */
+.favoritos-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+/* ===== CABEÇALHO DA LISTA ===== */
+.favoritos-cabecalho {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.favoritos-cabecalho__titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--cor-texto, inherit);
+}
+
+.favoritos-cabecalho__contador {
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave, #666);
+  background: var(--cor-borda, rgba(0, 0, 0, 0.06));
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+}
+
+[data-tema="dark"] .favoritos-cabecalho__contador {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* ===== LISTA DE FAVORITOS ===== */
+.lista-favoritos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ===== CARD DE FAVORITO ===== */
+.favorito-card {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  background: var(--cor-fundo-card, #fff);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.06));
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.3s ease;
+  animation: favorito-entrada 0.35s ease-out both;
+}
+
+.favorito-card:hover {
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+[data-tema="dark"] .favorito-card {
+  background: var(--cor-fundo-card, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Animação de entrada */
+@keyframes favorito-entrada {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Delay cascata para os primeiros cards */
+.lista-favoritos > li:nth-child(1) .favorito-card { animation-delay: 0.05s; }
+.lista-favoritos > li:nth-child(2) .favorito-card { animation-delay: 0.10s; }
+.lista-favoritos > li:nth-child(3) .favorito-card { animation-delay: 0.15s; }
+.lista-favoritos > li:nth-child(4) .favorito-card { animation-delay: 0.20s; }
+.lista-favoritos > li:nth-child(5) .favorito-card { animation-delay: 0.25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .favorito-card { animation: none; }
+}
+
+/* Classe para animação de saída ao remover */
+.favorito-card--saindo {
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+}
+
+/* ===== IMAGEM DO ANIMAL ===== */
+.favorito-card__img-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--cor-borda, rgba(0, 0, 0, 0.06));
+  flex-shrink: 0;
+  position: relative;
+}
+
+.favorito-card__img-wrapper.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+.favorito-card__img-wrapper.is-error::before {
+  content: '🐾';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.favorito-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.favorito-card:hover .favorito-card__img {
+  transform: scale(1.05);
+}
+
+[data-tema="dark"] .favorito-card__img-wrapper {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ===== INFO DO ANIMAL ===== */
+.favorito-card__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.favorito-card__nome {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--cor-texto, inherit);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favorito-card__especie {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--cor-texto-suave, #666);
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+
+[data-tema="dark"] .favorito-card__especie {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+.favorito-card__acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+/* ===== BOTÃO ADOTAR (no card de favorito) ===== */
+.favorito-card .btn-adotar-fav {
+  display: inline-block;
+  background-color: var(--cor-sucesso, #22c55e);
+  color: var(--cor-branca, #fff);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 1rem;
+  border-radius: var(--raio-pill, 999px);
+  white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.favorito-card .btn-adotar-fav:hover {
+  background-color: var(--cor-sucesso-hover, #16a34a);
+  transform: scale(1.04);
+}
+
+.favorito-card .btn-adotar-fav:focus-visible {
+  outline: 3px solid var(--cor-primaria, #f97316);
+  outline-offset: 3px;
+}
+
+/* ===== BOTÃO REMOVER FAVORITO ===== */
+.btn-remover-fav {
+  background: none;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--raio-pill, 999px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-remover-fav:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-color: #dc2626;
+  transform: scale(1.03);
+}
+
+.btn-remover-fav:active {
+  transform: scale(0.97);
+}
+
+.btn-remover-fav:focus-visible {
+  outline: 3px solid #dc2626;
+  outline-offset: 2px;
+}
+
+.btn-remover-fav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+[data-tema="dark"] .btn-remover-fav {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+[data-tema="dark"] .btn-remover-fav:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+  border-color: #f87171;
+}
+
+/* ===== ESTADO VAZIO ===== */
+.favoritos-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.favoritos-vazio__icone {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.favoritos-vazio__titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--cor-texto, inherit);
+}
+
+.favoritos-vazio__texto {
+  margin: 0;
+  color: var(--cor-texto-suave, #666);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+[data-tema="dark"] .favoritos-vazio__texto {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 520px) {
+  .favoritos-page {
+    padding: 1.5rem 0.75rem 3rem;
+  }
+
+  .favorito-card {
+    grid-template-columns: 64px 1fr;
+    grid-template-rows: auto auto;
+    padding: 1rem;
+  }
+
+  .favorito-card__acoes {
+    grid-column: 2;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .favorito-card__img-wrapper {
+    width: 64px;
+    height: 64px;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+}

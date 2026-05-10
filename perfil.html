@@ -92,6 +92,37 @@
         </dl>
       </section>
 
+      <!-- ===== EDITAR PERFIL ===== -->
+      <section class="perfil-edicao" aria-labelledby="titulo-edicao">
+        <h2 id="titulo-edicao" class="perfil-edicao__titulo">Editar informações</h2>
+
+        <form id="form-editar-perfil" class="perfil-edicao__form" novalidate>
+          <div class="campo">
+            <label for="edit-nome">Nome completo *</label>
+            <input type="text" id="edit-nome" name="nome" required minlength="3"
+                   autocomplete="name" aria-describedby="erro-edit-nome" />
+            <small id="erro-edit-nome" class="campo__erro" data-erro="nome"></small>
+          </div>
+
+          <div class="campo">
+            <label for="edit-telefone">Telefone *</label>
+            <input type="tel" id="edit-telefone" name="telefone" required
+                   placeholder="(41) 99999-9999" autocomplete="tel"
+                   aria-describedby="erro-edit-telefone" />
+            <small id="erro-edit-telefone" class="campo__erro" data-erro="telefone"></small>
+          </div>
+
+          <div class="perfil-edicao__acoes">
+            <button type="button" id="btn-cancelar-edicao" class="btn-modal btn-modal--secundario">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-modal btn-modal--primario">
+              Salvar alterações
+            </button>
+          </div>
+        </form>
+      </section>
+
       <!-- ===== ZONA DE PERIGO ===== -->
       <section class="perfil-zona-perigo" aria-labelledby="titulo-zona-perigo">
         <h3 class="perfil-zona-perigo__titulo" id="titulo-zona-perigo">Zona de perigo</h3>

@@ -144,6 +144,11 @@ export function atualizarHeader() {
       })
     );
     fragmento.appendChild(
+      criarItemLink('favoritos.html', 'Favoritos', {
+        ariaLabel: 'Meus animais favoritos',
+      })
+    );
+    fragmento.appendChild(
       criarItemLink('meus-pedidos.html', 'Meus Pedidos', {
         ariaLabel: 'Ver meus pedidos de adoção',
       })
