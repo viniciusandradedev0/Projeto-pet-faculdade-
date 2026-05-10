@@ -14,12 +14,18 @@
 - [x] Etapa 7 — Testes com Vitest
   - [x] 7.1 — Setup Vitest + jsdom (package.json, vitest.config.js)
   - [x] 7.2 — Testes unitários: validacao.js, storage.js, auth.js (105 testes passando)
-  - [ ] 7.2 — Testes unitários: filtros.js (busca normalizada, debounce) — pendente
-  - [ ] 7.3 — Checklist manual de fluxos E2E:
-              - Cadastro → Login → Adotar → Ver pedido
-              - Logout → tentar acessar rota protegida
-              - Excluir conta + verificar dados removidos
-  - [ ] 7.4 — Polimento final (responsividade mobile, a11y, console limpo)
+  - [x] 7.2 — Testes unitários: filtros.js (busca normalizada, debounce) — 20 testes (125 no total)
+  - [ ] 7.3 — Checklist manual de fluxos E2E (VOCÊ faz no navegador):
+              URL: https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
+              [ ] Cadastro → Login → clicar ADOTAR → preencher formulário → ver pedido em Meus Pedidos
+              [ ] Logout → tentar acessar /adotar.html ou /meus-pedidos.html → deve redirecionar para login
+              [ ] Login → Perfil → Excluir conta → confirmar que dados foram removidos do localStorage
+              [ ] Verificar dark mode em todas as páginas
+              [ ] Testar no celular (responsividade)
+  - [x] 7.4 — Polimento final:
+              - Removido console.log de dados do usuário em contato.js
+              - Corrigido HTML semântico: article agora dentro de li em meus-pedidos.js
+              - Corrigidos seletores CSS nth-child em meus-pedidos.css
 
 
 # ============================================================

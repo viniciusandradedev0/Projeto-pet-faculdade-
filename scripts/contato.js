@@ -46,8 +46,6 @@ function inicializarFormularioContato() {
     dados.consentimentoTimestamp = new Date().toISOString();
     dados.consentimentoVersao = '1.0';
 
-    console.log('[contato] Mensagem com evidência de consentimento:', dados);
-
     mostrarToast(
       `Obrigado, ${dados.nome.split(' ')[0]}! Sua mensagem foi enviada. 💛`,
       'sucesso'

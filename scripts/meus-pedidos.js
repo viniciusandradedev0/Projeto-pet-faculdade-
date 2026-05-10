@@ -79,6 +79,7 @@ function criarCardPedido(pedido) {
   const icone = ICONE_ESPECIE[pedido.animalEspecie] || '🐾';
   const dataFormatada = formatarData(pedido.dataPedido);
 
+  const li = document.createElement('li');
   const article = document.createElement('article');
   article.className = 'pedido-card';
 
@@ -101,7 +102,8 @@ function criarCardPedido(pedido) {
     </div>
   `;
 
-  return article;
+  li.appendChild(article);
+  return li;
 }
 
 function formatarData(isoString) {
