@@ -80,9 +80,49 @@ Usuario ──< Pedido >── Animal
 - `Program.cs` com JWT Bearer, CORS e migrations automáticas na inicialização
 - Migration inicial `CriarTabelasIniciais` gerada
 
-### Próximo — Etapa 9: Seed + banco rodando
-→ Popular tabela Animais com os 15 do `data/animais.json`
-→ `dotnet run` e confirmar que o SQLite é criado
+### Etapas 9–13 — API completa ✅
+
+**Estrutura de arquivos criada:**
+```
+backend/PawsPlace.Api/
+├── Services/
+│   ├── JwtService.cs       — gera token HS256 com claims
+│   └── AuthService.cs      — cadastro (bcrypt) + login
+├── Controllers/
+│   ├── AuthController.cs   — POST cadastro / login
+│   ├── AnimaisController.cs— GET animais (público)
+│   ├── PedidosController.cs— POST + GET pedidos (auth)
+│   ├── FavoritosController.cs — POST/DELETE/GET favoritos (auth)
+│   └── UsuariosController.cs  — GET/PUT/DELETE perfil (auth)
+├── DTOs/
+│   ├── Auth/       (CadastroDto, LoginDto, TokenResponseDto)
+│   ├── Animais/    (AnimalResponseDto)
+│   ├── Pedidos/    (CriarPedidoDto, PedidoResponseDto)
+│   ├── Favoritos/  (FavoritoResponseDto)
+│   └── Usuarios/   (AtualizarPerfilDto, PerfilResponseDto)
+└── Data/Seed.cs    — 15 animais populados na inicialização
+```
+
+**Endpoints implementados:**
+
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| POST | /api/auth/cadastro | ❌ | Cadastro + retorna JWT |
+| POST | /api/auth/login | ❌ | Login + retorna JWT |
+| GET | /api/animais | ❌ | Lista todos os animais |
+| GET | /api/animais/{slug} | ❌ | Detalhe por slug |
+| POST | /api/pedidos | ✅ | Criar pedido de adoção |
+| GET | /api/pedidos/meus | ✅ | Meus pedidos |
+| POST | /api/favoritos/{slug} | ✅ | Adicionar favorito |
+| DELETE | /api/favoritos/{slug} | ✅ | Remover favorito |
+| GET | /api/favoritos/meus | ✅ | Meus favoritos |
+| GET | /api/usuarios/me | ✅ | Ver perfil |
+| PUT | /api/usuarios/me | ✅ | Atualizar nome/telefone |
+| DELETE | /api/usuarios/me | ✅ | Excluir conta |
+
+**Build final: 0 erros, 0 warnings.**
+
+### Próximo — Etapa 14: Migração do front para consumir a API
 
 ---
 

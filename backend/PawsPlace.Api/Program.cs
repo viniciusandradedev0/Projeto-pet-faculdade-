@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PawsPlace.Api.Data;
+using PawsPlace.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +55,12 @@ builder.Services.AddCors(options =>
 });
 
 // ============================================================
+// SERVIÇOS DE APLICAÇÃO
+// ============================================================
+builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<AuthService>();
+
+// ============================================================
 // CONTROLLERS
 // ============================================================
 builder.Services.AddControllers();
@@ -67,6 +74,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    Seed.PopularAnimais(db);
 }
 
 // ============================================================

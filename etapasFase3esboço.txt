@@ -14,35 +14,34 @@
   - Program.cs: JWT + CORS + migrations automáticas
   - Migration inicial: CriarTabelasIniciais
 
-- [ ] Etapa 9 — Seed dos animais + verificação do banco
-  - Popular tabela Animais com os 15 do data/animais.json
-  - Rodar dotnet run e confirmar que o banco é criado
-  - Banco sugerido: SQLite (dev) → PostgreSQL (prod)
+- [x] Etapa 9 — Seed dos animais + verificação do banco
+  - Data/Seed.cs criado com os 15 animais hardcoded
+  - dotnet run confirmou: migration rodou + banco SQLite criado (56KB)
 
-- [ ] Etapa 10 — Autenticação JWT
-  - POST /api/auth/cadastro — bcrypt hash, retorna JWT
-  - POST /api/auth/login    — verifica hash, retorna JWT
-  - POST /api/auth/logout   — client descarta o token
-  - JwtService: gerar e validar tokens
-  - JWT contém: userId, email, nome, expiração
+- [x] Etapa 10 — Autenticação JWT
+  - JwtService: gera token HS256 com claims (NameIdentifier, Email, Name)
+  - AuthService: cadastro (bcrypt work=12) + login com mensagem genérica
+  - POST /api/auth/cadastro → 201 + TokenResponseDto
+  - POST /api/auth/login    → 200 + TokenResponseDto
+  - Erros: 409 email duplicado, 401 credenciais inválidas
 
-- [ ] Etapa 11 — Endpoints de animais (público)
-  - GET /api/animais        — lista todos
-  - GET /api/animais/{slug} — detalhe por slug
+- [x] Etapa 11 — Endpoints de animais (público)
+  - GET /api/animais        → lista ordenada por espécie+nome
+  - GET /api/animais/{slug} → 200 ou 404
 
-- [ ] Etapa 12 — Endpoints de pedidos (autenticado)
-  - POST /api/pedidos       — criar pedido
-  - GET  /api/pedidos/meus  — pedidos do usuário logado
+- [x] Etapa 12 — Endpoints de pedidos (autenticado)
+  - POST /api/pedidos       → 201, bloqueia pedido duplicado pendente (409)
+  - GET  /api/pedidos/meus  → lista do usuário logado, mais recente primeiro
 
-- [ ] Etapa 12.5 — Favoritos (autenticado)
-  - POST   /api/favoritos/{animalSlug} — adicionar
-  - DELETE /api/favoritos/{animalSlug} — remover
-  - GET    /api/favoritos/meus         — listar com dados do animal
+- [x] Etapa 12.5 — Favoritos (autenticado)
+  - POST   /api/favoritos/{animalSlug} → 201 ou 409 se já existe
+  - DELETE /api/favoritos/{animalSlug} → 204 ou 404
+  - GET    /api/favoritos/meus         → lista com dados do animal
 
-- [ ] Etapa 13 — Endpoints de perfil (autenticado)
-  - GET    /api/usuarios/me — dados do usuário
-  - PUT    /api/usuarios/me — atualizar nome/telefone
-  - DELETE /api/usuarios/me — excluir conta + pedidos + favoritos
+- [x] Etapa 13 — Endpoints de perfil (autenticado)
+  - GET    /api/usuarios/me → 200 com PerfilResponseDto
+  - PUT    /api/usuarios/me → valida nome+telefone, 200 ou 400
+  - DELETE /api/usuarios/me → 204 (cascade remove pedidos + favoritos)
 
 - [ ] Etapa 14 — Migração do front-end para consumir a API
   - Criar scripts/api.js (URL base da API)
