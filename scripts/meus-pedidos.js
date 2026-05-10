@@ -53,6 +53,8 @@ async function init() {
       return;
     }
 
+    if (estadoVazio) estadoVazio.hidden = true;
+
     if (contadorEl) {
       contadorEl.textContent = `${pedidos.length} pedido${pedidos.length > 1 ? 's' : ''}`;
     }
