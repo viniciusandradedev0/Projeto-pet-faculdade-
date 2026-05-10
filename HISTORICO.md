@@ -146,13 +146,21 @@ Testes com curl confirmaram:
 | `paws-mensagem-redirect` | toast pós-redirect | permanece |
 | `paws-redirect-pos-login` | URL de retorno | permanece |
 
+### Decisões da Etapa 14
+
+| Decisão | Escolha |
+|---------|---------|
+| "Lembrar de mim" | JWT em `localStorage` se marcado, `sessionStorage` se não — mantém comportamento atual. Remoção planejada para Fase 3. |
+| URL da API | Auto-detectada: `localhost:5173` em dev, URL real em prod (via `scripts/config.js`) |
+| `animais.json` | Mantido como fallback se API cair. Remover após deploy confirmado. |
+
 ### Arquivos a reescrever
 
 | Arquivo | O que muda |
 |---------|-----------|
-| `scripts/config.js` | NOVO — `API_BASE = 'http://localhost:5173'` |
-| `scripts/auth.js` | fetch /api/auth/* + salva paws-jwt |
-| `scripts/data.js` | fetch GET /api/animais |
+| `scripts/config.js` | NOVO — `API_BASE` auto-detectada por hostname |
+| `scripts/auth.js` | fetch /api/auth/* + salva paws-jwt (localStorage ou sessionStorage) |
+| `scripts/data.js` | fetch GET /api/animais (fallback: animais.json) |
 | `scripts/adotar.js` | fetch POST /api/pedidos |
 | `scripts/meus-pedidos.js` | fetch GET /api/pedidos/meus |
 | `scripts/perfil.js` | fetch GET/PUT/DELETE /api/usuarios/me |

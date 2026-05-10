@@ -64,7 +64,8 @@ Site de adoção de animais (gatos e cachorros). Stack completa:
 
 ### localStorage — após Etapa 14
 - `paws-tema` — preferência de tema
-- `paws-jwt` — token JWT do usuário logado
+- `paws-jwt` — token JWT (só se "lembrar de mim" marcado; se não, vai para sessionStorage)
+  → Remoção do "lembrar de mim" planejada para Fase 3 (substituir por refresh token)
 
 ### sessionStorage
 - `paws-sessao` — {email} sem lembrar **(removido na Etapa 14)**

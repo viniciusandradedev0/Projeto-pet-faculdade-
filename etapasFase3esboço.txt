@@ -45,29 +45,34 @@
 
 - [ ] Etapa 14 — Migração do front-end para consumir a API
   # Favoritos no front ficam para DEPOIS desta etapa
-  # API URL configurada em scripts/config.js (localhost agora, prod depois)
+  #
+  # DECISÕES DE IMPLEMENTAÇÃO:
+  # 1. "Lembrar de mim": JWT em localStorage se marcado, sessionStorage se desmarcado
+  #    → mantém comportamento atual. Remoção desta feature planejada para Fase 3.
+  # 2. API URL: auto-detectada por config.js (localhost em dev, URL real em prod)
+  # 3. animais.json: mantido como fallback se API cair. Remover após deploy confirmado.
   #
   # CRIAR:
-  - scripts/config.js          — API_BASE = 'http://localhost:5173'
+  - scripts/config.js          — API_BASE auto-detectada por hostname
   #
   # REESCREVER:
-  - scripts/auth.js            — fetch POST /api/auth/* + salva paws-jwt no localStorage
-  - scripts/data.js            — fetch GET /api/animais (remove uso de animais.json)
-  - scripts/adotar.js          — fetch POST /api/pedidos (remove paws-pedidos)
-  - scripts/meus-pedidos.js    — fetch GET /api/pedidos/meus (remove paws-pedidos)
+  - scripts/auth.js            — fetch /api/auth/* + paws-jwt em localStorage ou sessionStorage
+  - scripts/data.js            — fetch GET /api/animais (fallback: animais.json)
+  - scripts/adotar.js          — fetch POST /api/pedidos
+  - scripts/meus-pedidos.js    — fetch GET /api/pedidos/meus
   - scripts/perfil.js          — fetch GET/PUT/DELETE /api/usuarios/me
-  - scripts/proteger-rota.js   — decodifica JWT, verifica expiração, sem storage.js
-  - scripts/storage.js         — simplificar: manter só paws-tema, paws-jwt e redirect
+  - scripts/proteger-rota.js   — decodifica JWT, verifica expiração
+  - scripts/storage.js         — simplificar: manter só tema, jwt e redirect
   #
   # MANTER SEM ALTERAÇÃO:
   - validacao.js, filtros.js, render.js, tema.js
   - animacoes.js, voltar-topo.js, header.js, bootstrap.js
-  - modal.js (só mostrarToast), animais-page.js, main.js
-  - cadastro.js, login.js, contato.js, sobre.js
+  - modal.js, animais-page.js, main.js, cadastro.js
+  - login.js, contato.js, sobre.js
   #
   # localStorage APÓS migração:
   # REMOVE: paws-usuarios, paws-sessao, paws-pedidos
-  # ADICIONA: paws-jwt (token JWT)
+  # ADICIONA: paws-jwt (token JWT, só se "lembrar de mim" marcado)
   # MANTÉM: paws-tema, paws-mensagem-redirect, paws-redirect-pos-login
 
 - [ ] Etapa 15 — Deploy do back-end
@@ -81,6 +86,10 @@
 # FASE 3 — MELHORIAS FUTURAS (PÓS-BACKEND)
 # ============================================================
 
+- [ ] Remover "Lembrar de mim" ou substituir por refresh token real
+      (JWT com expiração curta + refresh token em httpOnly cookie)
+- [ ] Remover data/animais.json após deploy do backend confirmado
+- [ ] Favoritos no front (coração nos cards + favoritos.html)
 - [ ] Painel admin: gerenciar animais e atualizar status dos pedidos
 - [ ] Upload de foto de perfil (Azure Blob ou Cloudinary)
 - [ ] Notificações por e-mail ao mudar status do pedido (SendGrid)
