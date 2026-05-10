@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visualize e gerencie os dados da sua conta no PAWS PLACE.">
+  <title>Meu Perfil — PAWS PLACE</title>
+
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar -->
+  <script>
+    (function() {
+      const salvo = localStorage.getItem('paws-tema');
+      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const tema = salvo || (prefereDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <noscript class="noscript-aviso">
+    Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
+  </noscript>
+
+  <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+  <nav class="menu" aria-label="Navegação principal">
+    <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
+    <ul class="menu-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="animais.html">Animais</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
+      <li>
+        <button
+          type="button"
+          id="toggle-tema"
+          class="toggle-tema"
+          aria-label="Alternar tema escuro"
+          aria-pressed="false"
+          title="Alternar tema"
+        >
+          <span class="toggle-tema__icone toggle-tema__icone--sol" aria-hidden="true">☀️</span>
+          <span class="toggle-tema__icone toggle-tema__icone--lua" aria-hidden="true">🌙</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO COMPACTO ===== -->
+  <header class="politica-hero">
+    <div class="politica-hero__overlay"></div>
+    <div class="politica-hero__content">
+      <h1>Meu Perfil</h1>
+      <p>Gerencie sua conta 🐾</p>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="perfil-page">
+
+    <div class="perfil-card">
+
+      <!-- ===== CABEÇALHO DO CARD ===== -->
+      <div class="perfil-card__header">
+        <span class="perfil-card__icone" aria-hidden="true">🐾</span>
+        <h2 class="perfil-card__titulo" id="perfil-nome-titulo">—</h2>
+        <p class="perfil-card__subtitulo">Seus dados cadastrados</p>
+      </div>
+
+      <!-- ===== SEÇÃO DE DADOS ===== -->
+      <section class="perfil-secao" aria-labelledby="titulo-dados-perfil">
+        <h3 class="perfil-secao__titulo" id="titulo-dados-perfil">Informações da conta</h3>
+
+        <dl class="perfil-dados">
+          <dt class="perfil-dados__label">Nome completo</dt>
+          <dd class="perfil-dados__valor" id="perfil-nome">—</dd>
+
+          <dt class="perfil-dados__label">E-mail</dt>
+          <dd class="perfil-dados__valor" id="perfil-email">—</dd>
+
+          <dt class="perfil-dados__label">Telefone</dt>
+          <dd class="perfil-dados__valor" id="perfil-telefone">—</dd>
+
+          <dt class="perfil-dados__label">Membro desde</dt>
+          <dd class="perfil-dados__valor" id="perfil-data">—</dd>
+        </dl>
+      </section>
+
+      <!-- ===== ZONA DE PERIGO ===== -->
+      <section class="perfil-zona-perigo" aria-labelledby="titulo-zona-perigo">
+        <h3 class="perfil-zona-perigo__titulo" id="titulo-zona-perigo">Zona de perigo</h3>
+        <p class="perfil-zona-perigo__texto">
+          A exclusão da conta é permanente. Todos os seus dados e pedidos de adoção
+          serão removidos e não será possível recuperá-los.
+        </p>
+        <button
+          type="button"
+          id="btn-excluir-conta"
+          class="btn-perigo"
+          aria-label="Excluir minha conta permanentemente"
+        >
+          Excluir minha conta
+        </button>
+      </section>
+
+    </div><!-- /.perfil-card -->
+
+  </main>
+
+  <!-- ===== DIALOG DE CONFIRMAÇÃO ===== -->
+  <dialog id="dialog-confirmar-exclusao" class="perfil-dialog" aria-labelledby="dialog-titulo" aria-describedby="dialog-descricao">
+    <div class="perfil-dialog__conteudo">
+      <span class="perfil-dialog__icone" aria-hidden="true">⚠️</span>
+      <h2 class="perfil-dialog__titulo" id="dialog-titulo">Excluir conta?</h2>
+      <p class="perfil-dialog__texto" id="dialog-descricao">
+        Essa ação é permanente e não pode ser desfeita.<br>
+        Todos os seus dados e pedidos de adoção serão excluídos.
+      </p>
+      <div class="perfil-dialog__acoes">
+        <button
+          type="button"
+          id="btn-cancelar-exclusao"
+          class="btn-cancelar"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          id="btn-confirmar-exclusao"
+          class="btn-perigo"
+          aria-label="Confirmar exclusão permanente da conta"
+        >
+          Sim, excluir minha conta
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    <div class="footer-content">
+      <h3>Sobre Nós</h3>
+      <p>Você muda o mundo adotando um animal.<br>Mude o mundo desse animal. 🐾</p>
+      <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
+    </div>
+  </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+  <button
+    type="button"
+    id="btn-voltar-topo"
+    class="btn-voltar-topo"
+    aria-label="Voltar ao topo da página"
+    title="Voltar ao topo"
+    hidden
+  >
+    <svg class="btn-voltar-topo__progresso" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="btn-voltar-topo__progresso-track" cx="22" cy="22" r="20" />
+      <circle class="btn-voltar-topo__progresso-fill" cx="22" cy="22" r="20" />
+    </svg>
+    <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
+  </button>
+
+  <script type="module" src="scripts/perfil.js"></script>
+
+</body>
+</html>

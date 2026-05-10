@@ -35,13 +35,11 @@ function criarCardElemento(animal) {
   age.textContent = animal.idade;
   card.appendChild(age);
 
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'btn-adotar';
-  button.dataset.animalId = animal.id;
-  button.dataset.animalNome = animal.nome;
-  button.textContent = 'ADOTAR';
-  card.appendChild(button);
+  const link = document.createElement('a');
+  link.href = `adotar.html?id=${encodeURIComponent(animal.id)}`;
+  link.className = 'btn-adotar';
+  link.textContent = 'ADOTAR';
+  card.appendChild(link);
 
   if (animal.linkDetalhes) {
     const linkWrapper = document.createElement('p');

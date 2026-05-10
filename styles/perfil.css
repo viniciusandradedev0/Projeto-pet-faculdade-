@@ -1,0 +1,355 @@
+/* ============================================
+   PERFIL — página de perfil do usuário logado
+   Card centralizado com dados e zona de perigo.
+   Reaproveita tokens e padrões do auth.css.
+   ============================================ */
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.perfil-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 3rem 1rem 4rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 152, 0, 0.06), transparent 60%);
+}
+
+[data-tema="dark"] .perfil-page {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.05), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 152, 0, 0.04), transparent 60%);
+}
+
+/* ===== CARD PRINCIPAL ===== */
+.perfil-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--cor-fundo-card, #fff);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.06));
+  animation: perfil-card-entrada 0.4s ease-out;
+}
+
+[data-tema="dark"] .perfil-card {
+  background: var(--cor-fundo-card, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes perfil-card-entrada {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CABEÇALHO DO CARD ===== */
+.perfil-card__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.perfil-card__icone {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  display: block;
+  animation: perfil-icone-pulso 2.5s ease-in-out infinite;
+}
+
+@keyframes perfil-icone-pulso {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perfil-card__icone { animation: none; }
+}
+
+.perfil-card__titulo {
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem 0;
+  color: var(--cor-texto, inherit);
+  font-weight: 700;
+}
+
+.perfil-card__subtitulo {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave, #666);
+}
+
+[data-tema="dark"] .perfil-card__subtitulo {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* ===== SEÇÃO DE DADOS ===== */
+.perfil-secao {
+  margin-bottom: 2rem;
+}
+
+.perfil-secao__titulo {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-texto-suave, #888);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.08));
+}
+
+[data-tema="dark"] .perfil-secao__titulo {
+  color: var(--cor-texto-suave, #888);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Grade label + valor em 2 colunas */
+.perfil-dados {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 0.9rem;
+  column-gap: 1.25rem;
+  align-items: baseline;
+}
+
+.perfil-dados__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave, #666);
+  white-space: nowrap;
+}
+
+[data-tema="dark"] .perfil-dados__label {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+.perfil-dados__valor {
+  font-size: 0.95rem;
+  color: var(--cor-texto, inherit);
+  word-break: break-word;
+}
+
+/* ===== ZONA DE PERIGO ===== */
+.perfil-zona-perigo {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+[data-tema="dark"] .perfil-zona-perigo {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.perfil-zona-perigo__titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #b91c1c;
+  margin: 0 0 0.4rem 0;
+}
+
+[data-tema="dark"] .perfil-zona-perigo__titulo {
+  color: #fca5a5;
+}
+
+.perfil-zona-perigo__texto {
+  font-size: 0.875rem;
+  color: var(--cor-texto-suave, #666);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+[data-tema="dark"] .perfil-zona-perigo__texto {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* Botão excluir */
+.btn-perigo {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: transparent;
+  color: #b91c1c;
+  border: 1.5px solid #b91c1c;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-perigo:hover,
+.btn-perigo:focus-visible {
+  background: #b91c1c;
+  color: #fff;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.btn-perigo:active {
+  transform: translateY(0);
+}
+
+[data-tema="dark"] .btn-perigo {
+  color: #fca5a5;
+  border-color: #fca5a5;
+}
+
+[data-tema="dark"] .btn-perigo:hover,
+[data-tema="dark"] .btn-perigo:focus-visible {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+/* ===== DIALOG DE CONFIRMAÇÃO ===== */
+dialog.perfil-dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  max-width: 420px;
+  width: calc(100% - 2rem);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  background: var(--cor-fundo-card, #fff);
+}
+
+[data-tema="dark"] dialog.perfil-dialog {
+  background: var(--cor-fundo-card, #1e1e1e);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Backdrop nativo do <dialog> */
+dialog.perfil-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.perfil-dialog__conteudo {
+  padding: 2rem;
+}
+
+.perfil-dialog__icone {
+  font-size: 2.5rem;
+  display: block;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.perfil-dialog__titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 0.75rem 0;
+  color: var(--cor-texto, inherit);
+}
+
+.perfil-dialog__texto {
+  font-size: 0.925rem;
+  text-align: center;
+  color: var(--cor-texto-suave, #555);
+  margin: 0 0 1.75rem 0;
+  line-height: 1.6;
+}
+
+[data-tema="dark"] .perfil-dialog__texto {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+.perfil-dialog__acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Botão secundário (cancelar) — reutiliza estilo neutro */
+.btn-cancelar {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  background: transparent;
+  color: var(--cor-texto-suave, #555);
+  border: 1.5px solid var(--cor-borda, rgba(0, 0, 0, 0.2));
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-cancelar:hover,
+.btn-cancelar:focus-visible {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--cor-texto, inherit);
+  outline: none;
+}
+
+[data-tema="dark"] .btn-cancelar {
+  color: var(--cor-texto-suave, #aaa);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-tema="dark"] .btn-cancelar:hover,
+[data-tema="dark"] .btn-cancelar:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--cor-texto, #fff);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 520px) {
+  .perfil-page {
+    padding: 1.5rem 0.75rem 3rem;
+    align-items: flex-start;
+  }
+
+  .perfil-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 12px;
+  }
+
+  .perfil-card__titulo {
+    font-size: 1.35rem;
+  }
+
+  .perfil-card__icone {
+    font-size: 2.5rem;
+  }
+
+  .perfil-dados {
+    grid-template-columns: 1fr;
+    row-gap: 0.6rem;
+  }
+
+  .perfil-dados__label {
+    margin-bottom: 0;
+    font-size: 0.78rem;
+  }
+
+  .perfil-dados__valor {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.07));
+  }
+
+  .perfil-dados__valor:last-child {
+    border-bottom: none;
+  }
+
+  .perfil-dialog__acoes {
+    flex-direction: column;
+  }
+
+  .btn-cancelar,
+  .btn-perigo {
+    width: 100%;
+    text-align: center;
+  }
+}

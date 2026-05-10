@@ -14,7 +14,6 @@
 
 import { carregarAnimais } from './data.js';
 import { renderizarAnimais } from './render.js';
-import { conectarBotoesAdotar, inicializarModalAdocao } from './modal.js';
 import { inicializarBootstrap } from './bootstrap.js';
 import { observarCards } from './animacoes.js';
 
@@ -127,9 +126,6 @@ async function init() {
   // === Componentes globais (tema + voltar-topo + mensagem-redirect) ===
   inicializarBootstrap();
 
-  // === Modal de adoção (específico desta página + animais.html) ===
-  inicializarModalAdocao();
-
   // === Carrega dados ===
   try {
     const animais = await carregarAnimais();
@@ -143,9 +139,6 @@ async function init() {
 
     // === Anima cards (fade-in cascata) ===
     observarCards();
-
-    // === Conecta botões ADOTAR (delegação de eventos) ===
-    conectarBotoesAdotar();
   } catch (erro) {
     console.error('[main] Falha ao inicializar a home:', erro);
     mostrarErroCarregamento();

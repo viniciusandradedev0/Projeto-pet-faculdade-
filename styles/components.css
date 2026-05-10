@@ -249,7 +249,7 @@ header {
 }
 
 /* Botão ADOTAR (verde, alto contraste — OK no WCAG) */
-.card button {
+.card .btn-adotar {
   background-color: var(--cor-sucesso);
   border: none;
   padding: 12px 25px;
@@ -262,14 +262,16 @@ header {
   transition: var(--transicao);
   align-self: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  display: inline-block;
 }
 
-.card button:hover {
+.card .btn-adotar:hover {
   background-color: var(--cor-sucesso-hover);
   transform: scale(1.05);
 }
 
-.card button:focus-visible {
+.card .btn-adotar:focus-visible {
   outline: 3px solid var(--cor-branca);
   outline-offset: 3px;
 }

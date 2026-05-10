@@ -139,6 +139,16 @@ export function atualizarHeader() {
 
     fragmento.appendChild(criarSaudacao(nome));
     fragmento.appendChild(
+      criarItemLink('perfil.html', 'Perfil', {
+        ariaLabel: 'Acessar meu perfil',
+      })
+    );
+    fragmento.appendChild(
+      criarItemLink('meus-pedidos.html', 'Meus Pedidos', {
+        ariaLabel: 'Ver meus pedidos de adoção',
+      })
+    );
+    fragmento.appendChild(
       criarItemBotao('Sair', aoClicarSair, {
         classe: 'menu-btn-link menu-btn-link--sair',
         ariaLabel: 'Encerrar sessão',

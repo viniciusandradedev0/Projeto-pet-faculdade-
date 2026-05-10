@@ -7,7 +7,9 @@
   <meta name="robots" content="index, follow">
   <title>Política de Privacidade - PAWS PLACE</title>
 
-  <!-- Anti-flash: aplica tema ANTES do CSS carregar (mesma técnica do index) -->
+  <!-- Anti-flash: aplica tema ANTES do CSS carregar
+       Sem isso, o site carrega no tema claro e "pisca" pro escuro = horrível.
+       Esse trecho síncrono evita o flash. -->
   <script>
     (function() {
       const salvo = localStorage.getItem('paws-tema');
@@ -27,14 +29,14 @@
     Este site precisa de JavaScript para funcionar corretamente. Por favor habilite o JavaScript no navegador.
   </noscript>
 
-  <!-- ===== MENU DE NAVEGAÇÃO (mesmo do index, com link "Início" apontando para index.html) ===== -->
+  <!-- ===== MENU DE NAVEGAÇÃO (idêntico ao index.html) ===== -->
   <nav class="menu" aria-label="Navegação principal">
     <a href="index.html" class="logo">ℙ𝔸𝕎𝕊 ℙ𝕃𝔸ℂ𝔼 🐾</a>
     <ul class="menu-links">
       <li><a href="index.html">Início</a></li>
-      <li><a href="index.html#animais">Animais</a></li>
-      <li><a href="index.html#sobre">Sobre</a></li>
-      <li><a href="index.html#contato">Contato</a></li>
+      <li><a href="animais.html">Animais</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
       <li>
         <button
           type="button"
@@ -63,20 +65,21 @@
   <!-- ===== CONTEÚDO PRINCIPAL ===== -->
   <main class="politica" id="politica-privacidade">
 
-    <!-- Cabeçalho informativo -->
+    <!-- Introdução -->
     <section class="politica__intro">
       <p class="politica__atualizacao">
-        <strong>Última atualização:</strong>
-        <time datetime="2026-05-02">02 de maio de 2026</time>
+        <strong>Versão:</strong> 1.0 &nbsp;|&nbsp;
+        <strong>Vigente desde:</strong>
+        <time datetime="2026-05-10">10 de maio de 2026</time>
       </p>
       <p class="politica__resumo">
         No <strong>PAWS PLACE</strong>, levamos sua privacidade tão a sério quanto o
         bem-estar dos nossos animaizinhos. Esta página explica, em linguagem clara,
-        quais dados coletamos, por que coletamos e quais são os seus direitos como
-        titular dessas informações — tudo conforme a
-        <abbr title="Lei Geral de Proteção de Dados Pessoais — Lei nº 13.709/2018">
-          LGPD
-        </abbr>.
+        quais dados são armazenados, onde ficam e quais são os seus direitos como
+        titular dessas informações — tudo em conformidade com a
+        <abbr title="Lei Geral de Proteção de Dados Pessoais — Lei nº 13.709/2018">LGPD</abbr>.
+        <strong>Este site não possui servidor próprio</strong>: todos os dados
+        permanecem exclusivamente no seu navegador.
       </p>
     </section>
 
@@ -86,15 +89,12 @@
       <ol>
         <li><a href="#quem-somos">Quem somos</a></li>
         <li><a href="#dados-coletados">Dados que coletamos</a></li>
-        <li><a href="#finalidade">Finalidade do uso</a></li>
-        <li><a href="#base-legal">Base legal</a></li>
-        <li><a href="#compartilhamento">Compartilhamento</a></li>
-        <li><a href="#retencao">Tempo de armazenamento</a></li>
-        <li><a href="#seguranca">Segurança</a></li>
-        <li><a href="#cookies">Cookies e armazenamento local</a></li>
-        <li><a href="#direitos">Seus direitos</a></li>
-        <li><a href="#contato-encarregado">Como nos contatar</a></li>
-        <li><a href="#alteracoes">Alterações desta política</a></li>
+        <li><a href="#como-usamos">Como usamos seus dados</a></li>
+        <li><a href="#armazenamento">Armazenamento e segurança</a></li>
+        <li><a href="#direitos">Seus direitos (LGPD)</a></li>
+        <li><a href="#compartilhamento">Compartilhamento de dados</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="#vigencia">Data de vigência</a></li>
       </ol>
     </nav>
 
@@ -103,174 +103,221 @@
       <h2>1. Quem somos</h2>
       <p>
         O <strong>PAWS PLACE</strong> é uma plataforma do projeto
-        <strong>CONECTA PET</strong>, sediada em Curitiba/PR, dedicada a aproximar
-        pessoas de animais que buscam um novo lar. Não somos uma ONG nem realizamos
-        a adoção diretamente — apenas redirecionamos você para os sites oficiais
-        parceiros responsáveis pelo processo.
+        <strong>CONECTA PET</strong>, desenvolvida como projeto acadêmico, dedicada
+        a conectar pessoas a animais que buscam um novo lar. Nosso compromisso com
+        a privacidade está alinhado às disposições da
+        <abbr title="Lei Geral de Proteção de Dados Pessoais — Lei nº 13.709/2018">LGPD</abbr>
+        (Lei nº 13.709/2018).
+      </p>
+      <p>
+        Este site funciona inteiramente no navegador do usuário —
+        <strong>não existe servidor backend nem banco de dados externo</strong>.
+        Nenhuma informação sua é transmitida pela internet ou armazenada fora
+        do seu próprio dispositivo.
       </p>
     </section>
 
-    <!-- 2. Dados coletados -->
+    <!-- 2. Dados que coletamos -->
     <section class="politica__secao" id="dados-coletados">
       <h2>2. Dados que coletamos</h2>
-      <p>Quando você preenche o formulário de interesse em adoção, coletamos:</p>
+      <p>
+        Os dados abaixo são gerados pela sua interação com o site e gravados
+        diretamente no armazenamento local do seu navegador. Nenhum deles é
+        enviado a servidores externos.
+      </p>
+
+      <p><strong>Armazenados no <code>localStorage</code> (persistem entre sessões):</strong></p>
       <ul class="politica__lista">
-        <li><strong>Nome completo</strong> — para nos dirigirmos a você corretamente.</li>
-        <li><strong>E-mail</strong> — para enviarmos retorno sobre seu pedido.</li>
-        <li><strong>Telefone</strong> — para contato direto, se necessário.</li>
-        <li><strong>Mensagem (opcional)</strong> — caso queira nos contar mais sobre seu lar.</li>
-        <li><strong>Registro de consentimento</strong> — data e hora em que você concordou com esta política, como evidência exigida pela LGPD.</li>
+        <li>
+          <strong>paws-usuarios</strong> — lista de contas cadastradas, contendo:
+          nome completo, e-mail, telefone, <em>hash SHA-256 da senha</em> e data
+          de cadastro. A senha nunca é guardada em texto claro.
+        </li>
+        <li>
+          <strong>paws-sessao</strong> — e-mail do usuário logado, salvo apenas
+          quando a opção "Lembrar de mim" é marcada no login.
+        </li>
+        <li>
+          <strong>paws-pedidos</strong> — registros de pedidos de adoção enviados,
+          contendo: nome, e-mail, telefone, mensagem, nome do animal, status do
+          pedido e data de envio.
+        </li>
+        <li>
+          <strong>paws-tema</strong> — sua preferência de tema visual (claro ou
+          escuro), para que o site lembre sua escolha nas próximas visitas.
+        </li>
       </ul>
+
+      <p><strong>Armazenados no <code>sessionStorage</code> (apagados ao fechar a aba):</strong></p>
+      <ul class="politica__lista">
+        <li>
+          <strong>paws-sessao</strong> — e-mail do usuário logado, quando a opção
+          "Lembrar de mim" não é marcada. Desaparece automaticamente ao fechar
+          a aba ou o navegador.
+        </li>
+        <li>
+          <strong>Mensagens temporárias de redirecionamento</strong> — textos de
+          feedback exibidos após ações como login ou cadastro. Consumidos
+          imediatamente após a exibição.
+        </li>
+      </ul>
+
       <p class="politica__destaque">
-        ✨ <strong>Não coletamos:</strong> CPF, RG, endereço completo, dados bancários
-        ou qualquer informação sensível. Pedimos apenas o essencial.
+        ✨ <strong>Não coletamos:</strong> CPF, RG, endereço completo, dados bancários,
+        localização geográfica ou qualquer informação sensível. Pedimos apenas
+        o essencial para que o site funcione.
       </p>
     </section>
 
-    <!-- 3. Finalidade -->
-    <section class="politica__secao" id="finalidade">
-      <h2>3. Para que usamos seus dados</h2>
-      <p>Seus dados são utilizados <strong>exclusivamente</strong> para:</p>
+    <!-- 3. Como usamos seus dados -->
+    <section class="politica__secao" id="como-usamos">
+      <h2>3. Como usamos seus dados</h2>
+      <p>Os dados armazenados são usados exclusivamente para as seguintes finalidades:</p>
       <ul class="politica__lista">
-        <li>Entrar em contato sobre o animal que você demonstrou interesse;</li>
-        <li>Encaminhar seu pedido à instituição parceira responsável pelo animal;</li>
-        <li>Esclarecer dúvidas relacionadas ao processo de adoção;</li>
-        <li>Manter registro de consentimento exigido pela legislação.</li>
+        <li>
+          <strong>Cadastro e login</strong> — identificar sua conta, autenticar
+          o acesso e manter a sessão ativa enquanto você navega.
+        </li>
+        <li>
+          <strong>Pedidos de adoção</strong> — registrar e exibir os pedidos que
+          você enviou, permitindo acompanhar o histórico na página
+          "Meus Pedidos".
+        </li>
+        <li>
+          <strong>Preferências de interface</strong> — lembrar sua escolha de
+          tema claro ou escuro para personalizar a experiência visual.
+        </li>
       </ul>
       <p>
-        <strong>Não enviamos spam, newsletters ou propagandas.</strong>
-        Seu contato é restrito ao processo de adoção.
+        <strong>Não utilizamos seus dados para fins publicitários, analytics,
+        rastreamento ou qualquer finalidade além das descritas acima.</strong>
       </p>
     </section>
 
-    <!-- 4. Base legal -->
-    <section class="politica__secao" id="base-legal">
-      <h2>4. Base legal para o tratamento</h2>
-      <p>O tratamento dos seus dados é fundamentado em duas hipóteses da LGPD:</p>
+    <!-- 4. Armazenamento e segurança -->
+    <section class="politica__secao" id="armazenamento">
+      <h2>4. Armazenamento e segurança</h2>
+      <p>
+        Todos os dados ficam armazenados no <strong>próprio navegador do usuário</strong>,
+        por meio das APIs <code>localStorage</code> e <code>sessionStorage</code> do
+        HTML5. Isso significa que:
+      </p>
       <ul class="politica__lista">
         <li>
-          <strong>Consentimento</strong> (art. 7º, I) — você marca ativamente
-          a caixa de concordância antes de enviar o formulário.
+          Os dados <strong>não saem do seu dispositivo</strong> — não há
+          transmissão para nenhum servidor, nuvem ou terceiro.
         </li>
         <li>
-          <strong>Execução de procedimentos preliminares</strong> (art. 7º, V) —
-          para viabilizar o contato que antecede a adoção.
+          Cada dispositivo ou navegador possui seu próprio conjunto de dados,
+          independente dos demais.
+        </li>
+        <li>
+          Limpar os dados do navegador (cache, cookies e armazenamento local)
+          apaga permanentemente todas as informações do PAWS PLACE naquele
+          dispositivo.
         </li>
       </ul>
-    </section>
-
-    <!-- 5. Compartilhamento -->
-    <section class="politica__secao" id="compartilhamento">
-      <h2>5. Com quem compartilhamos</h2>
+      <p><strong>Proteção da senha:</strong></p>
       <p>
-        Seus dados podem ser repassados <strong>apenas</strong> à instituição
-        parceira responsável pelo animal que você quer adotar (como
-        <em>Adote Um Gatinho</em>, <em>Ação Chego</em> ou <em>Adotar.com.br</em>),
-        e somente quando necessário para concluir o processo.
+        A sua senha nunca é armazenada em texto claro. Antes de ser salva,
+        ela passa por uma função de hash criptográfico
+        <strong>SHA-256</strong> — um padrão amplamente reconhecido pela
+        indústria. Apenas o resultado irreversível do hash é gravado.
       </p>
       <p class="politica__destaque">
-        🚫 <strong>Nunca vendemos, alugamos ou cedemos seus dados</strong> para
-        empresas de marketing, anunciantes ou terceiros sem relação com a adoção.
+        🔒 <strong>Resumo de segurança:</strong> sem servidor externo, sem
+        transmissão de dados pela rede, senhas protegidas com SHA-256. Seus
+        dados estão somente no seu navegador.
       </p>
     </section>
 
-    <!-- 6. Retenção -->
-    <section class="politica__secao" id="retencao">
-      <h2>6. Por quanto tempo guardamos seus dados</h2>
-      <ul class="politica__lista">
-        <li>
-          <strong>Adoção concretizada:</strong> mantemos os dados por até
-          <strong>2 anos</strong> para acompanhamento e estatísticas internas.
-        </li>
-        <li>
-          <strong>Adoção não concretizada:</strong> excluímos em até
-          <strong>90 dias</strong> após o encerramento do contato.
-        </li>
-        <li>
-          <strong>Solicitação de exclusão:</strong> atendemos em até
-          <strong>15 dias</strong> a partir do pedido.
-        </li>
-      </ul>
-    </section>
-
-    <!-- 7. Segurança -->
-    <section class="politica__secao" id="seguranca">
-      <h2>7. Como protegemos seus dados</h2>
-      <p>Adotamos medidas técnicas e organizacionais adequadas, incluindo:</p>
-      <ul class="politica__lista">
-        <li>Conexão criptografada (HTTPS) em todas as páginas;</li>
-        <li>Acesso restrito aos dados apenas à equipe envolvida na adoção;</li>
-        <li>Validação de formulários no navegador para evitar envios indevidos;</li>
-        <li>Registro de timestamp e versão do consentimento de cada envio.</li>
-      </ul>
-      <p>
-        Apesar de todos os cuidados, nenhum sistema é 100% inviolável.
-        Em caso de incidente, comunicaremos a ANPD e os titulares afetados conforme
-        a legislação.
-      </p>
-    </section>
-
-    <!-- 8. Cookies -->
-    <section class="politica__secao" id="cookies">
-      <h2>8. Cookies e armazenamento local</h2>
-      <p>
-        O PAWS PLACE utiliza apenas <strong>armazenamento local</strong>
-        (<code>localStorage</code>) para lembrar a sua preferência de tema
-        (claro ou escuro). Esse dado fica somente no seu navegador e
-        <strong>nunca é enviado para nossos servidores</strong>.
-      </p>
-      <p>
-        Não usamos cookies de rastreamento, analytics de terceiros ou pixels
-        publicitários.
-      </p>
-    </section>
-
-    <!-- 9. Direitos do titular -->
+    <!-- 5. Seus direitos (LGPD) -->
     <section class="politica__secao" id="direitos">
-      <h2>9. Seus direitos como titular</h2>
-      <p>De acordo com o art. 18 da LGPD, você tem o direito de:</p>
-      <ul class="politica__lista politica__lista--direitos">
-        <li>✅ <strong>Confirmar</strong> se tratamos seus dados;</li>
-        <li>👁️ <strong>Acessar</strong> os dados que temos sobre você;</li>
-        <li>✏️ <strong>Corrigir</strong> dados incompletos ou desatualizados;</li>
-        <li>🗑️ <strong>Solicitar a exclusão</strong> dos seus dados;</li>
-        <li>📦 <strong>Pedir a portabilidade</strong> para outro fornecedor;</li>
-        <li>🚫 <strong>Revogar o consentimento</strong> a qualquer momento;</li>
-        <li>ℹ️ <strong>Saber com quem compartilhamos</strong> seus dados;</li>
-        <li>⚖️ <strong>Reclamar à ANPD</strong> (Autoridade Nacional de Proteção de Dados).</li>
-      </ul>
+      <h2>5. Seus direitos (LGPD — Lei 13.709/2018)</h2>
       <p>
-        Para exercer qualquer direito, basta nos enviar um e-mail — atendemos
-        gratuitamente em até 15 dias.
+        O art. 18 da LGPD garante a você, como titular dos dados, os seguintes
+        direitos — veja como exercê-los no PAWS PLACE:
+      </p>
+      <ul class="politica__lista politica__lista--direitos">
+        <li>
+          ✅ <strong>Acesso</strong> — visualize seus dados pessoais e pedidos de
+          adoção a qualquer momento na página
+          <strong>Perfil</strong>.
+        </li>
+        <li>
+          ✏️ <strong>Retificação</strong> — a atualização de dados cadastrais
+          está prevista para uma versão futura do site.
+        </li>
+        <li>
+          🗑️ <strong>Exclusão</strong> — exclua sua conta e todos os seus dados
+          permanentemente pela página <strong>Perfil</strong>. A exclusão remove
+          integralmente as entradas <code>paws-usuarios</code> e
+          <code>paws-pedidos</code> vinculadas à sua conta do
+          <code>localStorage</code>.
+        </li>
+        <li>
+          🚫 <strong>Revogação do consentimento</strong> — como os dados ficam
+          no seu próprio dispositivo, você pode revogar o consentimento a
+          qualquer momento excluindo sua conta ou limpando o armazenamento
+          local do navegador.
+        </li>
+        <li>
+          ℹ️ <strong>Informação sobre compartilhamento</strong> — seus dados
+          não são compartilhados com nenhum terceiro (veja a seção 6).
+        </li>
+        <li>
+          ⚖️ <strong>Reclamação à ANPD</strong> — você pode registrar
+          reclamações junto à Autoridade Nacional de Proteção de Dados em
+          <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" class="politica__link--texto">gov.br/anpd</a>.
+        </li>
+      </ul>
+    </section>
+
+    <!-- 6. Compartilhamento -->
+    <section class="politica__secao" id="compartilhamento">
+      <h2>6. Compartilhamento de dados</h2>
+      <p>
+        O PAWS PLACE <strong>não compartilha, vende, aluga nem cede seus dados
+        pessoais a nenhum terceiro</strong>. Como não existe backend, os dados
+        nunca chegam a sair do seu navegador — logo, não há qualquer
+        mecanismo técnico que permita o repasse a outras entidades.
+      </p>
+      <p>
+        Não utilizamos ferramentas de analytics de terceiros (como Google
+        Analytics), pixels publicitários, SDKs de rastreamento ou cookies
+        de terceiros. Sua navegação no site é completamente privada.
       </p>
     </section>
 
-    <!-- 10. Contato -->
-    <section class="politica__secao politica__secao--contato" id="contato-encarregado">
-      <h2>10. Fale com nosso Encarregado de Dados (DPO)</h2>
+    <!-- 7. Contato -->
+    <section class="politica__secao politica__secao--contato" id="contato">
+      <h2>7. Contato</h2>
       <p>
-        Dúvidas, reclamações ou pedidos relacionados a esta política?
-        Estamos à disposição:
+        Dúvidas, sugestões ou solicitações relacionadas a esta política?
+        Entre em contato conosco pela nossa página de contato:
       </p>
       <div class="politica__contato-card">
         <p>
-          <strong>Encarregado:</strong> Saymon Crespin Sureck<br>
-          <strong>E-mail:</strong>
-          <a href="mailto:privacidade@pawsplace.com.br" class="politica__link">
-            privacidade@pawsplace.com.br
-          </a><br>
-          <strong>Atendimento:</strong> Segunda a sexta, das 9h às 18h
+          <strong>PAWS PLACE — Projeto CONECTA PET</strong><br>
+          <strong>Página de contato:</strong>
+          <a href="contato.html" class="politica__link">contato.html</a><br>
+          <strong>Responsável:</strong> Saymon Crespin Sureck
         </p>
       </div>
     </section>
 
-    <!-- 11. Alterações -->
-    <section class="politica__secao" id="alteracoes">
-      <h2>11. Alterações desta política</h2>
+    <!-- 8. Vigência -->
+    <section class="politica__secao" id="vigencia">
+      <h2>8. Data de vigência</h2>
       <p>
-        Podemos atualizar esta política sempre que necessário, por mudanças
-        legais ou melhorias no serviço. A data de atualização no topo da página
-        sempre indicará a versão vigente. Recomendamos visitas periódicas.
+        Esta é a <strong>versão 1.0</strong> da Política de Privacidade do
+        PAWS PLACE, vigente desde
+        <time datetime="2026-05-10"><strong>10 de maio de 2026</strong></time>.
+      </p>
+      <p>
+        Eventuais atualizações serão refletidas nesta página com a data de
+        vigência revisada. Recomendamos visitas periódicas para se manter
+        informado sobre qualquer alteração.
       </p>
     </section>
 
@@ -283,7 +330,7 @@
 
   </main>
 
-  <!-- ===== RODAPÉ (idêntico ao do index) ===== -->
+  <!-- ===== RODAPÉ (idêntico ao index.html) ===== -->
   <footer>
     <div class="footer-content">
       <h3>Sobre Nós</h3>
@@ -291,6 +338,9 @@
       <p class="copyright">© 2026 PAWS PLACE — Todos os direitos reservados a Saymon Crespin Sureck</p>
     </div>
   </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
   <button
@@ -308,14 +358,20 @@
     <span class="btn-voltar-topo__icone" aria-hidden="true">↑</span>
   </button>
 
-  <!-- Apenas o JS de tema e do botão de voltar ao topo são necessários aqui -->
- <script type="module">
-  import { inicializarTema } from './scripts/tema.js';
-  import { inicializarBotaoVoltarTopo } from './scripts/voltar-topo.js';
+  <!-- ===== SCRIPT ===== -->
+  <script type="module">
+    import { inicializarBootstrap } from './scripts/bootstrap.js';
 
-  inicializarTema();
-  inicializarBotaoVoltarTopo();
-</script>
+    function init() {
+      inicializarBootstrap();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
 
 </body>
 </html>

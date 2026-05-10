@@ -1,0 +1,221 @@
+/* ============================================
+   ADOTAR — página de pedido de adoção
+   Layout em duas colunas: card do animal + formulário.
+   ============================================ */
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.adotar-page {
+  padding: 2.5rem 1rem 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== LAYOUT DUAS COLUNAS ===== */
+.adotar-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .adotar-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== CARD DO ANIMAL ===== */
+.adotar-animal {
+  background: var(--cor-fundo-card, #fff);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.06));
+  position: sticky;
+  top: 5rem;
+}
+
+[data-tema="dark"] .adotar-animal {
+  background: var(--cor-fundo-card, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.adotar-animal__img-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--cor-borda, #f0f0f0);
+  position: relative;
+}
+
+.adotar-animal__img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.adotar-animal__img-wrapper.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+.adotar-animal__img-wrapper.is-error img {
+  display: none;
+}
+
+.adotar-animal__img-wrapper.is-error::before {
+  content: '🐾';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+.adotar-animal__info {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.adotar-animal__nome {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--cor-texto, inherit);
+}
+
+.adotar-animal__especie,
+.adotar-animal__idade {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave, #666);
+}
+
+[data-tema="dark"] .adotar-animal__especie,
+[data-tema="dark"] .adotar-animal__idade {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+.adotar-animal__link {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--cor-primaria, #ff9800);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.adotar-animal__link:hover,
+.adotar-animal__link:focus-visible {
+  opacity: 0.8;
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ===== SEÇÃO DO FORMULÁRIO ===== */
+.adotar-form-secao {
+  background: var(--cor-fundo-card, #fff);
+  border-radius: 16px;
+  padding: 2rem 2rem 2.5rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--cor-borda, rgba(0, 0, 0, 0.06));
+  animation: adotar-entrada 0.4s ease-out;
+}
+
+[data-tema="dark"] .adotar-form-secao {
+  background: var(--cor-fundo-card, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes adotar-entrada {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.adotar-form-secao__titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  color: var(--cor-texto, inherit);
+}
+
+.adotar-form-secao__subtitulo {
+  margin: 0 0 1.75rem 0;
+  color: var(--cor-texto-suave, #666);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+[data-tema="dark"] .adotar-form-secao__subtitulo {
+  color: var(--cor-texto-suave, #aaa);
+}
+
+/* ===== FORMULÁRIO ===== */
+.adotar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ===== AÇÕES (botões) ===== */
+.adotar-form__acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.adotar-form__acoes .btn-modal--secundario {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 520px) {
+  .adotar-page {
+    padding: 1.5rem 0.75rem 3rem;
+  }
+
+  .adotar-form-secao {
+    padding: 1.5rem 1.25rem;
+    border-radius: 12px;
+  }
+
+  .adotar-form__acoes {
+    flex-direction: column-reverse;
+  }
+
+  .adotar-form__acoes .btn-modal {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .adotar-animal {
+    position: static;
+  }
+}

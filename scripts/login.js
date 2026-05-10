@@ -11,6 +11,7 @@
  * 2. Submit → chama auth.login() (que LANÇA Error em caso de falha)
  * 3. Toggle de visibilidade da senha (SVG)
  * 4. Redirect pós-login (com mensagem-redirect via sessionStorage)
+ *    🔹 Respeita URL de origem salva por protegerRota()
  * 5. Bloqueia acesso se já estiver logado (redireciona pra home)
  *
  * USO:
@@ -21,6 +22,7 @@ import { inicializarBootstrap, salvarMensagemRedirect } from './bootstrap.js';
 import { login, estaLogado } from './auth.js';
 import { mostrarToast } from './modal.js';
 import { validarCampo } from './validacao.js';
+import { obterRedirectPosLogin } from './proteger-rota.js';
 
 // ============================================
 // SELETORES
@@ -96,7 +98,6 @@ function configurarToggleSenha() {
       'aria-label',
       visivel ? 'Mostrar senha' : 'Ocultar senha'
     );
-    // CSS cuida da troca dos ícones SVG via [aria-pressed]
   });
 }
 
@@ -161,7 +162,9 @@ async function aoSubmeter(evento) {
       'sucesso'
     );
 
-    window.location.href = 'index.html';
+    // Respeita URL de origem (se veio de uma rota protegida)
+    const destino = obterRedirectPosLogin('index.html');
+    window.location.href = destino;
   } catch (erro) {
     // ❌ Erro de credencial OU erro inesperado — auth lança Error
     console.error('[login] Falha no login:', erro);
@@ -200,7 +203,6 @@ function redirecionarSeLogado() {
 // ============================================
 
 function init() {
-  // Se já estiver logado, nem inicializa o resto
   if (redirecionarSeLogado()) return;
 
   inicializarBootstrap();
@@ -211,13 +213,11 @@ function init() {
     return;
   }
 
-  // Validação ao vivo do email (on-blur)
   const campoEmail = form.elements['email'];
   if (campoEmail) {
     campoEmail.addEventListener('blur', () => validarCampo(form, campoEmail));
   }
 
-  // Senha: limpa erro ao digitar (sem aplicar regra forte)
   const campoSenha = form.elements['senha'];
   if (campoSenha) {
     campoSenha.addEventListener('input', () => {
@@ -232,8 +232,6 @@ function init() {
   form.addEventListener('submit', aoSubmeter);
   configurarToggleSenha();
   configurarLinkEsqueciSenha();
-
-  // Foco automático no campo de email (UX)
   campoEmail?.focus();
 }
 
