@@ -52,21 +52,33 @@ builder.Services.AddAuthorization();
 
 // ============================================================
 // CORS
-// Em produção: lê CORS_ORIGINS (env var, vírgula separada)
-// Em dev: lê appsettings.json
+// Dev: aceita qualquer localhost (qualquer porta do Live Server / npx serve)
+// Prod: lê CORS_ORIGINS (env var) ou appsettings.json
 // ============================================================
-var corsOrigensEnv = Environment.GetEnvironmentVariable("CORS_ORIGINS");
-var origensPermitidas = !string.IsNullOrEmpty(corsOrigensEnv)
-    ? corsOrigensEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-    : builder.Configuration.GetSection("Cors:OrigensPermitidas").Get<string[]>() ?? [];
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PawsPlacePolicy", policy =>
     {
-        policy.WithOrigins(origensPermitidas)
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        if (builder.Environment.IsDevelopment())
+        {
+            // Desenvolvimento: qualquer localhost passa (sem restrição de porta)
+            policy.SetIsOriginAllowed(origin =>
+                      new Uri(origin).Host is "localhost" or "127.0.0.1")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+        else
+        {
+            // Produção: origens explícitas via env var ou appsettings
+            var corsOrigensEnv = Environment.GetEnvironmentVariable("CORS_ORIGINS");
+            var origensPermitidas = !string.IsNullOrEmpty(corsOrigensEnv)
+                ? corsOrigensEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                : builder.Configuration.GetSection("Cors:OrigensPermitidas").Get<string[]>() ?? [];
+
+            policy.WithOrigins(origensPermitidas)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
     });
 });
 
