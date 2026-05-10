@@ -44,6 +44,8 @@
   - DELETE /api/usuarios/me → 204 (cascade remove pedidos + favoritos)
 
 - [x] Etapa 14 — Migração do front-end para consumir a API
+  # ⚠️  PENDENTE: teste manual do fluxo completo (front + API rodando juntos)
+  #     Fazer antes de considerar 100% validado.
   # Favoritos no front ficam para DEPOIS desta etapa
   #
   # DECISÕES DE IMPLEMENTAÇÃO:
