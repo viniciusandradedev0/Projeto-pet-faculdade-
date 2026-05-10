@@ -11,19 +11,26 @@ var builder = WebApplication.CreateBuilder(args);
 // BANCO DE DADOS
 // PostgreSQL em produção (DATABASE_URL), SQLite em desenvolvimento
 // ============================================================
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 if (!string.IsNullOrEmpty(databaseUrl))
 {
     // Produção: Railway fornece DATABASE_URL no formato postgresql://...
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(databaseUrl));
+        options.UseNpgsql(databaseUrl, o => o.EnableRetryOnFailure(3)));
+}
+else if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("Host="))
+{
+    // Produção via ConnectionStrings__DefaultConnection (Npgsql format)
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connectionString, o => o.EnableRetryOnFailure(3)));
 }
 else
 {
     // Desenvolvimento local: SQLite
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlite(connectionString));
 }
 
 // ============================================================
@@ -100,9 +107,18 @@ var app = builder.Build();
 // ============================================================
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-    Seed.PopularAnimais(db);
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        db.Database.Migrate();
+        Seed.PopularAnimais(db);
+        logger.LogInformation("Banco de dados migrado com sucesso.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao migrar banco de dados: {Message}", ex.Message);
+    }
 }
 
 // ============================================================
