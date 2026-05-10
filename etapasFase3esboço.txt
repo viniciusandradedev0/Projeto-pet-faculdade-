@@ -94,7 +94,8 @@
 - [ ] Remover "Lembrar de mim" ou substituir por refresh token real
       (JWT com expiração curta + refresh token em httpOnly cookie)
 - [ ] Remover data/animais.json após deploy do backend confirmado
-- [ ] Favoritos no front (coração nos cards + favoritos.html)
+- [x] Favoritos no front (coração nos cards + favoritos.html + toggle via API)
+- [x] Atualizar perfil (nome, telefone) — PUT /api/usuarios/me implementado em perfil.html
 - [ ] Painel admin: gerenciar animais e atualizar status dos pedidos
 - [ ] Upload de foto de perfil (Azure Blob ou Cloudinary)
 - [ ] Notificações por e-mail ao mudar status do pedido (SendGrid)

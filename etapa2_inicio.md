@@ -25,9 +25,11 @@ Site de adoção de animais (gatos e cachorros). Stack completa:
 │   ├── modal.js                   # Apenas mostrarToast()
 │   ├── animais-page.js            # Controlador de animais.html
 │   ├── main.js                    # Controlador da index.html
-│   ├── adotar.js                  # Pedido de adoção (migra para POST /api/pedidos)
-│   ├── meus-pedidos.js            # Histórico (migra para GET /api/pedidos/meus)
-│   ├── perfil.js                  # Perfil + excluir conta (migra para /api/usuarios/me)
+│   ├── adotar.js                  # Pedido de adoção → POST /api/pedidos
+│   ├── meus-pedidos.js            # Histórico → GET /api/pedidos/meus
+│   ├── perfil.js                  # Perfil + editar + excluir conta → /api/usuarios/me
+│   ├── favoritos.js               # Toggle coração nos cards → /api/favoritos/*
+│   ├── favoritos-page.js          # Controlador de favoritos.html
 │   ├── cadastro.js                # Controlador de cadastro.html
 │   ├── login.js                   # Controlador de login.html
 │   ├── contato.js                 # Controlador de contato.html
@@ -47,6 +49,7 @@ Site de adoção de animais (gatos e cachorros). Stack completa:
 │   └── filtros.test.js            # 20 testes  →  total: 125
 ├── index.html, animais.html, adotar.html
 ├── meus-pedidos.html, perfil.html
+├── favoritos.html                 # Animais favoritados (rota protegida)
 ├── cadastro.html, login.html, contato.html
 ├── sobre.html, politica-privacidade.html
 ├── package.json                   # Vitest + jsdom

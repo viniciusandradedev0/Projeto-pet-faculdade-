@@ -242,6 +242,18 @@ perfil.html → "Excluir conta" → dialog de confirmação
       → redirect para index.html com toast de despedida
 ```
 
+### Favoritos no front ✅
+- `❤️/🤍` em cada card — sincroniza estado com `GET /api/favoritos/meus` ao carregar
+- Toggle: `POST /api/favoritos/{slug}` (adicionar) / `DELETE` (remover)
+- `favoritos.html` — lista com foto, nome, botão ADOTAR e botão remover
+- Link "Favoritos" adicionado ao menu (entre Perfil e Meus Pedidos)
+- Re-sincroniza após filtros em `animais.html`
+
+### Edição de perfil ✅
+- Formulário (nome + telefone) adicionado em `perfil.html`
+- `PUT /api/usuarios/me` — validação client-side + atualiza dados exibidos + toast
+- Botão cancelar restaura valores anteriores
+
 ### ⚠️ Pendente: Deploy no Railway
 Ver `DEPLOY.md` — 9 passos para colocar a API em produção.
 Após deploy: atualizar `scripts/config.js` com a URL real.
