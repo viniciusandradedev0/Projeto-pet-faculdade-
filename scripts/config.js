@@ -8,7 +8,7 @@ const isDev = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 export const API_BASE = isDev
   ? 'http://localhost:5173'
-  : 'https://PLACEHOLDER_URL_PRODUCAO';
+  : 'https://projeto-pet-faculdade-production.up.railway.app';
 
 /**
  * Wrapper de fetch que injeta o JWT automaticamente quando disponível.
