@@ -12,10 +12,13 @@
        Esse trecho síncrono evita o flash. -->
   <script>
     (function() {
-      const salvo = localStorage.getItem('paws-tema');
-      const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const tema = salvo || (prefereDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-tema', tema);
+      try {
+        const raw = localStorage.getItem('paws-tema');
+        const salvo = raw ? JSON.parse(raw) : null;
+        const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const tema = (salvo === 'dark' || salvo === 'light') ? salvo : (prefereDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch { document.documentElement.setAttribute('data-tema', 'light'); }
     })();
   </script>
 

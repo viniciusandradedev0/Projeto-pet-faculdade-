@@ -7,10 +7,15 @@
 import { storage, CHAVES } from './storage.js';
 
 /**
- * Retorna o tema atualmente aplicado no <html>.
+ * Retorna o tema atualmente aplicado.
+ * Prefere o valor do storage (já parseado) para evitar dupla serialização
+ * entre o anti-flash (lê raw) e o storage.salvar (faz JSON.stringify).
  */
 function obterTemaAtual() {
-  return document.documentElement.getAttribute('data-tema') || 'light';
+  const doStorage = storage.ler(CHAVES.TEMA);
+  if (doStorage === 'dark' || doStorage === 'light') return doStorage;
+  const doAtributo = document.documentElement.getAttribute('data-tema') || 'light';
+  return doAtributo.replace(/"/g, '').trim() || 'light';
 }
 
 /**
