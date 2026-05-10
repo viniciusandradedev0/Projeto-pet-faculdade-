@@ -67,7 +67,7 @@ function obterUsuarioDoToken() {
   if (!token) return null;
   const payload = decodificarJwt(token);
   if (!payload || payload.exp * 1000 <= Date.now()) return null;
-  return { id: payload.nameid, nome: payload.unique_name, email: payload.email };
+  return { id: payload.sub, nome: payload.name, email: payload.email };
 }
 
 // ============================================

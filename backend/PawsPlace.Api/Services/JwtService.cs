@@ -20,9 +20,9 @@ public class JwtService(IConfiguration configuration)
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-            new Claim(ClaimTypes.Email,          usuario.Email),
-            new Claim(ClaimTypes.Name,           usuario.Nome)
+            new Claim("sub",   usuario.Id.ToString()),
+            new Claim("email", usuario.Email),
+            new Claim("name",  usuario.Nome)
         };
 
         var token = new JwtSecurityToken(

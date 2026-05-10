@@ -179,8 +179,8 @@ export function obterUsuario() {
   }
 
   return {
-    id: payload.nameid,
-    nome: payload.unique_name,
+    id:    payload.sub,
+    nome:  payload.name,
     email: payload.email,
   };
 }
