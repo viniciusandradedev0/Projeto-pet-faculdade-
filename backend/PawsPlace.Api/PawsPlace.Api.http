@@ -1,6 +1,134 @@
-@PawsPlace.Api_HostAddress = http://localhost:5173
+### Paws Place API — Testes manuais
+### Rodar a API: dotnet run (porta http://localhost:5173)
+### No VS Code: instalar extensão "REST Client" para executar direto
 
-GET {{PawsPlace.Api_HostAddress}}/weatherforecast/
+@base = http://localhost:5173
+@token = COLE_O_TOKEN_AQUI_APOS_LOGIN
+
+# ============================================================
+# ANIMAIS (público — sem token)
+# ============================================================
+
+### 1. Listar todos os animais
+GET {{base}}/api/animais
 Accept: application/json
+
+###
+
+### 2. Buscar animal por slug
+GET {{base}}/api/animais/nespresso
+Accept: application/json
+
+###
+
+# ============================================================
+# AUTH
+# ============================================================
+
+### 3. Cadastrar novo usuário
+POST {{base}}/api/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Teste Silva",
+  "email": "teste@email.com",
+  "senha": "Senha123",
+  "telefone": "41999999999"
+}
+
+###
+
+### 4. Login (copie o "token" da resposta e cole em @token acima)
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "teste@email.com",
+  "senha": "Senha123"
+}
+
+###
+
+### 5. Login com senha errada (deve retornar 401)
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "teste@email.com",
+  "senha": "senhaerrada"
+}
+
+###
+
+# ============================================================
+# PEDIDOS (autenticado — substitua @token pelo JWT do login)
+# ============================================================
+
+### 6. Criar pedido de adoção
+POST {{base}}/api/pedidos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "animalSlug": "nespresso",
+  "telefone": "41999999999",
+  "mensagem": "Tenho apartamento amplo e muito amor para dar."
+}
+
+###
+
+### 7. Meus pedidos
+GET {{base}}/api/pedidos/meus
+Authorization: Bearer {{token}}
+
+###
+
+# ============================================================
+# FAVORITOS (autenticado)
+# ============================================================
+
+### 8. Adicionar favorito
+POST {{base}}/api/favoritos/topazio
+Authorization: Bearer {{token}}
+
+###
+
+### 9. Meus favoritos
+GET {{base}}/api/favoritos/meus
+Authorization: Bearer {{token}}
+
+###
+
+### 10. Remover favorito
+DELETE {{base}}/api/favoritos/topazio
+Authorization: Bearer {{token}}
+
+###
+
+# ============================================================
+# PERFIL (autenticado)
+# ============================================================
+
+### 11. Ver perfil
+GET {{base}}/api/usuarios/me
+Authorization: Bearer {{token}}
+
+###
+
+### 12. Atualizar nome e telefone
+PUT {{base}}/api/usuarios/me
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "Teste Atualizado",
+  "telefone": "41988888888"
+}
+
+###
+
+### 13. Excluir conta (CUIDADO — irreversível)
+DELETE {{base}}/api/usuarios/me
+Authorization: Bearer {{token}}
 
 ###
