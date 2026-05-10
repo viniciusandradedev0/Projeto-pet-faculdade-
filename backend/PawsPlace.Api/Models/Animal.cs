@@ -11,6 +11,6 @@ public class Animal
     public string Imagem { get; set; } = string.Empty;
     public string? LinkDetalhes { get; set; }
 
-    public ICollection<Pedido> Pedidos { get; set; } = [];
-    public ICollection<Favorito> Favoritos { get; set; } = [];
+    public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
+    public ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
 }

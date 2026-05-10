@@ -9,6 +9,6 @@ public class Usuario
     public string Telefone { get; set; } = string.Empty;
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
-    public ICollection<Pedido> Pedidos { get; set; } = [];
-    public ICollection<Favorito> Favoritos { get; set; } = [];
+    public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
+    public ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
 }

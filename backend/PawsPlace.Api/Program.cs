@@ -73,7 +73,7 @@ builder.Services.AddCors(options =>
             var corsOrigensEnv = Environment.GetEnvironmentVariable("CORS_ORIGINS");
             var origensPermitidas = !string.IsNullOrEmpty(corsOrigensEnv)
                 ? corsOrigensEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                : builder.Configuration.GetSection("Cors:OrigensPermitidas").Get<string[]>() ?? [];
+                : builder.Configuration.GetSection("Cors:OrigensPermitidas").Get<string[]>() ?? Array.Empty<string>();
 
             policy.WithOrigins(origensPermitidas)
                   .AllowAnyHeader()
