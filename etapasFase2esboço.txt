@@ -1,21 +1,97 @@
-# 📋 Roadmap — Projeto de Adoção
+# 📋 Roadmap — Projeto de Adoção (Paws Place)
 
-- Etapa 1 — Fundação do Projeto
-- Etapa 2 — Autenticação e Cadastro
-- Etapa 3 — Remover modal + adotar.html
-- Etapa 4 — meus-pedidos.html (com simulação de status)
-- Etapa 5 — perfil.html (versão mínima + excluir conta)
-- Etapa 6 — Atualizar política-privacidade.html
-- Etapa 7 — Testes e polimento
-  - 7.1 — Setup do Vitest (package.json + jsdom)
-  - 7.2 — Testes unitários:
-    - validacao.js     (todos os validadores)
-    - storage.js       (read/write/parse seguro)
-    - auth.js          (hash, login, logout, sessão expirada)
-    - filtros.js       (busca normalizada, debounce)
-  - 7.3 — Checklist manual de fluxos E2E:
-    - Cadastro → Login → Adotar → Ver pedido
-    - Logout → tentar acessar rota protegida
-    - Sessão expirada (simular 48h)
-    - Excluir conta + verificar dados removidos
-  - 7.4 — Polimento final (responsividade, a11y, console limpo)
+# ============================================================
+# FASE 1 — FRONT-END (CONCLUÍDA)
+# Deploy: https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
+# ============================================================
+
+- [x] Etapa 1 — Fundação do Projeto
+- [x] Etapa 2 — Autenticação e Cadastro (localStorage + SHA-256)
+- [x] Etapa 3 — Remover modal + adotar.html (página dedicada, rota protegida)
+- [x] Etapa 4 — meus-pedidos.html (simulação de status, filtrado por usuário)
+- [x] Etapa 5 — perfil.html (dados do usuário + excluir conta)
+- [x] Etapa 6 — Atualizar politica-privacidade.html (LGPD real)
+- [x] Etapa 7 — Testes com Vitest
+  - [x] 7.1 — Setup Vitest + jsdom (package.json, vitest.config.js)
+  - [x] 7.2 — Testes unitários: validacao.js, storage.js, auth.js (105 testes passando)
+  - [ ] 7.2 — Testes unitários: filtros.js (busca normalizada, debounce) — pendente
+  - [ ] 7.3 — Checklist manual de fluxos E2E:
+              - Cadastro → Login → Adotar → Ver pedido
+              - Logout → tentar acessar rota protegida
+              - Excluir conta + verificar dados removidos
+  - [ ] 7.4 — Polimento final (responsividade mobile, a11y, console limpo)
+
+
+# ============================================================
+# FASE 2 — BACK-END C# ASP.NET CORE (PRÓXIMA FASE)
+# ============================================================
+# Objetivo: substituir localStorage por banco de dados real,
+# autenticação por JWT e comunicação por API REST.
+#
+# Repositório sugerido: criar novo repo "paws-place-api"
+# ou adicionar pasta /backend na raiz do projeto atual.
+# ============================================================
+
+- [ ] Etapa 8 — Setup do projeto ASP.NET Core
+  - Criar Web API com .NET 8 (dotnet new webapi)
+  - Instalar pacotes: EF Core, BCrypt.Net, JwtBearer, CORS
+  - Configurar appsettings.json (connection string, JWT secret, CORS origin)
+  - Criar estrutura de pastas: Controllers/, Services/, Models/, Data/
+
+- [ ] Etapa 9 — Banco de dados com Entity Framework Core
+  - Criar models: Usuario, Animal, Pedido
+  - Configurar DbContext (AppDbContext)
+  - Migrations: criar tabelas usuarios, animais, pedidos
+  - Seed: popular tabela animais com os 15 animais do JSON atual
+  - Banco sugerido: SQLite (dev) → SQL Server ou PostgreSQL (prod)
+
+- [ ] Etapa 10 — Autenticação JWT
+  - POST /api/auth/cadastro — hash bcrypt, salvar usuario, retornar JWT
+  - POST /api/auth/login    — verificar hash, retornar JWT + refresh token
+  - POST /api/auth/logout   — invalidar token (blacklist ou expiração curta)
+  - Middleware de autorização: [Authorize] nos endpoints protegidos
+  - JWT deve conter: userId, email, nome, expiração
+
+- [ ] Etapa 11 — Endpoints de animais
+  - GET  /api/animais          — lista todos (público)
+  - GET  /api/animais/{id}     — detalhe (público)
+  - (futuro) POST/PUT/DELETE   — painel admin
+
+- [ ] Etapa 12 — Endpoints de pedidos
+  - POST /api/pedidos          — criar pedido (autenticado)
+  - GET  /api/pedidos/meus     — listar pedidos do usuário logado (autenticado)
+  - (futuro) PUT /api/pedidos/{id}/status — atualizar status (admin)
+
+- [ ] Etapa 13 — Endpoints de perfil
+  - GET    /api/usuarios/me        — dados do usuário logado (autenticado)
+  - PUT    /api/usuarios/me        — atualizar nome/telefone (autenticado)
+  - DELETE /api/usuarios/me        — excluir conta + pedidos (autenticado)
+
+- [ ] Etapa 14 — Migração do front-end para consumir a API
+  - Remover storage.js (substituído por fetch + JWT)
+  - Reescrever auth.js    → fetch POST /api/auth/*  + salvar JWT no localStorage
+  - Reescrever adotar.js  → fetch POST /api/pedidos
+  - Reescrever meus-pedidos.js → fetch GET /api/pedidos/meus
+  - Reescrever perfil.js  → fetch GET/DELETE /api/usuarios/me
+  - Reescrever data.js    → fetch GET /api/animais
+  - Reescrever proteger-rota.js → verificar JWT (expirado = redireciona)
+  - Manter sem alteração: validacao.js, filtros.js, render.js, tema.js,
+                          animacoes.js, voltar-topo.js, header.js, bootstrap.js
+
+- [ ] Etapa 15 — Deploy do back-end
+  - Opções gratuitas: Railway, Render, Azure (estudante)
+  - Configurar variáveis de ambiente (JWT_SECRET, CONNECTION_STRING)
+  - Atualizar CORS para aceitar origem do GitHub Pages
+  - Atualizar front-end para apontar para URL da API em produção
+
+
+# ============================================================
+# FASE 3 — MELHORIAS FUTURAS (PÓS-BACKEND)
+# ============================================================
+
+- [ ] Painel admin: gerenciar animais e atualizar status dos pedidos
+- [ ] Atualizar perfil (nome, telefone) — PUT /api/usuarios/me
+- [ ] Upload de foto de perfil (Azure Blob ou Cloudinary)
+- [ ] Notificações por e-mail ao mudar status do pedido (SendGrid)
+- [ ] Paginação nos endpoints de animais e pedidos
+- [ ] Testes de integração no back-end (xUnit + WebApplicationFactory)
