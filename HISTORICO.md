@@ -132,7 +132,7 @@ Testes com curl confirmaram:
 
 ---
 
-## Próximo — Etapa 14: Migração do front para consumir a API
+## Etapa 14 — Migração do front concluída e validada ✅
 
 ### O que muda no localStorage
 
@@ -187,7 +187,9 @@ Testes com curl confirmaram:
 
 ---
 
-## Fluxo de autenticação (Fase 2 — planejado)
+## Fluxos de navegação — Fase 2 (implementados)
+
+### Autenticação
 
 ```
 Cadastro
@@ -209,3 +211,37 @@ Requisição autenticada
 Logout
   → front remove JWT do localStorage (sem chamada à API)
 ```
+
+### Adoção (fluxo completo)
+```
+animais.html (carrega da API)
+  → clica ADOTAR → adotar.html?id={slug}
+    → protegerRota() [decodifica JWT]
+      ├─ não logado → login.html (salva URL de retorno)
+      │     → login → volta para adotar.html?id={slug}
+      └─ logado → carrega animal da API
+          → formulário pré-preenchido (nome/email do JWT)
+            → POST /api/pedidos
+              → redirect para meus-pedidos.html com toast ✅
+```
+
+### Proteção de rotas
+```
+Acesso a rota protegida sem JWT (ou JWT expirado)
+  → proteger-rota.js decodifica paws-jwt do storage
+    → inválido/ausente → salva URL atual + mensagem-redirect
+      → redirect para login.html
+        → login bem-sucedido → volta para URL salva
+```
+
+### Exclusão de conta
+```
+perfil.html → "Excluir conta" → dialog de confirmação
+  → confirma → DELETE /api/usuarios/me (cascade: pedidos + favoritos)
+    → remove paws-jwt de localStorage e sessionStorage
+      → redirect para index.html com toast de despedida
+```
+
+### ⚠️ Pendente: Deploy no Railway
+Ver `DEPLOY.md` — 9 passos para colocar a API em produção.
+Após deploy: atualizar `scripts/config.js` com a URL real.
