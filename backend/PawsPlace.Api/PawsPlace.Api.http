@@ -2,7 +2,7 @@
 ### Rodar a API: dotnet run (porta http://localhost:5173)
 ### No VS Code: instalar extensão "REST Client" para executar direto
 
-@base = http://localhost:5173
+@base = https://projeto-pet-faculdade-production.up.railway.app
 @token = COLE_O_TOKEN_AQUI_APOS_LOGIN
 
 # ============================================================

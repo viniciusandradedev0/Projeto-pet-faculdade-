@@ -1,5 +1,12 @@
 # Guia de Deploy — Paws Place API no Railway
 
+> **Status atual (10/05/2026): DEPLOY ATIVO ✅**
+> URL: `https://projeto-pet-faculdade-production.up.railway.app`
+> Branch: `desenvolvimento` | Builder: Dockerfile | Banco: PostgreSQL online
+> Próximo passo: validação completa dos endpoints — ver Etapa 16 em `etapasFase3esboço.txt`
+
+---
+
 ## Pré-requisitos
 - Conta no GitHub (já tem)
 - Conta no Railway: https://railway.app (criar grátis com GitHub)

@@ -14,7 +14,7 @@
 | Back   | C# ASP.NET Core 8 Web API |
 | Banco  | SQLite (dev) → PostgreSQL (prod) |
 | Auth   | JWT (back) / SHA-256 localStorage (front — fase 1) |
-| Deploy | GitHub Pages (front) · Railway/Render (back — planejado) |
+| Deploy | GitHub Pages (front) · Railway (back — ativo em produção) |
 
 ---
 
@@ -254,6 +254,18 @@ perfil.html → "Excluir conta" → dialog de confirmação
 - `PUT /api/usuarios/me` — validação client-side + atualiza dados exibidos + toast
 - Botão cancelar restaura valores anteriores
 
-### ⚠️ Pendente: Deploy no Railway
-Ver `DEPLOY.md` — 9 passos para colocar a API em produção.
-Após deploy: atualizar `scripts/config.js` com a URL real.
+### Etapa 15 — Deploy no Railway ✅ (10/05/2026)
+
+**URL de produção:** `https://projeto-pet-faculdade-production.up.railway.app`
+
+**O que foi feito:**
+- `railway.toml`: builder trocado de `NIXPACKS` → `DOCKERFILE`
+  - Nixpacks defaultava para .NET SDK 6.0.413 e falhava o build
+  - Dockerfile usa `mcr.microsoft.com/dotnet/sdk:8.0` oficial
+- `startCommand` corrigido: `/app/publish/PawsPlace.Api.dll` → `/app/PawsPlace.Api.dll`
+  - O Dockerfile copia os arquivos para `/app`, não `/app/publish`
+- Branch de deploy configurada para `desenvolvimento` (não `main`)
+- PostgreSQL online no Railway com variáveis de ambiente configuradas
+- Deploy status: **ACTIVE**
+
+**Próximo passo:** validar todos os endpoints com `PawsPlace.Api.http` (ver Etapa 16 em `etapasFase3esboço.txt`)
