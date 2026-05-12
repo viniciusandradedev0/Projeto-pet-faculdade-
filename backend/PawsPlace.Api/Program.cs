@@ -14,6 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
+static string Mask(string? s) =>
+    string.IsNullOrEmpty(s) ? "<vazio>" :
+    s.Length <= 12 ? s :
+    s.Substring(0, 12) + "...(" + s.Length + " chars)";
+
+Console.WriteLine($"[DB] DATABASE_URL = {Mask(databaseUrl)}");
+Console.WriteLine($"[DB] ConnectionStrings:DefaultConnection = {Mask(connectionString)}");
+Console.WriteLine($"[DB] PGHOST = {Mask(Environment.GetEnvironmentVariable("PGHOST"))}");
+
 static string BuildNpgsqlFromUri(string uri)
 {
     var parsed = new Uri(uri);
@@ -26,24 +35,40 @@ static string BuildNpgsqlFromUri(string uri)
            $"Database={database};SSL Mode=Require;Trust Server Certificate=true";
 }
 
-if (!string.IsNullOrEmpty(databaseUrl))
+static bool IsRealValue(string? s) =>
+    !string.IsNullOrEmpty(s) && !s.StartsWith("${{") && !s.Contains("REFERENCE_NOT_FOUND");
+
+string? pgConnection = null;
+if (IsRealValue(databaseUrl) &&
+    (databaseUrl!.StartsWith("postgres://") || databaseUrl.StartsWith("postgresql://")))
 {
-    // Produção: Railway injeta DATABASE_URL no formato postgresql://user:pass@host:port/db
-    var pgConn = databaseUrl.StartsWith("postgres://") || databaseUrl.StartsWith("postgresql://")
-        ? BuildNpgsqlFromUri(databaseUrl)
-        : databaseUrl;
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(pgConn, o => o.EnableRetryOnFailure(3)));
+    pgConnection = BuildNpgsqlFromUri(databaseUrl);
 }
-else if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("Host="))
+else if (IsRealValue(connectionString) && connectionString!.StartsWith("Host="))
 {
-    // Produção via ConnectionStrings__DefaultConnection (Npgsql format)
+    pgConnection = connectionString;
+}
+else if (IsRealValue(Environment.GetEnvironmentVariable("PGHOST")))
+{
+    var pgHost = Environment.GetEnvironmentVariable("PGHOST");
+    var pgPort = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
+    var pgUser = Environment.GetEnvironmentVariable("PGUSER") ?? "postgres";
+    var pgPass = Environment.GetEnvironmentVariable("PGPASSWORD") ?? "";
+    var pgDb = Environment.GetEnvironmentVariable("PGDATABASE") ?? "railway";
+    pgConnection = $"Host={pgHost};Port={pgPort};Username={pgUser};Password={pgPass};" +
+                   $"Database={pgDb};SSL Mode=Require;Trust Server Certificate=true";
+}
+
+if (pgConnection is not null)
+{
+    Console.WriteLine("[DB] Usando PostgreSQL");
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(connectionString, o => o.EnableRetryOnFailure(3)));
+        options.UseNpgsql(pgConnection, o => o.EnableRetryOnFailure(3)));
 }
 else
 {
     // Desenvolvimento local: SQLite
+    Console.WriteLine("[DB] Usando SQLite (dev)");
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(connectionString));
 }
