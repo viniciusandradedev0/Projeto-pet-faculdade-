@@ -14,11 +14,26 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
+static string BuildNpgsqlFromUri(string uri)
+{
+    var parsed = new Uri(uri);
+    var userInfo = parsed.UserInfo.Split(':', 2);
+    var user = Uri.UnescapeDataString(userInfo[0]);
+    var pass = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "";
+    var database = parsed.AbsolutePath.TrimStart('/');
+    var port = parsed.Port > 0 ? parsed.Port : 5432;
+    return $"Host={parsed.Host};Port={port};Username={user};Password={pass};" +
+           $"Database={database};SSL Mode=Require;Trust Server Certificate=true";
+}
+
 if (!string.IsNullOrEmpty(databaseUrl))
 {
-    // Produção: Railway fornece DATABASE_URL no formato postgresql://...
+    // Produção: Railway injeta DATABASE_URL no formato postgresql://user:pass@host:port/db
+    var pgConn = databaseUrl.StartsWith("postgres://") || databaseUrl.StartsWith("postgresql://")
+        ? BuildNpgsqlFromUri(databaseUrl)
+        : databaseUrl;
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(databaseUrl, o => o.EnableRetryOnFailure(3)));
+        options.UseNpgsql(pgConn, o => o.EnableRetryOnFailure(3)));
 }
 else if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("Host="))
 {
