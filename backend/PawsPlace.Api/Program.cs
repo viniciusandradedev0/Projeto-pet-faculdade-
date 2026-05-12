@@ -103,7 +103,9 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // ============================================================
-// MIGRATIONS + SEED ao iniciar
+// SCHEMA + SEED ao iniciar
+// EnsureCreated gera o schema correto por provider em runtime
+// (SQLite em dev, PostgreSQL em prod) sem depender de migrations.
 // ============================================================
 using (var scope = app.Services.CreateScope())
 {
@@ -111,13 +113,14 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        db.Database.Migrate();
+        var criado = db.Database.EnsureCreated();
         Seed.PopularAnimais(db);
-        logger.LogInformation("Banco de dados migrado com sucesso.");
+        logger.LogInformation("Banco pronto. Schema novo criado: {Criado}", criado);
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao migrar banco de dados: {Message}", ex.Message);
+        logger.LogError(ex, "Erro ao preparar banco de dados: {Message}", ex.Message);
+        throw;
     }
 }
 
