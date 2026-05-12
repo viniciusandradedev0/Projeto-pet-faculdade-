@@ -310,4 +310,17 @@ perfil.html → "Excluir conta" → dialog de confirmação
 - `DEV.md` criado com guia de execução local.
 - `dev.sh` criado para subir back + front com um comando.
 
-**Próximos passos:** remover `data/animais.json` (fallback), e priorizar próximas funcionalidades da Fase 3.
+### Limpeza pós-Etapa 16 ✅
+
+Depois da validação completa em produção e local, foram removidos artefatos
+que ficaram obsoletos:
+
+| Item | Motivo |
+|---|---|
+| `backend/PawsPlace.Api/Migrations/` (pasta) | Substituída por `EnsureCreated()` no `Program.cs`. As migrations eram SQLite-only e não funcionavam em PostgreSQL — manter o arquivo confundiria leitura futura. |
+| `data/animais.json` (e pasta `data/`) | Era fallback caso a API estivesse offline. Removido após validação — fallback estava mascarando problemas reais durante o desenvolvimento e a API em produção está estável. |
+| Branch `connectionString.StartsWith("Host=")` no `Program.cs` | Redundante após adição do parser de URI (`BuildNpgsqlFromUri`) e fallback via variáveis individuais `PGHOST/PGPORT/...`. |
+
+`scripts/data.js` ficou com um comentário breve explicando o histórico do fallback removido — preserva contexto para quem ler o código depois.
+
+**Próximos passos:** priorizar funcionalidades da Fase 3 (testes xUnit no back, painel admin, paginação, refresh token).

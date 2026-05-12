@@ -38,15 +38,15 @@ static string BuildNpgsqlFromUri(string uri)
 static bool IsRealValue(string? s) =>
     !string.IsNullOrEmpty(s) && !s.StartsWith("${{") && !s.Contains("REFERENCE_NOT_FOUND");
 
+// Em produção o Railway pode injetar a conexão de duas formas:
+//   1) DATABASE_URL como URI (postgresql://user:pass@host:port/db) — formato padrão
+//   2) Variáveis individuais PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE — caso a primeira não esteja disponível
+// Em dev local nenhuma das duas está setada, então cai no SQLite mais abaixo.
 string? pgConnection = null;
 if (IsRealValue(databaseUrl) &&
     (databaseUrl!.StartsWith("postgres://") || databaseUrl.StartsWith("postgresql://")))
 {
     pgConnection = BuildNpgsqlFromUri(databaseUrl);
-}
-else if (IsRealValue(connectionString) && connectionString!.StartsWith("Host="))
-{
-    pgConnection = connectionString;
 }
 else if (IsRealValue(Environment.GetEnvironmentVariable("PGHOST")))
 {
