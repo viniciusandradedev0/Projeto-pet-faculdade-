@@ -96,21 +96,36 @@
 # FASE 3 — MELHORIAS FUTURAS (PÓS-BACKEND)
 # ============================================================
 
-- [ ] Etapa 16 — Validação completa em produção (PRÓXIMO PASSO)
-  # Executar no outro computador com o arquivo PawsPlace.Api.http (REST Client no VS Code)
-  # URL base já configurada: https://projeto-pet-faculdade-production.up.railway.app
-  # Sequência obrigatória:
-  #   1. GET  /api/animais              → deve retornar 15 animais
-  #   2. POST /api/auth/cadastro        → deve retornar JWT
-  #   3. POST /api/auth/login           → copiar token para @token no .http
-  #   4. POST /api/pedidos              → criar pedido de adoção
-  #   5. GET  /api/pedidos/meus         → confirmar pedido criado
-  #   6. POST /api/favoritos/{slug}     → adicionar favorito
-  #   7. GET  /api/favoritos/meus       → confirmar favorito
-  #   8. GET  /api/usuarios/me          → ver perfil
-  #   9. PUT  /api/usuarios/me          → atualizar nome/telefone
-  #  10. Testar fluxo completo pelo front: https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
-  # Após validação: marcar como ✅ e remover animais.json
+- [x] Etapa 16 — Validação completa em produção ✅ (11/05/2026)
+  # Todos os 13 endpoints validados via curl contra a URL de produção.
+  # URL base: https://projeto-pet-faculdade-production.up.railway.app
+  #
+  # PROBLEMAS CORRIGIDOS DURANTE A VALIDAÇÃO:
+  # 1. Migration SQLite-only quebrava INSERT em PG (Id sem IDENTITY)
+  #    → Program.cs: Migrate() trocado por EnsureCreated()
+  # 2. Npgsql não parseia URI (postgresql://...) — quebrava com "Host can't be null"
+  #    → Program.cs: BuildNpgsqlFromUri() converte URI → keyword=value
+  # 3. Referências Railway quebradas após recriar Postgres
+  #    → Raw Editor: ${{Postgres-fd52b244-...}} → ${{Postgres.X}}
+  # 4. Adicionado log diagnóstico [DB] no startup e fallback via PG* env vars
+  #
+  # RESULTADO (todos 200/201/204/401 conforme esperado):
+  #   1. GET  /api/animais          → 200 (15 animais)
+  #   2. GET  /api/animais/{slug}   → 200
+  #   3. POST /api/auth/cadastro    → 201
+  #   4. POST /api/auth/login       → 200 + JWT
+  #   5. POST /api/auth/login (404) → 401
+  #   6. POST /api/pedidos          → 200
+  #   7. GET  /api/pedidos/meus     → 200
+  #   8. POST /api/favoritos/{slug} → 201
+  #   9. GET  /api/favoritos/meus   → 200
+  #  10. DELETE /api/favoritos/{slug} → 204
+  #  11. GET  /api/usuarios/me      → 200
+  #  12. PUT  /api/usuarios/me      → 200
+  #  13. DELETE /api/usuarios/me    → 204 (cascade delete confirmado)
+  #
+  # PENDENTE: testar fluxo end-to-end pelo front no GitHub Pages
+  #           https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
 
 - [ ] Remover "Lembrar de mim" ou substituir por refresh token real
       (JWT com expiração curta + refresh token em httpOnly cookie)

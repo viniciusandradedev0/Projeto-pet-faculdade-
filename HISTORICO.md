@@ -268,4 +268,38 @@ perfil.html → "Excluir conta" → dialog de confirmação
 - PostgreSQL online no Railway com variáveis de ambiente configuradas
 - Deploy status: **ACTIVE**
 
-**Próximo passo:** validar todos os endpoints com `PawsPlace.Api.http` (ver Etapa 16 em `etapasFase3esboço.txt`)
+### Etapa 16 — Validação em produção ✅ (11/05/2026)
+
+**Resultado:** todos os 13 endpoints validados via curl contra a URL de produção.
+
+**Problemas encontrados e corrigidos durante a validação:**
+
+| Problema | Sintoma | Correção |
+|---------|---------|----------|
+| Migration gerada para SQLite | `INSERT` em PG falhava silenciosamente — coluna `Id` sem `IDENTITY` (anotação `Sqlite:Autoincrement` ignorada por Npgsql). API ficava online mas `GET /api/animais` retornava `[]` e cadastro retornava 500. | `Program.cs`: trocado `db.Database.Migrate()` por `db.Database.EnsureCreated()` — gera schema correto por provider em runtime. Exceção de inicialização agora re-lançada (não engole erro). |
+| Npgsql não parseia URI | Railway injeta `DATABASE_URL` como `postgresql://user:pass@host:port/db`, mas Npgsql espera `Host=...;Port=...;Username=...`. Startup quebrava com `Host can't be null`. | Adicionado `BuildNpgsqlFromUri()` em `Program.cs` que converte URI → keyword=value com `SSL Mode=Require`. |
+| Referências quebradas no Railway | Após recriar o serviço Postgres, a variável `ConnectionStrings__DefaultConnection` da API ainda apontava para o ID antigo (`${{Postgres-fd52b244-....PGHOST}}`). Railway resolvia para string vazia → `Host=;Port=;...` → mesmo erro. | Editado Raw Editor no dashboard: trocadas todas as referências de `Postgres-fd52b244-11d6-45c8-afbc-65853df2f236` para `Postgres` (nome do novo serviço). |
+
+**Melhorias adicionais em `Program.cs`:**
+- Log diagnóstico no startup mostra `DATABASE_URL`, `ConnectionStrings:DefaultConnection`, `PGHOST` (mascarados) — facilita diagnóstico em futuros deploys.
+- Fallback adicional: se `DATABASE_URL` e `ConnectionStrings__DefaultConnection` não estiverem disponíveis, monta a connection string a partir das variáveis individuais `PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE`.
+
+**Resultado da validação (todos endpoints contra prod):**
+
+| # | Endpoint | Resultado |
+|---|---|---|
+| 1 | GET /api/animais | 200 — 15 animais |
+| 2 | GET /api/animais/{slug} | 200 |
+| 3 | POST /api/auth/cadastro | 201 |
+| 4 | POST /api/auth/login | 200 — JWT 255 chars |
+| 5 | POST /api/auth/login (senha errada) | 401 |
+| 6 | POST /api/pedidos | 200 — pedido criado |
+| 7 | GET /api/pedidos/meus | 200 |
+| 8 | POST /api/favoritos/{slug} | 201 |
+| 9 | GET /api/favoritos/meus | 200 |
+| 10 | DELETE /api/favoritos/{slug} | 204 |
+| 11 | GET /api/usuarios/me | 200 |
+| 12 | PUT /api/usuarios/me | 200 — nome/telefone atualizados |
+| 13 | DELETE /api/usuarios/me | 204 — cascade delete confirmado (GET pós-delete → 404) |
+
+**Próximo passo:** validar fluxo end-to-end pelo front (`https://viniciusandradedev0.github.io/Projeto-pet-faculdade/`) e remover `data/animais.json` (fallback não é mais necessário).
