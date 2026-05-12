@@ -302,4 +302,12 @@ perfil.html → "Excluir conta" → dialog de confirmação
 | 12 | PUT /api/usuarios/me | 200 — nome/telefone atualizados |
 | 13 | DELETE /api/usuarios/me | 204 — cascade delete confirmado (GET pós-delete → 404) |
 
-**Próximo passo:** validar fluxo end-to-end pelo front (`https://viniciusandradedev0.github.io/Projeto-pet-faculdade/`) e remover `data/animais.json` (fallback não é mais necessário).
+**Validação end-to-end local concluída ✅** — front em `localhost:3000` consumindo API em `localhost:5173`, todas as páginas navegáveis e operações funcionando (cadastro, login, adotar, favoritar, perfil).
+
+**Ajustes adicionais durante a validação local:**
+- `Program.cs`: porta default trocada de `8080` para `5173` (bate com `scripts/config.js`). Railway continua usando `PORT` env var em produção.
+- `serve.json`: adicionados rewrites para todas as páginas (`/animais` → `/animais.html`, etc.) — permite acesso direto pela URL sem extensão.
+- `DEV.md` criado com guia de execução local.
+- `dev.sh` criado para subir back + front com um comando.
+
+**Próximos passos:** remover `data/animais.json` (fallback), e priorizar próximas funcionalidades da Fase 3.

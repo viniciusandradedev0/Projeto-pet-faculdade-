@@ -172,5 +172,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+// Railway define PORT em prod; em dev local default = 5173 (bate com scripts/config.js)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5173";
 app.Run($"http://0.0.0.0:{port}");

@@ -2,6 +2,16 @@
   "cleanUrls": false,
   "directoryListing": false,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/animais", "destination": "/animais.html" },
+    { "source": "/adotar", "destination": "/adotar.html" },
+    { "source": "/cadastro", "destination": "/cadastro.html" },
+    { "source": "/contato", "destination": "/contato.html" },
+    { "source": "/favoritos", "destination": "/favoritos.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/meus-pedidos", "destination": "/meus-pedidos.html" },
+    { "source": "/perfil", "destination": "/perfil.html" },
+    { "source": "/politica-privacidade", "destination": "/politica-privacidade.html" },
+    { "source": "/sobre", "destination": "/sobre.html" }
   ]
 }
