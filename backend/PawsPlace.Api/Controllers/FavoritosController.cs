@@ -18,13 +18,12 @@ public class FavoritosController(AppDbContext db) : ControllerBase
     {
         int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        var favoritos = await db.Favoritos
+        var resultado = await db.Favoritos
             .Include(f => f.Animal)
             .Where(f => f.UsuarioId == usuarioId)
             .OrderByDescending(f => f.DataCriacao)
+            .Select(f => FavoritoResponseDto.FromModel(f))
             .ToListAsync();
-
-        var resultado = favoritos.Select(FavoritoResponseDto.FromModel).ToList();
 
         return Ok(resultado);
     }

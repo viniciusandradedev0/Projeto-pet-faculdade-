@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PawsPlace.Api.Data;
+using PawsPlace.Api.DTOs;
 using PawsPlace.Api.DTOs.Pedidos;
 using PawsPlace.Api.Models;
 
@@ -54,16 +55,41 @@ public class PedidosController(AppDbContext db) : ControllerBase
     }
 
     [HttpGet("meus")]
-    public async Task<IActionResult> MeusPedidos()
+    public async Task<IActionResult> MeusPedidos([FromQuery] int pagina = 1, [FromQuery] int tamanhoPagina = 5)
     {
+        if (pagina < 1)
+            return BadRequest(new { mensagem = "O número da página deve ser maior ou igual a 1." });
+
+        if (tamanhoPagina < 1 || tamanhoPagina > 50)
+            return BadRequest(new { mensagem = "O tamanho da página deve estar entre 1 e 50." });
+
         int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        var pedidos = await db.Pedidos
-            .Include(p => p.Animal)
+        var query = db.Pedidos
             .Where(p => p.UsuarioId == usuarioId)
-            .OrderByDescending(p => p.DataPedido)
+            .OrderByDescending(p => p.DataPedido);
+
+        var totalItens = await query.CountAsync();
+        var totalPaginas = (int)Math.Ceiling(totalItens / (double)tamanhoPagina);
+
+        var itens = await query
+            .Skip((pagina - 1) * tamanhoPagina)
+            .Take(tamanhoPagina)
+            .Include(p => p.Animal)
+            .Select(p => PedidoResponseDto.FromModel(p))
             .ToListAsync();
 
-        return Ok(pedidos.Select(PedidoResponseDto.FromModel));
+        var resultado = new PaginadoDto<PedidoResponseDto>
+        {
+            Itens         = itens,
+            Pagina        = pagina,
+            TamanhoPagina = tamanhoPagina,
+            TotalItens    = totalItens,
+            TotalPaginas  = totalPaginas,
+            TemProxima    = pagina < totalPaginas,
+            TemAnterior   = pagina > 1
+        };
+
+        return Ok(resultado);
     }
 }

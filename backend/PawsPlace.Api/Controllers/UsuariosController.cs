@@ -27,10 +27,10 @@ public class UsuariosController(AppDbContext db) : ControllerBase
     [HttpPut("me")]
     public async Task<IActionResult> AtualizarPerfil([FromBody] AtualizarPerfilDto dto)
     {
-        if (dto.Nome.Length < 3)
+        if (string.IsNullOrWhiteSpace(dto.Nome) || dto.Nome.Trim().Length < 3)
             return BadRequest(new { mensagem = "O nome deve ter pelo menos 3 caracteres." });
 
-        var apenasDigitos = new string(dto.Telefone.Where(char.IsDigit).ToArray());
+        var apenasDigitos = new string(dto.Telefone?.Where(char.IsDigit).ToArray() ?? []);
         if (apenasDigitos.Length < 10)
             return BadRequest(new { mensagem = "O telefone deve ter pelo menos 10 dígitos." });
 
@@ -40,8 +40,8 @@ public class UsuariosController(AppDbContext db) : ControllerBase
         if (usuario is null)
             return NotFound(new { mensagem = "Usuário não encontrado." });
 
-        usuario.Nome = dto.Nome;
-        usuario.Telefone = dto.Telefone;
+        usuario.Nome = dto.Nome.Trim();
+        usuario.Telefone = dto.Telefone.Trim();
         await db.SaveChangesAsync();
 
         return Ok(PerfilResponseDto.FromModel(usuario));

@@ -1,4 +1,4 @@
-# 📋 Roadmap — FASE 2: BACK-END C# ASP.NET CORE
+# 📋 Roadmap — FASE 2: BACK-END C# ASP.NET CORE + FASE 3: MELHORIAS E EVOLUÇÃO
 # Objetivo: substituir localStorage por banco real + autenticação JWT
 # Projeto: backend/PawsPlace.Api  |  .NET 8  |  SQLite (dev)
 
@@ -127,14 +127,22 @@
   # PENDENTE: testar fluxo end-to-end pelo front no GitHub Pages
   #           https://viniciusandradedev0.github.io/Projeto-pet-faculdade/
 
-- [ ] Remover "Lembrar de mim" ou substituir por refresh token real
+- [x] Etapa 14.1 — Favoritos no front (coração nos cards + favoritos.html + toggle via API)
+- [x] Etapa 14.2 — Atualizar perfil (nome, telefone) — PUT /api/usuarios/me implementado em perfil.html
+- [x] Etapa 16.1 — Remover data/animais.json após validação em produção confirmada
+- [ ] Etapa 17 — Remover "Lembrar de mim" ou substituir por refresh token real
       (JWT com expiração curta + refresh token em httpOnly cookie)
-- [ ] Remover data/animais.json após validação em produção confirmada
-- [x] Favoritos no front (coração nos cards + favoritos.html + toggle via API)
-- [x] Atualizar perfil (nome, telefone) — PUT /api/usuarios/me implementado em perfil.html
-- [ ] Painel admin: gerenciar animais e atualizar status dos pedidos
-- [ ] Upload de foto de perfil (Azure Blob ou Cloudinary)
-- [ ] Notificações por e-mail ao mudar status do pedido (SendGrid)
-- [ ] Paginação nos endpoints de animais e pedidos
-- [ ] Testes de integração no back-end (xUnit + WebApplicationFactory)
-- [ ] Migração para Blazor WebAssembly (front em C# consumindo a mesma API)
+- [x] Etapa 18 — Paginação nos endpoints de animais e pedidos ✅ (16/05/2026)
+  # Backend: PaginadoDto<T> + AnimaisController + PedidosController (Skip/Take, CountAsync)
+  # Frontend: data.js retorna envelope, animais-page.js usa tamanhoPagina=50, meus-pedidos.js com nav Anterior/Próxima
+- [ ] Etapa 19 — Testes de integração no back-end (xUnit + WebApplicationFactory)
+- [ ] Etapa 20 — Painel admin: gerenciar animais e atualizar status dos pedidos
+- [ ] Etapa 21 — Upload de foto de perfil (Azure Blob ou Cloudinary)
+- [ ] Etapa 22 — Notificações por e-mail ao mudar status do pedido (SendGrid)
+- [ ] Etapa 23 — Migração para Blazor WebAssembly (front em C# consumindo a mesma API)
+
+# NOTA — Branch versao-localStorage:
+# A branch `versao-localStorage` existe no repositório e preserva o estado do
+# front-end anterior à Etapa 14, quando toda a autenticação, pedidos e dados
+# de usuário eram gerenciados via localStorage (sem API back-end).
+# Pode ser usada como referência histórica ou descartada — não será mergeada.

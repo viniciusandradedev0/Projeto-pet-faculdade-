@@ -23,7 +23,11 @@ import { inicializarFavoritos } from './favoritos.js';
 async function init() {
   inicializarBootstrap();
 
-  const animais = await carregarAnimais();
+  // Busca todos os animais em uma única requisição (tamanhoPagina=50) para
+  // que os filtros client-side e o renderizarPorEspecie continuem funcionando
+  // sem paginação adicional — o catálogo tem poucos registros (≤ 50).
+  const envelope = await carregarAnimais({ pagina: 1, tamanhoPagina: 50 });
+  const animais = envelope.itens;
 
   renderizarPorEspecie(animais);
   observarCards();

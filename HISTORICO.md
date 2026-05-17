@@ -60,7 +60,7 @@ Catálogo (animais.html)
 
 ---
 
-## Fase 2 — Back-end (em andamento)
+## Fase 2 — Back-end ✅
 
 ### Etapa 8 — Setup concluído ✅
 - Projeto `PawsPlace.Api` em `backend/`
@@ -181,7 +181,7 @@ Testes com curl confirmaram:
 | Vanilla JS no front (sem framework) | Aprendizado de fundamentos + requisito do projeto |
 | SHA-256 no client (Fase 1) | Didático — Fase 2 migra para bcrypt no servidor |
 | SQLite em dev | Zero configuração — migra para PostgreSQL no deploy |
-| JWT sem refresh token (Fase 2) | Simplicidade — expiração curta (8h) é suficiente para o escopo |
+| JWT sem refresh token (Fase 2) | Simplicidade — expiração curta (8h) é suficiente para o escopo. Substituição por refresh token real (httpOnly cookie) está planejada como Etapa 17 da Fase 3. |
 | Favoritos incluído desde o modelo | Custo zero adicioná-lo ao schema agora; difícil migrar depois |
 | Front JS + API C# separados | Padrão real de mercado; Blazor fica como opção futura (Fase 3) |
 
@@ -323,4 +323,47 @@ que ficaram obsoletos:
 
 `scripts/data.js` ficou com um comentário breve explicando o histórico do fallback removido — preserva contexto para quem ler o código depois.
 
-**Próximos passos:** priorizar funcionalidades da Fase 3 (testes xUnit no back, painel admin, paginação, refresh token).
+---
+
+## Fase 3 — Em andamento
+
+### Itens concluídos dentro da Fase 3
+- **Etapa 14.1** — Favoritos no front: ❤️/🤍 em cada card, `favoritos.html`, toggle via API ✅
+- **Etapa 14.2** — Edição de perfil: formulário nome + telefone em `perfil.html`, `PUT /api/usuarios/me` ✅
+- **Etapa 16.1** — Remoção de `data/animais.json` e pasta `data/` após validação em produção ✅
+- **Etapa 18** — Paginação nos endpoints de animais e pedidos (back-end + front-end) ✅ (16/05/2026)
+  - `DTOs/PaginadoDto<T>`: envelope genérico com `Itens`, `Pagina`, `TotalItens`, `TotalPaginas`, `TemProxima`, `TemAnterior`
+  - `AnimaisController`: `GET /api/animais?pagina=1&tamanhoPagina=12` — `CountAsync` + `Skip/Take`
+  - `PedidosController`: `GET /api/pedidos/meus?pagina=1&tamanhoPagina=5` — mesma estrutura
+  - `scripts/data.js`: retorna envelope completo (não mais array puro)
+  - `scripts/animais-page.js`: chama com `tamanhoPagina=50` para manter filtros client-side
+  - `scripts/meus-pedidos.js`: nav Anterior/Próxima com `aria-disabled`, oculta quando só 1 página
+
+- **Melhorias de qualidade** — corrigidas junto à Etapa 18 (16/05/2026)
+  - `AnimaisController`: slug normalizado em C# antes do query (evitava `ToLower` por linha no SQL)
+  - `FavoritosController`: projeção `Select` movida para dentro da query EF (eliminava double-allocation)
+  - `UsuariosController`: validações de `Nome` e `Telefone` null-safe + trim antes de salvar
+  - `JwtService`: `int.TryParse` no lugar de `int.Parse` para `ExpiracaoHoras` (evita `FormatException`)
+
+### Itens pendentes
+| Etapa | Descrição |
+|-------|-----------|
+| Etapa 17 | Remover "Lembrar de mim" / substituir por refresh token real (JWT curto + httpOnly cookie) |
+| Etapa 19 | Testes de integração no back-end (xUnit + WebApplicationFactory) |
+| Etapa 20 | Painel admin: gerenciar animais e atualizar status dos pedidos |
+| Etapa 21 | Upload de foto de perfil (Azure Blob ou Cloudinary) |
+| Etapa 22 | Notificações por e-mail ao mudar status do pedido (SendGrid) |
+| Etapa 23 | Migração para Blazor WebAssembly (front em C# consumindo a mesma API) |
+
+### Branch versao-localStorage
+A branch `versao-localStorage` existe no repositório e preserva o estado do front-end anterior à Etapa 14, quando toda a autenticação, pedidos e dados de usuário eram gerenciados via localStorage (sem API back-end). Pode ser usada como referência histórica ou descartada — não será mergeada.
+
+---
+
+**Próximos passos:**
+- **Etapa 17** — Substituir "Lembrar de mim" por refresh token real (JWT curto + httpOnly cookie)
+- **Etapa 19** — Testes de integração no back-end (xUnit + WebApplicationFactory)
+- **Etapa 20** — Painel admin: gerenciar animais e atualizar status dos pedidos
+- **Etapa 21** — Upload de foto de perfil (Azure Blob ou Cloudinary)
+- **Etapa 22** — Notificações por e-mail ao mudar status do pedido (SendGrid)
+- **Etapa 23** — Migração para Blazor WebAssembly (front em C# consumindo a mesma API)

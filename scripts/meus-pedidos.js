@@ -4,9 +4,10 @@
  *
  * Responsabilidades:
  * - Proteger a rota (requer login)
- * - Buscar pedidos do usuário na API REST (GET /api/pedidos/meus)
+ * - Buscar pedidos do usuário na API REST (GET /api/pedidos/meus) com paginação server-side
  * - Renderizar lista de pedidos com status
  * - Exibir estado vazio com CTA para animais.html
+ * - Renderizar controles de paginação (Anterior / Próxima)
  */
 
 import { protegerRota } from './proteger-rota.js';
@@ -26,6 +27,8 @@ const CONFIG_STATUS = {
 
 const ICONE_ESPECIE = { gato: '🐱', cachorro: '🐶' };
 
+const TAMANHO_PAGINA = 5;
+
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
@@ -36,17 +39,30 @@ async function init() {
   const usuario = protegerRota({ mensagem: 'Faça login para ver seus pedidos de adoção. 🐾' });
   if (!usuario) return;
 
+  await carregarPagina(1);
+}
+
+// ============================================
+// CARREGAMENTO DE PÁGINA
+// ============================================
+
+async function carregarPagina(pagina) {
   const lista = document.getElementById('lista-pedidos');
   const estadoVazio = document.getElementById('estado-vazio');
   const contadorEl = document.getElementById('contador-pedidos');
 
   try {
-    const res = await apiFetch('/api/pedidos/meus');
+    const res = await apiFetch(`/api/pedidos/meus?pagina=${pagina}&tamanhoPagina=${TAMANHO_PAGINA}`);
     if (!res.ok) throw new Error('Falha ao buscar pedidos.');
 
-    const pedidos = await res.json(); // array de PedidoResponseDto
+    const envelope = await res.json(); // { itens, pagina, tamanhoPagina, totalItens, totalPaginas, temProxima, temAnterior }
+    const pedidos = envelope.itens;
 
-    if (pedidos.length === 0) {
+    // Limpa os cards da página anterior antes de renderizar os novos
+    lista.innerHTML = '';
+    removerControlePaginacao();
+
+    if (envelope.totalItens === 0) {
       lista.hidden = true;
       if (estadoVazio) estadoVazio.hidden = false;
       if (contadorEl) contadorEl.hidden = true;
@@ -54,19 +70,86 @@ async function init() {
     }
 
     if (estadoVazio) estadoVazio.hidden = true;
+    lista.hidden = false;
 
     if (contadorEl) {
-      contadorEl.textContent = `${pedidos.length} pedido${pedidos.length > 1 ? 's' : ''}`;
+      contadorEl.textContent = `${envelope.totalItens} pedido${envelope.totalItens > 1 ? 's' : ''}`;
+      contadorEl.hidden = false;
     }
 
     const fragment = document.createDocumentFragment();
     pedidos.forEach(pedido => fragment.appendChild(criarCardPedido(pedido)));
     lista.appendChild(fragment);
 
+    // Só renderiza a paginação se houver mais de uma página
+    if (envelope.totalPaginas > 1) {
+      renderizarControlePaginacao(envelope);
+    }
+
   } catch (err) {
     console.error('[meus-pedidos]', err);
     mostrarToast('Não foi possível carregar seus pedidos.', 'erro');
   }
+}
+
+// ============================================
+// PAGINAÇÃO
+// ============================================
+
+/**
+ * Remove o controle de paginação existente (se houver) do DOM.
+ */
+function removerControlePaginacao() {
+  const existente = document.getElementById('controle-paginacao-pedidos');
+  if (existente) existente.remove();
+}
+
+/**
+ * Cria e insere os controles de paginação abaixo da lista de pedidos.
+ *
+ * @param {{ pagina: number, totalPaginas: number, temAnterior: boolean, temProxima: boolean }} envelope
+ */
+function renderizarControlePaginacao(envelope) {
+  const { pagina, totalPaginas, temAnterior, temProxima } = envelope;
+
+  const nav = document.createElement('nav');
+  nav.id = 'controle-paginacao-pedidos';
+  nav.setAttribute('aria-label', 'Paginação de pedidos');
+  nav.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.5rem;';
+
+  const btnAnterior = document.createElement('button');
+  btnAnterior.type = 'button';
+  btnAnterior.className = 'btn btn--secundario';
+  btnAnterior.textContent = 'Anterior';
+  btnAnterior.disabled = !temAnterior;
+  btnAnterior.setAttribute('aria-disabled', String(!temAnterior));
+
+  const info = document.createElement('span');
+  info.className = 'paginacao__info';
+  info.textContent = `Página ${pagina} de ${totalPaginas}`;
+
+  const btnProxima = document.createElement('button');
+  btnProxima.type = 'button';
+  btnProxima.className = 'btn btn--secundario';
+  btnProxima.textContent = 'Próxima';
+  btnProxima.disabled = !temProxima;
+  btnProxima.setAttribute('aria-disabled', String(!temProxima));
+
+  btnAnterior.addEventListener('click', () => {
+    if (temAnterior) carregarPagina(pagina - 1);
+  });
+
+  btnProxima.addEventListener('click', () => {
+    if (temProxima) carregarPagina(pagina + 1);
+  });
+
+  nav.appendChild(btnAnterior);
+  nav.appendChild(info);
+  nav.appendChild(btnProxima);
+
+  // Insere após a lista de pedidos
+  const lista = document.getElementById('lista-pedidos');
+  lista.insertAdjacentElement('afterend', nav);
 }
 
 // ============================================

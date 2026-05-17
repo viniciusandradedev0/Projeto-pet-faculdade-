@@ -11,23 +11,43 @@
 import { API_BASE } from './config.js';
 
 /**
- * Busca a lista de animais na API.
+ * Busca a lista de animais na API com suporte a paginação server-side.
  *
  * Cada animal retornado pela API tem um campo `slug` (string única).
  * Para manter compatibilidade com o `render.js` (que espera `id`), o slug
- * é copiado para `id` no objeto retornado.
+ * é copiado para `id` em cada objeto do array `itens`.
  *
- * @returns {Promise<Array>} Lista de animais
+ * @param {Object} [opcoes]
+ * @param {number} [opcoes.pagina=1]        - Número da página solicitada
+ * @param {number} [opcoes.tamanhoPagina=12] - Quantidade de itens por página
+ * @returns {Promise<{
+ *   itens: Array,
+ *   pagina: number,
+ *   tamanhoPagina: number,
+ *   totalItens: number,
+ *   totalPaginas: number,
+ *   temProxima: boolean,
+ *   temAnterior: boolean
+ * }>} Envelope de paginação com os itens já com `id` mapeado
  * @throws {Error} Se a API não responder ou retornar status diferente de 2xx
  */
-export async function carregarAnimais() {
-  const resposta = await fetch(`${API_BASE}/api/animais`);
+export async function carregarAnimais({ pagina = 1, tamanhoPagina = 12 } = {}) {
+  const url = `${API_BASE}/api/animais?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}`;
+  const resposta = await fetch(url);
 
   if (!resposta.ok) {
     throw new Error(`API retornou ${resposta.status} ${resposta.statusText}`);
   }
 
-  const animais = await resposta.json();
+  const envelope = await resposta.json();
 
-  return animais.map(animal => ({ ...animal, id: animal.slug }));
+  return {
+    itens: envelope.itens.map(animal => ({ ...animal, id: animal.slug })),
+    pagina: envelope.pagina,
+    tamanhoPagina: envelope.tamanhoPagina,
+    totalItens: envelope.totalItens,
+    totalPaginas: envelope.totalPaginas,
+    temProxima: envelope.temProxima,
+    temAnterior: envelope.temAnterior,
+  };
 }
